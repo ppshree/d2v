@@ -36,7 +36,10 @@
     "format": "prettier --write \"**/*.+(js)\"",
     "start:dev": "env-cmd -f .env.dev react-scripts start",
     "start:prod": "env-cmd -f .env.prod react-scripts start",
-    "start:stage": "env-cmd -f .env.staging react-scripts start"
+    "start:stage": "env-cmd -f .env.staging react-scripts start",
+    "prettier:base": "prettier --parser typescript --single-quote",
+    "prettier:check": "npm run prettier:base -- --list-different \"src/**/*.{ts,tsx}\"",
+    "prettier:write": "npm run prettier:base -- --write \"src/**/*.{ts,tsx}\""
   },
   "eslintConfig": {
     "extends": "react-app"

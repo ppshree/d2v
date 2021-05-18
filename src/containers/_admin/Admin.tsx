@@ -3,8 +3,8 @@ import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { APPLICATION_URL } from '../../app/router/applicationRoutes';
-import { MedicList } from './modules/Medic';
-import { DeviceList } from './modules/Device';
+import { Master } from './modules/Master';
+import { Dashboard } from './modules/Dashboard';
 import { RootState } from '../../app/rootReducer';
 import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
@@ -31,10 +31,10 @@ export const Admin: React.FC = () => {
       <SideBar />
       <main className={classes.content}>
         <Switch>
-          <Redirect exact from={path} to={APPLICATION_URL.ADMIN_MEDIC_LIST} />
-          <Route exact path={APPLICATION_URL.ADMIN_MEDIC_LIST} component={MedicList}></Route>
-          <Route exact path={APPLICATION_URL.ADMIN_DEVICE_LIST} component={DeviceList}></Route>
-          <Redirect to={APPLICATION_URL.ADMIN_MEDIC_LIST} />
+          <Redirect exact from={path} to={APPLICATION_URL.ADMIN_DASHBOARD} />
+          <Route exact path={APPLICATION_URL.ADMIN_DASHBOARD} component={Master}></Route>
+          <Route exact path={APPLICATION_URL.ADMIN_MASTER} component={Dashboard}></Route>
+          <Redirect to={APPLICATION_URL.ADMIN_DASHBOARD} />
         </Switch>
       </main>
     </div>

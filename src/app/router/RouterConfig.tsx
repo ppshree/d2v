@@ -5,9 +5,18 @@ import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';
 import { RootState } from '../rootReducer';
 import { LoginPage } from '../../containers/LoginPage/LoginPage';
+
+// =========== Global USER Components ===========
+import { SuperAdmin } from '../../containers/_superadmin/SuperAdmin';
 import { Admin } from '../../containers/_admin/Admin';
-import { Medic } from '../../containers/_medic/Medic';
-import { Patient } from '../../containers/_patient/Patient';
+import { Tutor } from '../../containers/_tutor/Tutor';
+import { Student } from '../../containers/_student/Student';
+
+// =========== Local USER Components ==============
+import { SchoolSuperAdmin } from '../../containers/_schoolsuperadmin/SchoolSuperAdmin';
+import { SchoolAdmin } from '../../containers/_schooladmin/SchoolAdmin';
+import { SchoolTutor } from '../../containers/_schooltutor/SchoolTutor';
+import { SchoolStudent } from '../../containers/_schoolstudent/SchoolStudent';
 
 export const RouterConfig: React.FC = () => {
   const { loggedInUser, isAuth } = useSelector((state: RootState) => state.LoginPageReducer);
@@ -15,12 +24,22 @@ export const RouterConfig: React.FC = () => {
 
   useEffect(() => {
     if (loggedInUser) {
-      if (loggedInUser.user_type == USER_TYPE.ADMIN) {
+      if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
+        setRedirectToPath(APPLICATION_URL.SUPERADMIN);
+      } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
         setRedirectToPath(APPLICATION_URL.ADMIN);
-      } else if (loggedInUser.user_type == USER_TYPE.MEDIC) {
-        setRedirectToPath(APPLICATION_URL.MEDIC);
-      } else if (loggedInUser.user_type == USER_TYPE.PATIENT) {
-        setRedirectToPath(APPLICATION_URL.PATIENT);
+      } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
+        setRedirectToPath(APPLICATION_URL.TUTOR);
+      } else if (loggedInUser.role_id == USER_TYPE.STUDENT) {
+        setRedirectToPath(APPLICATION_URL.STUDENT);
+      } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
+        setRedirectToPath(APPLICATION_URL.SCHOOLSUPERADMIN);
+      } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
+        setRedirectToPath(APPLICATION_URL.SCHOOLADMIN);
+      } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
+        setRedirectToPath(APPLICATION_URL.SCHOOLTUTOR);
+      } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT) {
+        setRedirectToPath(APPLICATION_URL.SCHOOLSTUDENT);
       } else {
         setRedirectToPath(APPLICATION_URL.LOGIN);
       }
@@ -41,21 +60,53 @@ export const RouterConfig: React.FC = () => {
         path={APPLICATION_URL.CREATE_PASSWORD}
         render={() => <ResetPasswordPage isCreatePasswordPage />}
       /> */}
+      {/* ==== Global USER Routes ==== */}
       {isAuth &&
-        loggedInUser.user_type == USER_TYPE.ADMIN && [
+        loggedInUser.role_id == USER_TYPE.SUPERADMIN && [
+          <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />,
+          <Redirect key={'redirect'} to={redirectToPath} />,
+        ]}
+      {isAuth &&
+        loggedInUser.role_id == USER_TYPE.ADMIN && [
           <Route key={APPLICATION_URL.ADMIN} path={APPLICATION_URL.ADMIN} component={Admin} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
       {isAuth &&
-        loggedInUser.user_type == USER_TYPE.MEDIC && [
-          <Route key={APPLICATION_URL.MEDIC} path={APPLICATION_URL.MEDIC} component={Medic}></Route>,
+        loggedInUser.role_id == USER_TYPE.TUTOR && [
+          <Route key={APPLICATION_URL.TUTOR} path={APPLICATION_URL.TUTOR} component={Tutor} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
       {isAuth &&
-        loggedInUser.user_type == USER_TYPE.PATIENT && [
-          <Route key={APPLICATION_URL.PATIENT} path={APPLICATION_URL.PATIENT} component={Patient} />,
+        loggedInUser.role_id == USER_TYPE.STUDENT && [
+          <Route key={APPLICATION_URL.STUDENT} path={APPLICATION_URL.STUDENT} component={Student} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
+      {/* ==== Local USER Routes ==== */}
+      {isAuth &&
+        loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN && [
+          <Route
+            key={APPLICATION_URL.SCHOOLSUPERADMIN}
+            path={APPLICATION_URL.SCHOOLSUPERADMIN}
+            component={SchoolSuperAdmin}
+          />,
+          <Redirect key={'redirect'} to={redirectToPath} />,
+        ]}
+      {isAuth &&
+        loggedInUser.role_id == USER_TYPE.SCHOOLADMIN && [
+          <Route key={APPLICATION_URL.SCHOOLADMIN} path={APPLICATION_URL.SCHOOLADMIN} component={SchoolAdmin} />,
+          <Redirect key={'redirect'} to={redirectToPath} />,
+        ]}
+      {isAuth &&
+        loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR && [
+          <Route key={APPLICATION_URL.SCHOOLTUTOR} path={APPLICATION_URL.SCHOOLTUTOR} component={SchoolTutor} />,
+          <Redirect key={'redirect'} to={redirectToPath} />,
+        ]}
+      {isAuth &&
+        loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT && [
+          <Route key={APPLICATION_URL.SCHOOLSTUDENT} path={APPLICATION_URL.SCHOOLSTUDENT} component={SchoolStudent} />,
+          <Redirect key={'redirect'} to={redirectToPath} />,
+        ]}
+      {/* ==== Login Route ==== */}
       {!isAuth && [
         <Route key={APPLICATION_URL.LOGIN} exact path={APPLICATION_URL.LOGIN} component={LoginPage} />,
         <Redirect key={'redirect'} exact to={APPLICATION_URL.LOGIN} />,

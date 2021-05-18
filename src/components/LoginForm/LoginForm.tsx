@@ -12,9 +12,9 @@ interface LoginFormProps {
   setUserEmail: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
   setPassword: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
   login: (ev: React.MouseEvent<HTMLButtonElement>) => void;
-  forgotKey: (ev: React.MouseEvent<HTMLButtonElement>) => void;
+  forgotKey?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   loginIsLoading: boolean;
-  selectUserType: React.Dispatch<React.SetStateAction<USER_TYPE | undefined>>;
+  selectUserType?: React.Dispatch<React.SetStateAction<USER_TYPE | undefined>>;
   userType?: USER_TYPE | undefined;
 }
 
@@ -35,17 +35,7 @@ export const LoginForm: FC<LoginFormProps> = ({
   return (
     <div className="popUp-container">
       <div className="popUp-ineer-container">
-        <div style={{ marginBottom: '10px' }}>
-          <img src={logo} alt="Test" style={{ height: '30px' }} />
-        </div>
-        {/* COMMENTED BY SWAYAM 15-03-2021 FOR DEMO PURPOSE . NEED TO HAVE UI SOLUTION FOR THE SAME */}
-
-        {/* {userType && (
-          <div className="login-title">
-            {t('Welcome')}{' '}
-            {t(userType == USER_TYPE.ADMIN ? 'Admin' : userType == USER_TYPE.MEDIC ? 'Medic' : 'Patient')}
-          </div>
-        )} */}
+        <div style={{ marginBottom: '10px' }}>{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
         <form>
           <span className="card-error-title">{errMessage ? errMessage : ''}</span>
           <input
@@ -76,9 +66,7 @@ export const LoginForm: FC<LoginFormProps> = ({
             </button>
           )}
           {!isLogin && (
-            <button onClick={forgotKey} className="card-button">
-              {!loginIsLoading ? t('Forgot Password') : t('Sending') + '...'}
-            </button>
+            <button className="card-button">{!loginIsLoading ? t('Forgot Password') : t('Sending') + '...'}</button>
           )}
 
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -87,7 +75,7 @@ export const LoginForm: FC<LoginFormProps> = ({
               className="card-link"
               onClick={(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
                 event.preventDefault();
-                selectUserType(undefined);
+                dispatch(displayLogin(isLogin ? false : true));
               }}
             >
               <img src={backArrow} alt="goBack" style={{ height: '20px' }} />

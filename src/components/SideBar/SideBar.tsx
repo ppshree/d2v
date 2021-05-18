@@ -34,10 +34,6 @@ export const SideBar: FC = () => {
   useEffect(() => {
     if (loggedInUser.user_type == USER_TYPE.ADMIN) {
       setListOfPanels(SIDEBAR_PANELS.ADMIN);
-    } else if (loggedInUser.user_type == USER_TYPE.MEDIC) {
-      setListOfPanels(SIDEBAR_PANELS.MEDIC);
-    } else if (loggedInUser.user_type == USER_TYPE.PATIENT) {
-      setListOfPanels(SIDEBAR_PANELS.PATIENT);
     }
   }, [loggedInUser]);
 

@@ -4,15 +4,15 @@ import '../Admin.css';
 import { retrieveAllMedics } from '../../../app/service/admin.service';
 import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 
-export const MedicList: FC = () => {
+export const Master: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     //MAKE API CALLS
   }, []);
 
-  return <h1>This is admin mediclist page</h1>;
+  return <h1>This is admin Master page</h1>;
 };
 
 // eslint-disable-next-line import/no-default-export
-export default MedicList;
+export default Master;

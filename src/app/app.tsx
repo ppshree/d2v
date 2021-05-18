@@ -17,7 +17,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (token && loggedInUser) {
-      dispatch(authenticateUser(loggedInUser.user_type));
+      dispatch(authenticateUser());
     } else {
       dispatch(signOut());
     }

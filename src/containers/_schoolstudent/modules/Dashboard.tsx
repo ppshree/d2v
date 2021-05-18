@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import '../Admin.css';
+import '../SchoolStudent.css';
 // import { ListItems } from '../../../components/ListItem/ListItems';
 // import { retrieveAllMedics, retrieveAllDevice } from '../../../app/service/admin.service';
 import { RootState } from '../../../app/rootReducer';
 //import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 
-export const DeviceList: FC = () => {
+export const Dashboard: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser: user } = useSelector((state: RootState) => state.LoginPageReducer);
 
@@ -14,8 +14,8 @@ export const DeviceList: FC = () => {
     //MAKE API CALLS
   }, []);
 
-  return <h1>This is admin devicelist page</h1>;
+  return <h1>This is Student Dashboard page</h1>;
 };
 
 // eslint-disable-next-line import/no-default-export
-export default DeviceList;
+export default Dashboard;

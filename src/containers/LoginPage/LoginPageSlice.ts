@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IloginUser } from './../../app/entity/constant';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authenticateUser, loginUser, forgotKey, resetPassword } from '../../app/service/shared.service';
+
+import { authenticateUser, loginUser } from '../../app/service/shared.service';
+import { RESPONSE } from '../../app/entity/constant';
 interface LoginPageState {
   isLoading: boolean;
   loginError?: string | null;
@@ -58,6 +60,7 @@ export const LoginPageSlice = createSlice({
       state.loggedInUser = {};
       state.isAuth = false;
       state.token = null;
+      localStorage.removeItem('sessionToken');
     },
     updateLoginError: (state, action: LanguagePayloadAction) => {
       state.loginError = action.payload;
@@ -71,8 +74,9 @@ export const LoginPageSlice = createSlice({
       state.isLoading = true;
     },
     [authenticateUser.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
+      if (action.payload && action.payload.isAxiosError) {
+        const { status, msg } = action.payload.response.data;
+        state.loginError = status === RESPONSE.FAILED ? msg : 'Network Error';
         state.isLoading = false;
         state.loggedInUser = {};
         state.isAuth = false;
@@ -80,9 +84,9 @@ export const LoginPageSlice = createSlice({
         return;
       }
       state.loginError = '';
-      if (action?.payload?.auth) {
-        state.loggedInUser = action.payload.user;
-        state.isAuth = action.payload.auth;
+      if (action?.payload?.data) {
+        state.loggedInUser = action.payload.data;
+        state.isAuth = true;
       } else {
         state.loggedInUser = {};
         state.isAuth = false;
@@ -98,61 +102,25 @@ export const LoginPageSlice = createSlice({
       state.isLoading = true;
     },
     [loginUser.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
+      if (action.payload && action.payload.isAxiosError) {
+        const { status, msg } = action.payload.response.data;
+        state.loginError = status === RESPONSE.FAILED ? msg : 'Network Error';
         state.isLoading = false;
         return;
       }
       state.loginError = '';
-      if (action.payload.auth && action.payload.token) {
-        state.loggedInUser = action.payload.user;
-        state.isAuth = action.payload.auth;
+      if (action.payload.data && action.payload.token) {
+        state.loggedInUser = action.payload.data;
+        state.isAuth = true;
         state.token = action.payload.token;
       } else {
-        state.loginError = action.payload.message;
+        state.loginError = action.payload.msg;
       }
       state.isLoading = false;
     },
     [loginUser.rejected.toString()]: (state, action: LoginPagePayloadAction) => {
       state.isLoading = false;
       state.loginError = action.payload.error;
-    },
-
-    [forgotKey.pending.toString()]: (state) => {
-      state.isLoading = true;
-      state.isForgotPassword = false;
-    },
-    [forgotKey.fulfilled.toString()]: (state, action: any) => {
-      state.isLoading = false;
-
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isForgotPassword = false;
-        return;
-      }
-      state.isForgotPassword = true;
-      state.loginError = action.payload.data;
-      state.isLogin = true;
-    },
-    [resetPassword.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.resetPasswordError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isLoading = false;
-        state.isResetPassword = false;
-        return;
-      }
-      state.isResetPassword = true;
-      state.resetPasswordError = '';
-      state.isLoading = false;
-    },
-    [resetPassword.pending.toString()]: (state) => {
-      state.isLoading = true;
-      state.isResetPassword = false;
-    },
-    [resetPassword.rejected.toString()]: (state, action: LoginPagePayloadAction) => {
-      state.isLoading = false;
-      state.resetPasswordError = action.payload.error;
-      state.isResetPassword = false;
     },
   },
 });

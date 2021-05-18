@@ -8,40 +8,39 @@ import { displayLogin, updateLoginError } from '../../containers/LoginPage/Login
 import { useQueryParam } from 'use-query-params';
 
 interface LandingPageProps {
-  selectUserType: React.Dispatch<React.SetStateAction<USER_TYPE | undefined>>;
+  selectUserType?: React.Dispatch<React.SetStateAction<USER_TYPE | undefined>>;
 }
 
 export const LandingPage: FC<LandingPageProps> = ({ selectUserType }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [fromOrigin] = useQueryParam<string>('from');
-  const users = [
-    { id: USER_TYPE.ADMIN, style: 'hand user-right-buttons blue-btn', name: 'Admin', bgColor: '' },
-    { id: USER_TYPE.MEDIC, style: 'hand user-right-buttons blue-btn', name: 'Physician', bgColor: '' },
-    { id: USER_TYPE.PATIENT, style: 'hand user-right-buttons', name: 'Patient', bgColor: '#eb8f0f' },
+
+  const authType = [
+    { style: 'hand user-right-buttons blue-btn', name: 'Login', bgColor: '' },
+    { style: 'hand user-right-buttons', name: 'Register', bgColor: '#eb8f0f' },
   ];
 
   return (
     <div className="user-container">
-      <div className="user-left-container">
+      {/* <div className="user-left-container">
         <img src={logo} alt="Test" style={{ height: '60px' }} />
-      </div>
+      </div> */}
       <div className="left-inner-container">
         <div>
-          {users.map((user) => (
+          {authType.map((type, index) => (
             <div
-              key={user.id}
-              className={`${user.style} ${fromOrigin === 'website' ? 'disabled' : ''}`}
-              style={{ backgroundColor: user.bgColor }}
+              key={index}
+              className={`${type.style} ${fromOrigin === 'website' ? 'disabled' : ''}`}
+              style={{ backgroundColor: type.bgColor }}
               onClick={() => {
-                if (fromOrigin !== 'website') {
-                  selectUserType(user.id);
+                if (fromOrigin !== 'website' && t(type.name) === 'Login') {
                   dispatch(displayLogin(true));
                   dispatch(updateLoginError(''));
                 }
               }}
             >
-              {t(user.name)}
+              {t(type.name)}
             </div>
           ))}
         </div>

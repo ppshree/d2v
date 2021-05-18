@@ -3,19 +3,7 @@ import { Idevice, IMedicUser } from '../entity/model';
 import { IloginUser } from '../entity/constant';
 import { getConfig, getRequest, postRequest } from '../api/http.helper';
 
-// ==================APIS ROUTING TO RM-BACKEND=============================
-export const login = async (obj: IloginUser): Promise<any> => {
-  return await postRequest('/admins/login', {
-    params: {
-      email: obj.email,
-      password: obj.secret_key,
-    },
-  });
-};
-
-export const authenticate = async (): Promise<any> => {
-  return await postRequest('/admins/me', {}, getConfig());
-};
+// ==================APIS ROUTING TO BACKEND=============================
 
 export const forgotKey = async (email: string): Promise<any> => {
   return await postRequest('/admins/forgotKey', {
