@@ -1,0 +1,98 @@
+.popUp-container {
+  width: 472px;
+  height: 401px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #e2e7ed;
+  border-radius: 5px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.popUp-ineer-container {
+  width: 336px;
+  height: 289px;
+  text-align: center;
+}
+
+.card-input .card-button :focus {
+  border: none;
+  outline: none;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-error-title {
+  font: normal normal 400 14px/20px Open Sans;
+  text-align: center;
+  letter-spacing: 0px;
+  color: red;
+}
+
+.card-input {
+  width: 305px;
+  height: 44px;
+  font: normal normal normal 15px/20px Open Sans;
+  letter-spacing: 0px;
+  color: #606060;
+  background: #f8f9fa 0% 0% no-repeat padding-box;
+  margin-bottom: 8px;
+  border: 2px solid #e2e7ed;
+  padding-left: 24px;
+  border-radius: 26px;
+  outline: none;
+}
+.card-input:focus {
+  border-color: transparent;
+}
+select.card-input {
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+}
+
+.login-title {
+  font: normal normal 400 18px/20px Open Sans;
+  color: #28657d;
+  margin-bottom: 10px;
+}
+
+.card-button {
+  background: #eb8f0f 0% 0% no-repeat padding-box;
+  width: 335px;
+  height: 44px;
+  border-radius: 26px;
+  margin: 0px;
+  font: normal normal 600 15px/20px Open Sans;
+  letter-spacing: 0px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: 0px;
+  margin-bottom: 17px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out 0s;
+}
+.card-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 15px 40px #00000014;
+}
+.card-link {
+  font: normal normal normal 13px/18px Open Sans;
+  letter-spacing: 0px;
+  color: #073f65;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 26px;
+  }
+  .description {
+    font-size: 20px;
+  }
+}

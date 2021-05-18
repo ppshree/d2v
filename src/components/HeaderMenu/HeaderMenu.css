@@ -1,0 +1,12 @@
+.selected-lang {
+  color: #eb8f0f;
+}
+
+.menu-item {
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.menu-item.delete-menu-item {
+  color: #e15248;
+}
