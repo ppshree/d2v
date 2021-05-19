@@ -6,14 +6,14 @@ interface IParentObjectKeys {
 export const env_variables: IParentObjectKeys = {
   dev: {
     env_name: 'development',
-    api_endpoint: process.env.REACT_APP_BASE_API,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
   prod: {
     env_name: 'production',
-    api_endpoint: process.env.REACT_APP_BASE_API,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
   staging: {
     env_name: 'staging',
-    api_endpoint: process.env.REACT_APP_BASE_API,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
 };

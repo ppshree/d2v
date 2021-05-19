@@ -19,7 +19,7 @@ import { SchoolTutor } from '../../containers/_schooltutor/SchoolTutor';
 import { SchoolStudent } from '../../containers/_schoolstudent/SchoolStudent';
 
 export const RouterConfig: React.FC = () => {
-  const { loggedInUser, isAuth } = useSelector((state: RootState) => state.LoginPageReducer);
+  const { loggedInUser, isAuthCompleted } = useSelector((state: RootState) => state.LoginPageReducer);
   const [redirectToPath, setRedirectToPath] = useState('');
 
   useEffect(() => {
@@ -50,39 +50,28 @@ export const RouterConfig: React.FC = () => {
 
   return (
     <Switch>
-      {/* <Route
-        key={APPLICATION_URL.RESET_PASSWORD}
-        path={APPLICATION_URL.RESET_PASSWORD}
-        render={() => <ResetPasswordPage />}
-      />
-      <Route
-        key={APPLICATION_URL.CREATE_PASSWORD}
-        path={APPLICATION_URL.CREATE_PASSWORD}
-        render={() => <ResetPasswordPage isCreatePasswordPage />}
-      /> */}
-      {/* ==== Global USER Routes ==== */}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.SUPERADMIN && [
           <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.ADMIN && [
           <Route key={APPLICATION_URL.ADMIN} path={APPLICATION_URL.ADMIN} component={Admin} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.TUTOR && [
           <Route key={APPLICATION_URL.TUTOR} path={APPLICATION_URL.TUTOR} component={Tutor} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.STUDENT && [
           <Route key={APPLICATION_URL.STUDENT} path={APPLICATION_URL.STUDENT} component={Student} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
       {/* ==== Local USER Routes ==== */}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN && [
           <Route
             key={APPLICATION_URL.SCHOOLSUPERADMIN}
@@ -91,23 +80,23 @@ export const RouterConfig: React.FC = () => {
           />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.SCHOOLADMIN && [
           <Route key={APPLICATION_URL.SCHOOLADMIN} path={APPLICATION_URL.SCHOOLADMIN} component={SchoolAdmin} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR && [
           <Route key={APPLICATION_URL.SCHOOLTUTOR} path={APPLICATION_URL.SCHOOLTUTOR} component={SchoolTutor} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
-      {isAuth &&
+      {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT && [
           <Route key={APPLICATION_URL.SCHOOLSTUDENT} path={APPLICATION_URL.SCHOOLSTUDENT} component={SchoolStudent} />,
           <Redirect key={'redirect'} to={redirectToPath} />,
         ]}
       {/* ==== Login Route ==== */}
-      {!isAuth && [
+      {!isAuthCompleted && [
         <Route key={APPLICATION_URL.LOGIN} exact path={APPLICATION_URL.LOGIN} component={LoginPage} />,
         <Redirect key={'redirect'} exact to={APPLICATION_URL.LOGIN} />,
       ]}

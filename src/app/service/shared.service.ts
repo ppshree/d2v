@@ -8,7 +8,7 @@ import { forgotKey as adminForgotKey } from '../api/admin.api';
 import { USER_TYPE } from './../../app/entity/constant';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IloginUser } from '../entity/constant';
-import { IresetKey, IrequestReadings, IResetPassword } from '../entity/model';
+import { IresetKey, IResetPassword } from '../entity/model';
 
 // ==================APIS ROUTING TO RM-BACKEND=============================
 export const authenticateUser = createAsyncThunk('user/authenticate', async () => {

@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { USER_TYPE } from '../../app/entity/constant';
 import './LoginForm.css';
-import logo from '../../asset/logo.svg';
-import backArrow from '../../asset/back.svg';
-import { displayLogin } from '../../containers/LoginPage/LoginPageSlice';
+//import backArrow from '../../asset/back.svg';
 interface LoginFormProps {
   //errMessage: null | string;
   setUserEmail: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -23,14 +21,10 @@ export const LoginForm: FC<LoginFormProps> = ({
   setUserEmail,
   setPassword,
   login,
-  forgotKey,
   loginIsLoading,
-  selectUserType,
-  //userType,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { isLogin, loginError: errMessage } = useSelector((state: RootState) => state.LoginPageReducer);
+  const { loginError: errMessage } = useSelector((state: RootState) => state.LoginPageReducer);
 
   return (
     <div className="popUp-container">
@@ -49,7 +43,7 @@ export const LoginForm: FC<LoginFormProps> = ({
             required
           ></input>
           <input
-            style={{ visibility: isLogin ? 'visible' : 'hidden' }}
+            // style={{ visibility: isLogin ? 'visible' : 'hidden' }}
             placeholder={t('Password')}
             className="card-input"
             type="password"
@@ -59,38 +53,9 @@ export const LoginForm: FC<LoginFormProps> = ({
             }}
             required
           ></input>
-
-          {isLogin && (
-            <button onClick={login} className="card-button">
-              {!loginIsLoading ? t('Login') : t('Loading') + '...'}
-            </button>
-          )}
-          {!isLogin && (
-            <button className="card-button">{!loginIsLoading ? t('Forgot Password') : t('Sending') + '...'}</button>
-          )}
-
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span
-              style={{ display: 'flex', alignContent: 'center' }}
-              className="card-link"
-              onClick={(event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-                event.preventDefault();
-                dispatch(displayLogin(isLogin ? false : true));
-              }}
-            >
-              <img src={backArrow} alt="goBack" style={{ height: '20px' }} />
-              {t('Back')}
-            </span>
-            <span
-              className="card-link"
-              onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                event.preventDefault();
-                dispatch(displayLogin(isLogin ? false : true));
-              }}
-            >
-              {t(isLogin ? 'Forgot Password' : 'Back To Login')}
-            </span>
-          </div>
+          <button onClick={login} className="card-button" style={{ width: '305px' }}>
+            {!loginIsLoading ? t('Login') : t('Loading') + '...'}
+          </button>
         </form>
       </div>
     </div>

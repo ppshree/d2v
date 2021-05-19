@@ -1,7 +1,6 @@
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import React, { Suspense, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { QueryParamProvider } from 'use-query-params';
 import { RootState } from '../app/rootReducer';
 import { authenticateUser } from './service/shared.service';
 import { signOut } from '../containers/LoginPage/LoginPageSlice';
@@ -25,11 +24,9 @@ export const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <Suspense fallback={<div>Loading.....</div>}>
-          <RouterConfig />
-        </Suspense>
-      </QueryParamProvider>
+      <Suspense fallback={<div>Loading.....</div>}>
+        <RouterConfig />
+      </Suspense>
     </BrowserRouter>
   );
 };
