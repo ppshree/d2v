@@ -35,7 +35,7 @@ export const LoginForm: FC<LoginFormProps> = ({
   return (
     <div className="popUp-container">
       <div className="popUp-ineer-container">
-        <div style={{ marginBottom: '10px' }}>{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
+        <div className="mb-5">{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
         <form>
           <span className="card-error-title">{errMessage ? errMessage : ''}</span>
           <input

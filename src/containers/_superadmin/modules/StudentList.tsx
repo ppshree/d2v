@@ -1,12 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import '../SchoolSuperAdmin.css';
+import '../SuperAdmin.css';
 // import { ListItems } from '../../../components/ListItem/ListItems';
-// import { retrieveAllMedics, retrieveAllDevice } from '../../../app/service/admin.service';
 import { RootState } from '../../../app/rootReducer';
 //import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 
-export const Dashboard: FC = () => {
+export const StudentList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser: user } = useSelector((state: RootState) => state.LoginPageReducer);
 
@@ -14,8 +13,8 @@ export const Dashboard: FC = () => {
     //MAKE API CALLS
   }, []);
 
-  return <h1>This is school super admin Dashboard page</h1>;
+  return <h1>This is super admin student-list page</h1>;
 };
 
 // eslint-disable-next-line import/no-default-export
-export default Dashboard;
+export default StudentList;

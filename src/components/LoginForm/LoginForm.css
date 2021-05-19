@@ -77,6 +77,9 @@ select.card-input {
   cursor: pointer;
   transition: all 0.2s ease-in-out 0s;
 }
+.card-button:focus {
+  outline: none;
+}
 .card-button:hover {
   transform: translateY(-3px);
   box-shadow: 0px 15px 40px #00000014;

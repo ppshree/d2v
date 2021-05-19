@@ -14,7 +14,7 @@ export const Dashboard: FC = () => {
     //MAKE API CALLS
   }, []);
 
-  return <h1>This is admin Dashboard page</h1>;
+  return <h1>This is school admin Dashboard page</h1>;
 };
 
 // eslint-disable-next-line import/no-default-export

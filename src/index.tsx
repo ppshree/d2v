@@ -7,7 +7,7 @@ import { App } from './app/app';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import i18n from './app/i18n';
-import './index.css';
+import './styles/output/output.css';
 
 Sentry.init({
   dsn: 'https://986d9dc3ccbf4c49980050b17929c2f9@o509572.ingest.sentry.io/5604308',

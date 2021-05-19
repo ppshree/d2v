@@ -3,8 +3,12 @@ import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { APPLICATION_URL } from '../../app/router/applicationRoutes';
-import { Master } from './modules/Master';
 import { Dashboard } from './modules/Dashboard';
+import { Master } from './modules/Master';
+import { AdminList } from './modules/AdminList';
+import { TutorList } from './modules/TutorList';
+import { SchoolList } from './modules/SchoolList';
+import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
 import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
@@ -17,9 +21,6 @@ export const SuperAdmin: React.FC = () => {
   const { t } = useTranslation();
   //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
   const classes = useStylesCommon();
-  const [alertMessage, setAlertMessage] = useState<string>();
-  const [alertMessageType, setAlertMessageType] = useState<'success' | 'error'>();
-  const [alertMessageCloseFunction, setAlertMessageCloseFunction] = useState<VoidFunction>();
 
   useEffect(() => {
     //make api calls
@@ -34,6 +35,10 @@ export const SuperAdmin: React.FC = () => {
           <Redirect exact from={path} to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SUPERADMIN_DASHBOARD} component={Dashboard}></Route>
           <Route exact path={APPLICATION_URL.SUPERADMIN_MASTER} component={Master}></Route>
+          <Route exact path={APPLICATION_URL.SUPERADMIN_ADMIN_LIST} component={AdminList}></Route>
+          <Route exact path={APPLICATION_URL.SUPERADMIN_TUTOR_LIST} component={TutorList}></Route>
+          <Route exact path={APPLICATION_URL.SUPERADMIN_SCHOOL_LIST} component={SchoolList}></Route>
+          <Route exact path={APPLICATION_URL.SUPERADMIN_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
         </Switch>
       </main>

@@ -12,16 +12,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory } from 'react-router-dom';
 import { useStylesCommon } from '../../app/style';
-import deviceActive from '../../asset/icons/device-o.svg';
-import deviceInActive from '../../asset/icons/device-b.svg';
-import medicActive from '../../asset/icons/medic-o.svg';
-import medicInActive from '../../asset/icons/medic-b.svg';
-import chatActive from '../../asset/icons/chat-o.svg';
-import chatInActive from '../../asset/icons/chat-b.svg';
-import homeActive from '../../asset/icons/home-o.svg';
-import homeInActive from '../../asset/icons/home-b.svg';
-import dataProtectionActive from '../../asset/icons/protection-o.svg';
-import dataProtectionInactive from '../../asset/icons/protection-b.svg';
 import { useTranslation } from 'react-i18next';
 import { updateActivePanel } from '../../containers/LoginPage/LoginPageSlice';
 
@@ -32,8 +22,20 @@ export const SideBar: FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (loggedInUser.user_type == USER_TYPE.ADMIN) {
+    if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
+      setListOfPanels(SIDEBAR_PANELS.SUPERADMIN);
+    } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
       setListOfPanels(SIDEBAR_PANELS.ADMIN);
+    } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
+      setListOfPanels(SIDEBAR_PANELS.TUTOR);
+    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
+      setListOfPanels(SIDEBAR_PANELS.SCHOOLSUPERADMIN);
+    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
+      setListOfPanels(SIDEBAR_PANELS.SCHOOLADMIN);
+    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
+      setListOfPanels(SIDEBAR_PANELS.SCHOOLTUTOR);
+    } else {
+      return;
     }
   }, [loggedInUser]);
 
@@ -54,7 +56,7 @@ export const SideBar: FC = () => {
       <Toolbar />
       <div className={classes.drawerContainer} style={{ marginTop: '15px' }}>
         <List>
-          {topListOfPanels.length &&
+          {topListOfPanels.length > 0 &&
             topListOfPanels.map((panel) => (
               <ListItem
                 button
@@ -64,33 +66,14 @@ export const SideBar: FC = () => {
                   history.push(panel.redirectTo);
                 }}
               >
-                <ListItemIcon>
-                  {panel.logo == 'chat' && (
-                    <img src={activeMenu == panel.name ? chatActive : chatInActive} className={classes.logoIcon} />
-                  )}
-                  {panel.logo == 'deviceList' && (
-                    <img src={activeMenu == panel.name ? deviceActive : deviceInActive} className={classes.logoIcon} />
-                  )}
-                  {panel.logo == 'medicList' && (
-                    <img src={activeMenu == panel.name ? medicActive : medicInActive} className={classes.logoIcon} />
-                  )}
-                  {panel.logo == 'home' && (
-                    <img src={activeMenu == panel.name ? homeActive : homeInActive} className={classes.logoIcon} />
-                  )}
-                  {panel.logo == 'dataPrivacy' && (
-                    <img
-                      src={activeMenu == panel.name ? dataProtectionActive : dataProtectionInactive}
-                      className={classes.logoIcon}
-                    />
-                  )}
-                </ListItemIcon>
+                <ListItemIcon></ListItemIcon>
                 <ListItemText primary={t(panel.name)} className={activeMenu == panel.name ? 'active-panel' : ''} />
               </ListItem>
             ))}
         </List>
         <div className={classes.drawerFooterContainer}>
           <List>
-            {bottomListOfPanels.length &&
+            {bottomListOfPanels.length > 0 &&
               bottomListOfPanels.map((panel) => (
                 <ListItem
                   button
@@ -100,29 +83,7 @@ export const SideBar: FC = () => {
                     history.push(panel.redirectTo);
                   }}
                 >
-                  <ListItemIcon>
-                    {panel.logo == 'chat' && (
-                      <img src={activeMenu == panel.name ? chatActive : chatInActive} className={classes.logoIcon} />
-                    )}
-                    {panel.logo == 'deviceList' && (
-                      <img
-                        src={activeMenu == panel.name ? deviceActive : deviceInActive}
-                        className={classes.logoIcon}
-                      />
-                    )}
-                    {panel.logo == 'medicList' && (
-                      <img src={activeMenu == panel.name ? medicActive : medicInActive} className={classes.logoIcon} />
-                    )}
-                    {panel.logo == 'home' && (
-                      <img src={activeMenu == panel.name ? homeActive : homeInActive} className={classes.logoIcon} />
-                    )}
-                    {panel.logo == 'dataPrivacy' && (
-                      <img
-                        src={activeMenu == panel.name ? dataProtectionActive : dataProtectionInactive}
-                        className={classes.logoIcon}
-                      />
-                    )}
-                  </ListItemIcon>
+                  <ListItemIcon></ListItemIcon>
                   <ListItemText primary={t(panel.name)} className={activeMenu == panel.name ? 'active-panel' : ''} />
                 </ListItem>
               ))}

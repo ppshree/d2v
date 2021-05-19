@@ -39,12 +39,76 @@ export const LANGUAGES = [
 ];
 export const SIDEBAR_PANELS = {
   SUPERADMIN: [
-    { name: 'Master', logo: 'dataPrivacy', redirectTo: APPLICATION_URL.SUPERADMIN_MASTER, isTopItem: true },
-    { name: 'Admin List', logo: 'medicList', redirectTo: APPLICATION_URL.SUPERADMIN_LIST, isTopItem: true },
+    { name: 'Dashboard', logo: 'BarChartIcon', redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
+    { name: 'Master', logo: 'UserXIcon', redirectTo: APPLICATION_URL.SUPERADMIN_MASTER, isTopItem: true },
+    { name: 'Admin List', logo: 'UsersIcon', redirectTo: APPLICATION_URL.SUPERADMIN_ADMIN_LIST, isTopItem: true },
+    { name: 'Tutor List', logo: 'UserIcon', redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
+    { name: 'School List', logo: 'BookIcon', redirectTo: APPLICATION_URL.SUPERADMIN_SCHOOL_LIST, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
   ],
   ADMIN: [
-    { name: 'Master', logo: 'dataPrivacy', redirectTo: APPLICATION_URL.ADMIN_MASTER, isTopItem: true },
-    { name: 'Admin List', logo: 'medicList', redirectTo: APPLICATION_URL.ADMIN_LIST, isTopItem: true },
+    { name: 'Dashboard', logo: 'BarChartIcon', redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
+    { name: 'Master', logo: 'UserXIcon', redirectTo: APPLICATION_URL.ADMIN_MASTER, isTopItem: true },
+    { name: 'Admin List', logo: 'UsersIcon', redirectTo: APPLICATION_URL.ADMIN_ADMIN_LIST, isTopItem: true },
+    { name: 'Tutor List', logo: 'UserIcon', redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
+    { name: 'School List', logo: 'BookIcon', redirectTo: APPLICATION_URL.ADMIN_SCHOOL_LIST, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.ADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
+  ],
+  TUTOR: [
+    { name: 'Dashboard', logo: 'BarChartIcon', redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
+    { name: 'Course', logo: 'BookOpenIcon', redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
+      isTopItem: true,
+    },
+  ],
+  SCHOOLSUPERADMIN: [
+    {
+      name: 'Dashboard',
+      logo: 'BarChartIcon',
+      redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_DASHBOARD,
+      isTopItem: true,
+    },
+    { name: 'Admin List', logo: 'UsersIcon', redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_ADMIN_LIST, isTopItem: true },
+    { name: 'Tutor List', logo: 'UserIcon', redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_TUTOR_LIST, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
+  ],
+  SCHOOLADMIN: [
+    { name: 'Dashboard', logo: 'BarChartIcon', redirectTo: APPLICATION_URL.SCHOOLADMIN_DASHBOARD, isTopItem: true },
+    { name: 'Tutor List', logo: 'UserIcon', redirectTo: APPLICATION_URL.SCHOOLADMIN_TUTOR_LIST, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.SCHOOLADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
+  ],
+  SCHOOLTUTOR: [
+    { name: 'Dashboard', logo: 'BarChartIcon', redirectTo: APPLICATION_URL.SCHOOLTUTOR_DASHBOARD, isTopItem: true },
+    { name: 'Course', logo: 'BookOpenIcon', redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: 'UserCheckIcon',
+      redirectTo: APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST,
+      isTopItem: true,
+    },
   ],
 };
 export interface ISideBar {

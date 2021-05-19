@@ -1,8 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-import { retrieveAllMedics } from '../../../app/service/admin.service';
-import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 
 export const Master: FC = () => {
   const dispatch = useDispatch();
