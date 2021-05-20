@@ -27,7 +27,7 @@ export const Student: React.FC = () => {
   return (
     <div className={classes.root} style={{ height: '100%' }}>
       <Header />
-      <SideBar />
+      {/* <SideBar /> */}
       <main className={classes.content}>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.STUDENT_DASHBOARD} />

@@ -8,8 +8,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
-      sm: '640px',
-      md: '768px',
+      xsm: '300px', //mobile
+      sm: '640px', //mobile-landscape
+      md: '768px', //tablet
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
@@ -34,8 +35,8 @@ module.exports = {
       gsa_secondary: 'var(--gsa_secondary)',
       ga_primary: 'var(--ga_primary)',
       ga_secondary: 'var(--ga_secondary)',
-      gl_primary: 'var(--gl_primary)',
-      gl_secondary: 'var(--gl_secondary)',
+      gt_primary: 'var(--gt_primary)',
+      gt_secondary: 'var(--gt_secondary)',
       gs_primary: 'var(--gs_primary)',
       gs_secondary: 'var(--gs_secondary)',
       // Local Users colors

@@ -12,7 +12,7 @@ import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
 import { useStylesCommon } from '../../app/style';
 import { Header } from '../Header/Header';
-import { SideBar } from '../../components/SideBar/SideBar';
+import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {
   const { path } = useRouteMatch();
@@ -27,9 +27,7 @@ export const Admin: React.FC = () => {
 
   return (
     <div className={classes.root} style={{ height: '100%' }}>
-      <Header />
-      <SideBar />
-      <main className={classes.content}>
+      <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.ADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.ADMIN_DASHBOARD} component={Dashboard}></Route>
@@ -40,7 +38,7 @@ export const Admin: React.FC = () => {
           <Route exact path={APPLICATION_URL.ADMIN_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.ADMIN_DASHBOARD} />
         </Switch>
-      </main>
+      </MainLayout>
     </div>
   );
 };

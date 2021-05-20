@@ -91,7 +91,7 @@ select.card-input {
   cursor: pointer;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width-sidebar: 480px) {
   .title {
     font-size: 26px;
   }

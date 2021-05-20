@@ -12,8 +12,7 @@ import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
 import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
-import { Header } from '../Header/Header';
-import { SideBar } from '../../components/SideBar/SideBar';
+import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const SuperAdmin: React.FC = () => {
   const { path } = useRouteMatch();
@@ -27,10 +26,8 @@ export const SuperAdmin: React.FC = () => {
   }, []);
 
   return (
-    <div className="h-screen grid grid-cols-6 sm:auto-cols-min">
-      <SideBar />
-      {/* <Header /> */}
-      <div className="col-span-5 w-full p-16 bg-text_white">
+    <div className="h-full flex">
+      <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SUPERADMIN_DASHBOARD} component={Dashboard}></Route>
@@ -41,7 +38,7 @@ export const SuperAdmin: React.FC = () => {
           <Route exact path={APPLICATION_URL.SUPERADMIN_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
         </Switch>
-      </div>
+      </MainLayout>
     </div>
   );
 };

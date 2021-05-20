@@ -5,6 +5,7 @@ import { UserGroupIcon } from '@heroicons/react/solid';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
+import { UserCircleIcon } from '@heroicons/react/solid';
 
 export const BASE_URL = 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/';
 export enum STAGE {
@@ -19,6 +20,13 @@ export enum RESPONSE {
   LOGINFAILED = 'LOGIN FAILED',
   DATANOTFOUND = 'DATA NOT FOUND',
   TOKENOTFOUND = 'TOKEM NOT FOUND',
+}
+
+export enum MIN_MAX_WIDTH {
+  MAX_SIDEBAR = 'max-width-sidebar',
+  MIN_SIDEBAR = 'min-width-sidebar',
+  MAX_LAYOUT = 'max-width-layout',
+  MIN_LAYOUT = 'min-width-layout',
 }
 
 export interface ItempUser {
@@ -57,6 +65,11 @@ export const SIDEBAR_PANELS = {
       redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
   ],
   ADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
@@ -70,15 +83,25 @@ export const SIDEBAR_PANELS = {
       redirectTo: APPLICATION_URL.ADMIN_STUDENT_LIST,
       isTopItem: true,
     },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
   ],
   TUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: 'BookOpenIcon', redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
+    },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
     },
   ],
   SCHOOLSUPERADMIN: [
@@ -101,6 +124,11 @@ export const SIDEBAR_PANELS = {
       redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
   ],
   SCHOOLADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLADMIN_DASHBOARD, isTopItem: true },
@@ -111,6 +139,11 @@ export const SIDEBAR_PANELS = {
       redirectTo: APPLICATION_URL.SCHOOLADMIN_STUDENT_LIST,
       isTopItem: true,
     },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
   ],
   SCHOOLTUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_DASHBOARD, isTopItem: true },
@@ -120,6 +153,11 @@ export const SIDEBAR_PANELS = {
       logo: UserAddIcon,
       redirectTo: APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST,
       isTopItem: true,
+    },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
     },
   ],
 };

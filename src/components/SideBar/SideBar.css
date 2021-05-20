@@ -1,5 +1,14 @@
+.max-width-sidebar {
+  width: 15rem;
+  transition: width 200ms ease-in-out;
+}
+.min-width-sidebar {
+  width: 4rem;
+  transition: width 200ms ease-in-out;
+}
+
 .active-panel {
-  color: #eb8f0f;
+  color: var(--text_dark);
 }
 .sidebar-shadow {
   box-shadow: 10px 10px 5px var(--text_dark) !important;
