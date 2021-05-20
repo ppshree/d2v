@@ -49,8 +49,11 @@ export const LoginPageSlice = createSlice({
     updateLoggedInUser: (state, action: UserPayloadAction) => {
       state.loggedInUser = action.payload;
     },
-    signOut: () => {
+    signOut: (state) => {
       localStorage.clear();
+      state.loggedInUser = {};
+      state.token = null;
+      state.isAuthCompleted = false;
     },
     updateLoginError: (state, action: LanguagePayloadAction) => {
       state.loginError = action.payload;
@@ -90,7 +93,6 @@ export const LoginPageSlice = createSlice({
     },
     [loginUser.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && action.payload.isAxiosError) {
-        console.log(action);
         const { status, msg } = action.payload.response.data;
         state.loginError = status === RESPONSE.FAILED ? msg : 'Network Error';
         state.isLoading = false;

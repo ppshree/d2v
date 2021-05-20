@@ -27,10 +27,10 @@ export const SuperAdmin: React.FC = () => {
   }, []);
 
   return (
-    <div className={classes.root} style={{ height: '100%' }}>
-      <Header />
+    <div className="h-screen grid grid-cols-6 sm:auto-cols-min">
       <SideBar />
-      <main className={classes.content}>
+      {/* <Header /> */}
+      <div className="col-span-5 w-full p-16 bg-text_white">
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SUPERADMIN_DASHBOARD} component={Dashboard}></Route>
@@ -41,7 +41,7 @@ export const SuperAdmin: React.FC = () => {
           <Route exact path={APPLICATION_URL.SUPERADMIN_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
         </Switch>
-      </main>
+      </div>
     </div>
   );
 };

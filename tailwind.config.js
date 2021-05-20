@@ -28,6 +28,29 @@ module.exports = {
       indigo: colors.indigo,
       purple: colors.violet,
       pink: colors.pink,
+
+      // Global Users colors
+      gsa_primary: 'var(--gsa_primary)',
+      gsa_secondary: 'var(--gsa_secondary)',
+      ga_primary: 'var(--ga_primary)',
+      ga_secondary: 'var(--ga_secondary)',
+      gl_primary: 'var(--gl_primary)',
+      gl_secondary: 'var(--gl_secondary)',
+      gs_primary: 'var(--gs_primary)',
+      gs_secondary: 'var(--gs_secondary)',
+      // Local Users colors
+      lsa_primary: 'var(--lsa_primary)',
+      lsa_secondary: 'var(--lsa_secondary)',
+      la_primary: 'var(--la_primary)',
+      la_secondary: 'var(--la_secondary)',
+      lt_primary: 'var(--lt_primary)',
+      lt_secondary: 'var(--lt_secondary)',
+      ls_primary: 'var(--ls_primary)',
+      ls_secondary: 'var(--ls_secondary)',
+      // Text colors
+      text_dark: 'var(--text_dark)',
+      text_white: 'var(--text_white)',
+      text_grey: 'var(--text_grey)',
     },
     spacing: {
       px: '1px',

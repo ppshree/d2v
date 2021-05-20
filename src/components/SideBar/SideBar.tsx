@@ -4,14 +4,7 @@ import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { USER_TYPE, SIDEBAR_PANELS } from '../../app/entity/constant';
 import './SideBar.css';
-import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import { useHistory } from 'react-router-dom';
-import { useStylesCommon } from '../../app/style';
 import { useTranslation } from 'react-i18next';
 import { updateActivePanel } from '../../containers/LoginPage/LoginPageSlice';
 
@@ -39,57 +32,64 @@ export const SideBar: FC = () => {
     }
   }, [loggedInUser]);
 
-  const classes = useStylesCommon();
   const { t } = useTranslation();
 
   const topListOfPanels = listOfPanels.filter((panel) => panel.isTopItem);
   const bottomListOfPanels = listOfPanels.filter((panel) => !panel.isTopItem);
 
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-    >
-      <Toolbar />
-      <div className={classes.drawerContainer} style={{ marginTop: '15px' }}>
-        <List>
+    <div className="col-span-1 w-full py-10 z-10 bg-gsa_primary text-text_white sidebar-shadow">
+      <div className="flex flex-col justify-evenly items-center p-3">
+        <div className="flex justify-evenly items-center">
+          <div className="w-10 h-10 mr-4 bg-text_grey"></div>
+          <div className="comp-name">Company Name</div>
+        </div>
+        <div className="divide-solid w-full h-0.5 bg-gray m-4"></div>
+      </div>
+      <div className="w-auto">
+        <ul className="list-outside">
           {topListOfPanels.length > 0 &&
             topListOfPanels.map((panel) => (
-              <ListItem
-                button
+              <li
+                className="w-auto p-2 mt-3 cursor-pointer transition delay-50 duration-300 ease-in-out hover:bg-text_grey"
                 key={panel?.name}
                 onClick={() => {
                   dispatch(updateActivePanel(panel?.name));
                   history.push(panel.redirectTo);
                 }}
               >
-                <ListItemIcon></ListItemIcon>
-                <ListItemText primary={t(panel.name)} className={activeMenu == panel.name ? 'active-panel' : ''} />
-              </ListItem>
+                <div className="flex justify-start items-center">
+                  <panel.logo className="w-5 mx-3" />
+                  <p className={activeMenu == panel.name ? 'active-panel text-left text-base' : 'text-left text-base'}>
+                    {t(panel.name)}
+                  </p>
+                </div>
+              </li>
             ))}
-        </List>
-        <div className={classes.drawerFooterContainer}>
-          <List>
-            {bottomListOfPanels.length > 0 &&
-              bottomListOfPanels.map((panel) => (
-                <ListItem
-                  button
-                  key={panel?.name}
-                  onClick={() => {
-                    dispatch(updateActivePanel(panel?.name));
-                    history.push(panel.redirectTo);
-                  }}
-                >
-                  <ListItemIcon></ListItemIcon>
-                  <ListItemText primary={t(panel.name)} className={activeMenu == panel.name ? 'active-panel' : ''} />
-                </ListItem>
-              ))}
-          </List>
-        </div>
+        </ul>
       </div>
-    </Drawer>
+      <div className="w-auto">
+        <ul className="list-outside">
+          {bottomListOfPanels.length > 0 &&
+            bottomListOfPanels.map((panel) => (
+              <li
+                className="w-auto p-2 mt-3 cursor-pointer transition delay-50 duration-300 ease-in-out hover:bg-text_grey "
+                key={panel?.name}
+                onClick={() => {
+                  dispatch(updateActivePanel(panel?.name));
+                  history.push(panel.redirectTo);
+                }}
+              >
+                <div className="flex justify-start items-center">
+                  <panel.logo className="w-5 mx-3" />
+                  <p className={activeMenu == panel.name ? 'active-panel text-left text-base' : 'text-left text-base'}>
+                    {t(panel.name)}
+                  </p>
+                </div>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </div>
   );
 };

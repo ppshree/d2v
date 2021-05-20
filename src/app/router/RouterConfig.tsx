@@ -48,6 +48,8 @@ export const RouterConfig: React.FC = () => {
     }
   }, [loggedInUser]);
 
+  console.log(loggedInUser);
+
   return (
     <Switch>
       {isAuthCompleted &&
@@ -58,10 +60,9 @@ export const RouterConfig: React.FC = () => {
         loggedInUser.role_id == USER_TYPE.ADMIN && [
           <Route key={APPLICATION_URL.ADMIN} path={APPLICATION_URL.ADMIN} component={Admin} />,
         ]}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.TUTOR && [
-          <Route key={APPLICATION_URL.TUTOR} path={APPLICATION_URL.TUTOR} component={Tutor} />,
-        ]}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.TUTOR && (
+        <Route key={APPLICATION_URL.TUTOR} path={APPLICATION_URL.TUTOR} component={Tutor} />
+      )}
       {isAuthCompleted &&
         loggedInUser.role_id == USER_TYPE.STUDENT && [
           <Route key={APPLICATION_URL.STUDENT} path={APPLICATION_URL.STUDENT} component={Student} />,

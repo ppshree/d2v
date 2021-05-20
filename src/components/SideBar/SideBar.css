@@ -1,5 +1,6 @@
 .active-panel {
   color: #eb8f0f;
 }
-.MuiListItemIcon-root {
-   min-width: 35px !important;}
+.sidebar-shadow {
+  box-shadow: 10px 10px 5px var(--text_dark) !important;
+}
