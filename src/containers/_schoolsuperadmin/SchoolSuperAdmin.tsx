@@ -11,6 +11,7 @@ import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
 import { Header } from '../Header/Header';
 import { SideBar } from '../../components/SideBar/SideBar';
+import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const SchoolSuperAdmin: React.FC = () => {
   const { path } = useRouteMatch();
@@ -24,10 +25,8 @@ export const SchoolSuperAdmin: React.FC = () => {
   }, []);
 
   return (
-    <div className={classes.root} style={{ height: '100%' }}>
-      <Header />
-      {/* <SideBar /> */}
-      <main className={classes.content}>
+    <div className="h-full flex">
+      <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SCHOOLSUPERADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SCHOOLSUPERADMIN_DASHBOARD} component={Dashboard}></Route>
@@ -36,7 +35,7 @@ export const SchoolSuperAdmin: React.FC = () => {
           <Route exact path={APPLICATION_URL.SCHOOLSUPERADMIN_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SCHOOLSUPERADMIN_DASHBOARD} />
         </Switch>
-      </main>
+      </MainLayout>
     </div>
   );
 };
