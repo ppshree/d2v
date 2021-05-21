@@ -22,7 +22,7 @@ export const Tutor: React.FC = () => {
   }, []);
 
   return (
-    <div className={classes.root} style={{ height: '100%' }}>
+    <div className="h-full flex">
       <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.TUTOR_DASHBOARD} />

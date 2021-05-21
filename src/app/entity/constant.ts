@@ -151,7 +151,7 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLTUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: 'BookOpenIcon', redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
