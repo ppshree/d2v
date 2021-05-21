@@ -10,20 +10,21 @@ import { updateActivePanel } from '../../containers/LoginPage/LoginPageSlice';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
-import { LogoutIcon } from '@heroicons/react/solid';
 
 interface Iprops {
-  handleSignout: () => void;
   handleLayoutWidth: (size: string) => void;
+  openProfileModal: () => void;
 }
 
-export const SideBar: FC<Iprops> = ({ handleLayoutWidth, handleSignout }) => {
+export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => {
   const { loggedInUser, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
   const [listOfPanels, setListOfPanels] = useState<any[]>([]);
   const [currentPrimaryColor, setCurrentPrimaryColor] = useState<string>('');
   const [currentSecondaryColor, setCurrentSecondaryColor] = useState<string>('');
   const [sidebarWidth, setSidebarWidth] = useState<string>(MIN_MAX_WIDTH.MIN_SIDEBAR);
+
   const dispatch = useDispatch();
+
   const history = useHistory();
 
   useEffect(() => {
@@ -66,6 +67,11 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, handleSignout }) => {
     handleLayoutWidth(sizeLayout);
   };
 
+  const handleProfileOpen = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    openProfileModal();
+  };
+
   return (
     <div
       className={`fixed top-0 bottom-0 left-0 flex-3 ${sidebarWidth} py-10 z-10 bg-${currentPrimaryColor} text-text_white sidebar-shadow`}
@@ -78,12 +84,16 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, handleSignout }) => {
         </div>
         <div className="divide-y bg-text_grey w-full h-0.5 m-4"></div>
       </div>
-      <div className="w-auto h-auto">
+      <div className="w-auto h-auto sidebar-scroll">
         <ul className="list-outside">
           {topListOfPanels.length > 0 &&
             topListOfPanels.map((panel) => (
               <li
-                className="w-auto p-2 mt-3 cursor-pointer transition delay-50 duration-300 ease-in-out hover:bg-text_grey"
+                className={
+                  activeMenu == panel.name
+                    ? `w-auto p-2 mt-2 cursor-pointer bg-${currentSecondaryColor}`
+                    : `w-auto p-2 mt-2 cursor-pointer transition delay-50 duration-300 ease-in-out hover:bg-${currentSecondaryColor}`
+                }
                 key={panel?.name}
                 onClick={() => {
                   dispatch(updateActivePanel(panel?.name));
@@ -93,28 +103,20 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, handleSignout }) => {
                 <div className="flex justify-start items-center">
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && <panel.logo className="w-5 mx-3" />}
                   {sidebarWidth === MIN_MAX_WIDTH.MIN_SIDEBAR && (
-                    <panel.logo className={activeMenu == panel.name ? 'active-panel w-5 m-auto' : 'w-5 m-auto'} />
+                    <panel.logo
+                      className={activeMenu == panel.name ? `bg-${currentSecondaryColor} w-5 m-auto` : 'w-5 m-auto'}
+                    />
                   )}
-                  {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <p
-                      className={activeMenu == panel.name ? 'active-panel text-left text-base' : 'text-left text-base'}
-                    >
-                      {t(panel.name)}
-                    </p>
-                  )}
+                  {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && <p className="text-left text-base">{t(panel.name)}</p>}
                 </div>
               </li>
             ))}
         </ul>
       </div>
       <div className="absolute w-full bottom-0 left-0">
-        {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-          <LogoutIcon onClick={() => handleSignout()} className="w-5 m-auto cursor-pointer" />
-        )}
         {sidebarWidth === MIN_MAX_WIDTH.MIN_SIDEBAR && (
-          <LogoutIcon onClick={() => handleSignout()} className="w-5 m-auto cursor-pointer" />
+          <UserCircleIcon onClick={handleProfileOpen} className="w-5 m-auto cursor-pointer" />
         )}
-        {sidebarWidth === MIN_MAX_WIDTH.MIN_SIDEBAR && <UserCircleIcon className="w-5 m-auto cursor-pointer" />}
         <ul className={`list-outside bg-${currentSecondaryColor}`}>
           {bottomListOfPanels.length > 0 &&
             bottomListOfPanels.map((panel) => (
@@ -126,20 +128,22 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, handleSignout }) => {
                 }}
               >
                 <div className="flex justify-center items-center">
-                  {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && <panel.logo className="w-5 mx-3 cursor-pointer" />}
+                  {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
+                    <panel.logo onClick={handleProfileOpen} className="w-5 mx-3 cursor-pointer" />
+                  )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
                     <p className="text-left text-base">{t(panel.name + ' ' + loggedInUser.first_name)}</p>
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
                     <ChevronLeftIcon
                       onClick={() => handleSidebarWidth(MIN_MAX_WIDTH.MIN_SIDEBAR, MIN_MAX_WIDTH.MIN_LAYOUT)}
-                      className="w-5 ml-16 cursor-pointer"
+                      className="w-8 ml-16 cursor-pointer"
                     />
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MIN_SIDEBAR && (
                     <ChevronRightIcon
                       onClick={() => handleSidebarWidth(MIN_MAX_WIDTH.MAX_SIDEBAR, MIN_MAX_WIDTH.MAX_LAYOUT)}
-                      className="w-5 m-auto cursor-pointer"
+                      className="w-8 m-auto cursor-pointer"
                     />
                   )}
                 </div>

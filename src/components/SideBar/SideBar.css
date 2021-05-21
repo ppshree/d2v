@@ -1,5 +1,6 @@
+
 .max-width-sidebar {
-  width: 15rem;
+  width: 15rem; 
   transition: width 200ms ease-in-out;
 }
 .min-width-sidebar {
@@ -12,4 +13,15 @@
 }
 .sidebar-shadow {
   box-shadow: 10px 10px 5px var(--text_dark) !important;
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 480px) 
+                   and (max-device-width: 790px) 
+                   and (orientation: landscape) {
+
+  .sidebar-scroll {
+    height: 50vh !important;
+    overflow-y: auto !important;
+  }
 }

@@ -29,6 +29,10 @@ export enum MIN_MAX_WIDTH {
   MIN_LAYOUT = 'min-width-layout',
 }
 
+export enum MODAL_POSITION {
+  DEFAULT = 'inset-0',
+}
+
 export interface ItempUser {
   //PATCH DELETE FOR PRODUCTION
   status: number;
