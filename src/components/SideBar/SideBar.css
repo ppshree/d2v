@@ -1,6 +1,6 @@
 
 .max-width-sidebar {
-  width: 15rem; 
+  width: 14rem; 
   transition: width 200ms ease-in-out;
 }
 .min-width-sidebar {
@@ -8,11 +8,8 @@
   transition: width 200ms ease-in-out;
 }
 
-.active-panel {
-  color: var(--text_dark);
-}
 .sidebar-shadow {
-  box-shadow: 10px 10px 5px var(--text_dark) !important;
+  box-shadow: 5px 5px 10px var(--text_dark) !important;
 }
 
 /* Landscape */
