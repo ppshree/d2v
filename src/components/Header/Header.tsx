@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../../app/entity/constant';
-
+import './Header.css';
 interface IProps {
   w: string;
 }
@@ -35,7 +35,7 @@ export const Header: FC<IProps> = ({ w }) => {
     }
   }, [loggedInUser]);
   return (
-    <div className={`flex-3 fixed inset-x-0 top-0 h-16`}>
+    <div className={`flex-3 fixed sm:inset-x-0 header-postion top-0 h-16`}>
       <div className={`font-sans pt-3 ${w} text-${currentPrimaryColor} font-bold text-3xl`}>{userType}</div>
     </div>
   );
