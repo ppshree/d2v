@@ -4,6 +4,7 @@ import { MIN_MAX_WIDTH } from '../../app/entity/constant';
 import { signOut } from '../../containers/LoginPage/LoginPageSlice';
 import { SideBar } from '../SideBar/SideBar';
 import './MainLayout.css';
+import { Header } from '../Header/Header';
 
 interface Iprops {
   children: React.ReactElement;
@@ -23,7 +24,10 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
   return (
     <>
       <SideBar handleSignout={handleSignout} handleLayoutWidth={handleLayoutWidth} />
-      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20 pt-20 pr-14 bg-text_white`}>{children}</div>
+      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20 pt-20 pr-14 bg-text_white`}>
+        <Header w={layoutWidth} />
+        {children}
+      </div>
     </>
   );
 };
