@@ -1,5 +1,6 @@
 import React from 'react';
 import { XCircleIcon } from '@heroicons/react/solid';
+import { MODAL_POSITION } from '../../app/entity/constant';
 
 interface Iprops {
   children: React.ReactElement;
@@ -22,13 +23,23 @@ export const ModalLayout: React.FC<Iprops> = ({ children, isOpen, closeModal, mo
             {/* Background Overlay */}
             <div className="fixed inset-0 bg-gray-700 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span
-              className="hidden sm:inline-block sm:align-bottom sm:h-screen xsm:inline-block xsm:align-bottom xsm:h-auto"
+              className={
+                modalPosition === MODAL_POSITION.DEFAULT
+                  ? `hidden sm:inline-block sm:align-middle sm:h-screen xsm:inline-block xsm:align-middle xsm:h-full`
+                  : `hidden sm:inline-block sm:align-bottom sm:h-screen xsm:inline-block xsm:align-bottom xsm:h-full`
+              }
               aria-hidden="true"
             >
               &#8203;
             </span>
             {/* Modal panel, show/hide according to state */}
-            <div className="inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full xsm:my-8 xsm:align-bottom xsm:max-w-lg xsm:w-full">
+            <div
+              className={
+                modalPosition === MODAL_POSITION.DEFAULT
+                  ? 'inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full my-8 align-middle max-w-lg w-full'
+                  : 'inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full xsm:align-bottom'
+              }
+            >
               <div className="bg-white">
                 <div className="flex justify-end items-center mx-1 my-1">
                   <XCircleIcon

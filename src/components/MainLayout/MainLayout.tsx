@@ -13,7 +13,7 @@ interface Iprops {
 }
 export const MainLayout: React.FC<Iprops> = ({ children }) => {
   const dispatch = useDispatch();
-  const [isOpen, setIsProfileOpen] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState<string>('');
   const [layoutWidth, setLayoutWidth] = useState<string>(MIN_MAX_WIDTH.MIN_LAYOUT);
 
@@ -38,7 +38,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
   return (
     <>
       <SideBar openProfileModal={openProfileModal} handleLayoutWidth={handleLayoutWidth} />
-      <ModalLayout modalPosition={modalPosition} isOpen={isOpen} closeModal={closeModal}>
+      <ModalLayout modalPosition={modalPosition} isOpen={isProfileOpen ? isProfileOpen : false} closeModal={closeModal}>
         <ProfileModalContent handleSignout={handleSignout} />
       </ModalLayout>
       <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20 pt-20 pr-14 bg-text_white`}>{children}</div>

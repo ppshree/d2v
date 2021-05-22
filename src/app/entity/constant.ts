@@ -13,6 +13,21 @@ export enum STAGE {
   PROD = 'Prod',
 }
 
+export enum COLORS {
+  GSA_PRIMARY = 'gsa_primary',
+  GSA_SECONDARY = 'gsa_secondary',
+  GA_PRIMARY = 'ga_primary',
+  GA_SECONDARY = 'ga_secondary',
+  GT_PRIMARY = 'gt_primary',
+  GT_SECONDARY = 'gt_secondary',
+  LSA_PRIMARY = 'lsa_primary',
+  LSA_SECONDARY = 'lsa_secondary',
+  LA_PRIMARY = 'la_primary',
+  LA_SECONDARY = 'la_secondary',
+  LT_PRIMARY = 'lt_primary',
+  LT_SECONDARY = 'lt_secondary',
+}
+
 export enum RESPONSE {
   FAILED = 'failed',
   SUCCESS = 'success',

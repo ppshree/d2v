@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { USER_TYPE } from '../../app/entity/constant';
+import { USER_TYPE, COLORS } from '../../app/entity/constant';
 import { UserCircleIcon } from '@heroicons/react/solid';
 import { AnnotationIcon } from '@heroicons/react/solid';
 import { BellIcon } from '@heroicons/react/solid';
@@ -17,23 +17,23 @@ export const ProfileModalContent: React.FC<Iprops> = ({ handleSignout }) => {
 
   useEffect(() => {
     if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      setCurrentPrimaryColor('gsa_primary');
-      setCurrentSecondaryColor('gsa_secondary');
+      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
-      setCurrentPrimaryColor('ga_primary');
-      setCurrentSecondaryColor('ga_secondary');
+      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
-      setCurrentPrimaryColor('gt_primary');
-      setCurrentSecondaryColor('gt_secondary');
+      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
-      setCurrentPrimaryColor('lsa_primary');
-      setCurrentSecondaryColor('lsa_secondary');
+      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
-      setCurrentPrimaryColor('la_primary');
-      setCurrentSecondaryColor('la_secondary');
+      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
-      setCurrentPrimaryColor('lt_primary');
-      setCurrentSecondaryColor('lt_secondary');
+      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
     } else {
       return;
     }

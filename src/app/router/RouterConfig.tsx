@@ -48,46 +48,37 @@ export const RouterConfig: React.FC = () => {
     }
   }, [loggedInUser]);
 
-  console.log(loggedInUser);
-
   return (
     <Switch>
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.SUPERADMIN && [
-          <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />,
-        ]}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.ADMIN && [
-          <Route key={APPLICATION_URL.ADMIN} path={APPLICATION_URL.ADMIN} component={Admin} />,
-        ]}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SUPERADMIN && (
+        <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />
+      )}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.ADMIN && (
+        <Route key={APPLICATION_URL.ADMIN} path={APPLICATION_URL.ADMIN} component={Admin} />
+      )}
       {isAuthCompleted && loggedInUser.role_id == USER_TYPE.TUTOR && (
         <Route key={APPLICATION_URL.TUTOR} path={APPLICATION_URL.TUTOR} component={Tutor} />
       )}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.STUDENT && [
-          <Route key={APPLICATION_URL.STUDENT} path={APPLICATION_URL.STUDENT} component={Student} />,
-        ]}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.STUDENT && (
+        <Route key={APPLICATION_URL.STUDENT} path={APPLICATION_URL.STUDENT} component={Student} />
+      )}
       {/* ==== Local USER Routes ==== */}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN && [
-          <Route
-            key={APPLICATION_URL.SCHOOLSUPERADMIN}
-            path={APPLICATION_URL.SCHOOLSUPERADMIN}
-            component={SchoolSuperAdmin}
-          />,
-        ]}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.SCHOOLADMIN && [
-          <Route key={APPLICATION_URL.SCHOOLADMIN} path={APPLICATION_URL.SCHOOLADMIN} component={SchoolAdmin} />,
-        ]}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR && [
-          <Route key={APPLICATION_URL.SCHOOLTUTOR} path={APPLICATION_URL.SCHOOLTUTOR} component={SchoolTutor} />,
-        ]}
-      {isAuthCompleted &&
-        loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT && [
-          <Route key={APPLICATION_URL.SCHOOLSTUDENT} path={APPLICATION_URL.SCHOOLSTUDENT} component={SchoolStudent} />,
-        ]}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN && (
+        <Route
+          key={APPLICATION_URL.SCHOOLSUPERADMIN}
+          path={APPLICATION_URL.SCHOOLSUPERADMIN}
+          component={SchoolSuperAdmin}
+        />
+      )}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SCHOOLADMIN && (
+        <Route key={APPLICATION_URL.SCHOOLADMIN} path={APPLICATION_URL.SCHOOLADMIN} component={SchoolAdmin} />
+      )}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR && (
+        <Route key={APPLICATION_URL.SCHOOLTUTOR} path={APPLICATION_URL.SCHOOLTUTOR} component={SchoolTutor} />
+      )}
+      {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT && (
+        <Route key={APPLICATION_URL.SCHOOLSTUDENT} path={APPLICATION_URL.SCHOOLSTUDENT} component={SchoolStudent} />
+      )}
       {/* ==== Login Route ==== */}
       {!isAuthCompleted && redirectToPath === APPLICATION_URL.LOGIN && (
         <Route key={APPLICATION_URL.LOGIN} exact path={APPLICATION_URL.LOGIN} component={LoginPage} />

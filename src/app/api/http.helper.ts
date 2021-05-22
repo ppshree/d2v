@@ -26,7 +26,7 @@ export const getConfig = (encryptString?: string): any => {
 
 //======================GET AND POST REQUESTS ARE FIRED FROM HERE==================
 export async function postRequest(url: string, param: AxiosRequestConfig, config?: any) {
-  let responseBody = {};
+  let responseBody: any = {};
   try {
     //console.log('i am in postrequest');
     await axios
@@ -35,7 +35,8 @@ export async function postRequest(url: string, param: AxiosRequestConfig, config
         responseBody = response.data;
       })
       .catch((err) => {
-        responseBody = err;
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
       });
   } catch (error) {
     responseBody = error;

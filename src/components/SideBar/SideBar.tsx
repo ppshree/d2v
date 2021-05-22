@@ -2,7 +2,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { USER_TYPE, SIDEBAR_PANELS, MIN_MAX_WIDTH } from '../../app/entity/constant';
+import { USER_TYPE, SIDEBAR_PANELS, MIN_MAX_WIDTH, COLORS } from '../../app/entity/constant';
 import './SideBar.css';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -30,28 +30,28 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
   useEffect(() => {
     if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SUPERADMIN);
-      setCurrentPrimaryColor('gsa_primary');
-      setCurrentSecondaryColor('gsa_secondary');
+      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
       setListOfPanels(SIDEBAR_PANELS.ADMIN);
-      setCurrentPrimaryColor('ga_primary');
-      setCurrentSecondaryColor('ga_secondary');
+      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
       setListOfPanels(SIDEBAR_PANELS.TUTOR);
-      setCurrentPrimaryColor('gt_primary');
-      setCurrentSecondaryColor('gt_secondary');
+      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLSUPERADMIN);
-      setCurrentPrimaryColor('lsa_primary');
-      setCurrentSecondaryColor('lsa_secondary');
+      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLADMIN);
-      setCurrentPrimaryColor('la_primary');
-      setCurrentSecondaryColor('la_secondary');
+      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLTUTOR);
-      setCurrentPrimaryColor('lt_primary');
-      setCurrentSecondaryColor('lt_secondary');
+      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
     } else {
       return;
     }
@@ -127,9 +127,9 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
                   history.push(panel.redirectTo);
                 }}
               >
-                <div className="flex justify-center items-center">
+                <div className="flex justify-evenly items-center">
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <panel.logo onClick={handleProfileOpen} className="w-5 mx-3 cursor-pointer" />
+                    <panel.logo onClick={handleProfileOpen} className="w-6 mx-3 cursor-pointer" />
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
                     <p className="text-left text-base">{t(panel.name + ' ' + loggedInUser.first_name)}</p>
