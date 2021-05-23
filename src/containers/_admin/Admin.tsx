@@ -11,7 +11,6 @@ import { SchoolList } from './modules/SchoolList';
 import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
 import { useStylesCommon } from '../../app/style';
-import { Header } from '../Header/Header';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {

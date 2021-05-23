@@ -1,0 +1,21 @@
+.status-approved {
+    text-align: center;
+    color: var(--status_approved_text);
+    background-color: var(--status_approved_bg);
+    padding: 0.15rem;
+    
+}
+.status-pending {
+    text-align: center;
+    color: var(--status_pending_text);
+    background-color: var(--status_pending_bg);
+    padding: 0.15rem;
+    
+}
+.status-discard {
+    text-align: center;
+    color: var(--status_discard_text);
+    background-color: var(--status_discard_bg);
+    padding: 0.15rem;
+    
+}

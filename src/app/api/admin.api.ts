@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Idevice, IMedicUser } from '../entity/model';
-import { IloginUser } from '../entity/constant';
+import { IMedicUser } from '../entity/model';
 import { getConfig, getRequest, postRequest } from '../api/http.helper';
 
 // ==================APIS ROUTING TO BACKEND=============================

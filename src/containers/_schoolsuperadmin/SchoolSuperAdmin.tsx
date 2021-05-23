@@ -9,8 +9,6 @@ import { TutorList } from './modules/TutorList';
 import { StudentList } from './modules/StudentList';
 import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
-import { Header } from '../Header/Header';
-import { SideBar } from '../../components/SideBar/SideBar';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const SchoolSuperAdmin: React.FC = () => {

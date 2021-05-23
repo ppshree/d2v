@@ -11,23 +11,34 @@
   --gsa_secondary: #D698A2;
   --ga_primary: #006466;
   --ga_secondary: #67BABC;
-  --gt_primary: #AF8704;
-  --gt_secondary: #D2BB70;
+  --gt_primary: #730B56;
+  --gt_secondary: #D093BF;
   --gs_primary: #0F3BB0;
   --gs_secondary: #88ACFF;
+  --gcm_primary: #AF8704;
+  --gcm_secondary: #D2BB70;
   /* Local USER Colors */
   --lsa_primary: #A45710;
   --lsa_secondary: #DCA36E;
   --la_primary: #0B7328;
   --la_secondary: #6FB282;
-  --lt_primary: #879C03;
-  --lt_secondary: #CDD698;
+  --lt_primary: #BE4772;
+  --lt_secondary: #ED92B3;
   --ls_primary: #771AB0;
   --ls_secondary: #C097F3;
+  --lcm_primary: #879C03;
+  --lcm_secondary: #CDD698;
   /* Text Colors */
   --text_dark: #333;
   --text_white: #fff;
   --text_grey: #c4c4c4;
+  /* status colors */
+  --status_approved_text: #2cdd00;
+  --status_approved_bg: #B6F8D0;
+  --status_discard_text: #E53030;
+  --status_discard_bg: #FFCFC8;
+  --status_pending_text: #ED7302;
+  --status_pending_bg: #F8EDB6;
 }
 body {
   margin: 0;

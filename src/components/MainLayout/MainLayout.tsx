@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { MIN_MAX_WIDTH, MODAL_POSITION } from '../../app/entity/constant';
+import { MIN_MAX_WIDTH } from '../../app/entity/constant';
 import { ProfileModalContent } from '../ProfileModalContent/ProfileModalContent';
 import { signOut } from '../../containers/LoginPage/LoginPageSlice';
 import { ModalLayout } from '../shared/ModalLayout';
 import { SideBar } from '../SideBar/SideBar';
 import './MainLayout.css';
-import { Header } from '../Header/Header';
 
 interface Iprops {
   children: React.ReactElement;
@@ -38,14 +37,13 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
   return (
     <>
       <SideBar openProfileModal={openProfileModal} handleLayoutWidth={handleLayoutWidth} />
-      <ModalLayout modalPosition={modalPosition} isOpen={isProfileOpen ? isProfileOpen : false} closeModal={closeModal}>
+      <ModalLayout modalPosition={modalPosition} isOpen={isProfileOpen} closeModal={closeModal}>
         <ProfileModalContent handleSignout={handleSignout} />
       </ModalLayout>
-      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20 pt-20 pr-14 bg-text_white`}>
-        <>
-          <Header w={layoutWidth} />
-          {children}
-        </>
+      <div
+        className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-14 xsm:pr-8 bg-text_white w-full overflow-x-hidden`}
+      >
+        <>{children}</>
       </div>
     </>
   );

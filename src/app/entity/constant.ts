@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { APPLICATION_URL } from '../router/applicationRoutes';
 import { ChartBarIcon } from '@heroicons/react/solid';
 import { UserIcon } from '@heroicons/react/solid';
@@ -7,6 +8,7 @@ import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
+import { ICreateContentManager } from './model';
 
 export const BASE_URL = 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/';
 export enum STAGE {
@@ -199,20 +201,19 @@ export interface ISideBar {
   name: string;
   logo: string;
 }
-export enum ROLES {
-  SUPERADMIN = 'SUPERADMIN',
-  ADMIN = 'ADMIN',
-  TUTOR = 'TUTOR',
-  STUDENT = 'STUDENT',
-  SCHOOLSUPERADMIN = 'SCHOOLSUPERADMIN',
-  SCHOOLADMIN = 'SCHOOLADMIN',
-  SCHOOLTUTOR = 'SCHOOLTUTOR',
-  SCHOOLSTUDENT = 'SCHOOLSTUDENT',
-  CONTENTMANAGER = 'CONTENTMANAGER',
-  SCHOOLCONTENTMANAGER = 'SCHOOLCONTENTMANAGER',
-}
 
-export type Role = keyof typeof ROLES;
+export const ROLES: any = {
+  1: 'SUPERADMIN',
+  2: 'ADMIN',
+  3: 'TUTOR',
+  4: 'STUDENT',
+  5: 'SCHOOLSUPERADMIN',
+  6: 'SCHOOLADMIN',
+  7: 'SCHOOLSUPERADMIN',
+  8: 'SCHOOLTUTOR',
+  9: 'CONTENTMANAGER',
+  10: 'SCHOOLCONTENTMANAGER',
+};
 
 export enum USER_STATUS {
   PENDING = 'pending', // (EMAIL CONFIRMATION NOT DONE YET)
@@ -232,5 +233,43 @@ export interface IloginUser {
 export interface IForgetloginUser {
   email: string;
   user_type: 1 | 2 | 3 | 4;
-  role: Role;
 }
+
+export const temp_content_managers: ICreateContentManager[] = [
+  {
+    id: '1',
+    first_name: 'Jeevan Jyoti',
+    last_name: 'Dash',
+    email: 'dashjeevanjyoti@gmail.com',
+    mobile_number: '8895475852',
+    school_code: 'Dps788',
+    status: 'pending',
+    role_id: '9',
+    standard: '1, 2, 3',
+    created_by: 'Samapika Nayak',
+  },
+  {
+    id: '2',
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'johnDoe@gmail.com',
+    mobile_number: '8895475852',
+    school_code: 'Dps788',
+    status: 'approved',
+    role_id: '9',
+    standard: '4, 5, 6',
+    created_by: 'Samapika Nayak',
+  },
+  {
+    id: '3',
+    first_name: 'Haresh',
+    last_name: 'Dey',
+    email: 'hareshDey@gmail.com',
+    mobile_number: '8895475852',
+    school_code: 'Dps788',
+    status: 'discarded',
+    role_id: '9',
+    standard: '7, 8, 9',
+    created_by: 'Samapika Nayak',
+  },
+];

@@ -1,42 +1,66 @@
 import React, { FC, useEffect, useState } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useSelector } from 'react-redux';
-import { USER_TYPE } from '../../app/entity/constant';
+import { USER_TYPE, COLORS } from '../../app/entity/constant';
+import { PlusIcon } from '@heroicons/react/solid';
+import { ChevronDownIcon } from '@heroicons/react/solid';
 import './Header.css';
-interface IProps {
-  w: string;
+
+interface Iprops {
+  title?: string;
+  handleModalOpen?: () => void;
 }
 
-export const Header: FC<IProps> = ({ w }) => {
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
+export const Header: FC<Iprops> = ({ title, handleModalOpen }) => {
+  const { loggedInUser, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
   const [currentPrimaryColor, setCurrentPrimaryColor] = useState<string>('');
-  const [userType, setuserType] = useState<string>('');
+  const [currentSecondaryColor, setCurrentSecondaryColor] = useState<string>('');
   useEffect(() => {
     if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      setCurrentPrimaryColor('gsa_primary');
-      setuserType('SUPERADMIN');
+      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
-      setCurrentPrimaryColor('ga_primary');
-      setuserType('ADMIN');
+      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
-      setCurrentPrimaryColor('gt_primary');
-      setuserType('TUTOR');
+      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
-      setCurrentPrimaryColor('lsa_primary');
-      setuserType('SCHOOLSUPERADMIN');
+      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
-      setCurrentPrimaryColor('la_primary');
-      setuserType('SCHOOLADMIN');
+      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
-      setCurrentPrimaryColor('lt_primary');
-      setuserType('SCHOOLTUTOR');
+      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
+      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
     } else {
       return;
     }
   }, [loggedInUser]);
   return (
-    <div className={`flex-3 fixed sm:inset-x-0 header-postion top-0 h-16`}>
-      <div className={`font-sans pt-3 ${w} text-${currentPrimaryColor} font-bold text-3xl`}>{userType}</div>
+    <div className={`w-full flex mt-1 sm:flex-row xsm:flex-col justify-center  items-center header-postion`}>
+      <h2 className={`flex-1 font-sans pt-3 font-normal text-${currentPrimaryColor} text-3xl`}>{activeMenu}</h2>
+      {title && handleModalOpen && (
+        <div className="flex sm:flex-row xsm:flex-col justify-end sm:h-16 xsm:h-28 items-center flex-1 sm:space-x-3 sm:mt-0 xsm:mt-2 text-text_white">
+          <button
+            className={`bg-${currentSecondaryColor} w-60 p-2 focus:outline-none rounded-md button flex justify-center items-center`}
+          >
+            <ChevronDownIcon className="w-5" />
+            Export into CSV
+          </button>
+          <button
+            onClick={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+              handleModalOpen();
+            }}
+            className={`bg-${currentPrimaryColor} w-60 p-2 focus:outline-none rounded-md button flex justify-center sm:mt-0 xsm:mt-3 items-center`}
+          >
+            <PlusIcon className="w-5" />
+            Add new {title}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
