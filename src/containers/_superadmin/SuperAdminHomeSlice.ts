@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICreateContentManager } from '../../app/entity/model';
+import { ICreateContentManager, ICreateAdmin } from '../../app/entity/model';
 import { createNewContentManager } from '../../app/service/superadmin.service';
 import { retrieveAllContentManagers } from '../../app/service/superadmin.service';
-import { temp_content_managers } from '../../app/entity/constant';
+import { temp_content_managers, temp_admin } from '../../app/entity/constant';
 interface HomePageState {
   contentManagerList: ICreateContentManager[];
+  adminList: ICreateAdmin[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
@@ -14,6 +15,7 @@ interface HomePageState {
 
 const initialState: HomePageState = {
   contentManagerList: temp_content_managers,
+  adminList: [],
   pageLoader: false,
   submitLoader: false,
   formError: '',

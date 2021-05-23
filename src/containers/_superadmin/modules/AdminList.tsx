@@ -7,9 +7,11 @@ import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
+import { UserTableList } from '../../../components/UserTableList/UserTableList';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
+  const { adminList } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
   const { loggedInUser: user } = useSelector((state: RootState) => state.LoginPageReducer);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState<string>('');
@@ -36,8 +38,8 @@ export const AdminList: FC = () => {
         <p>Admin Add Form to be render</p>
       </ModalLayout>
       {/* Filter Part not done yet */}
-      <div className="sm:mt-1 xsm:mt-1">
-        <h1>This is super admin admin-list page</h1>
+      <div className="sm:my-3 xsm:my-3">
+        <UserTableList userList={adminList} />
       </div>
     </>
   );

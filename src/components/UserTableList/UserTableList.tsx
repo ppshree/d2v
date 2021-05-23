@@ -58,6 +58,11 @@ export const UserTableList: React.FC<Iprops> = ({ userList }) => {
           </tr>
         </thead>
         <tbody>
+          {userList.length == 0 && (
+            <tr>
+              <td>No Items In The List</td>
+            </tr>
+          )}
           {userList.length > 0 &&
             userList.map((user: any) => {
               return (

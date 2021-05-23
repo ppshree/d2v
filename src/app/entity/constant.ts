@@ -8,7 +8,7 @@ import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
-import { ICreateContentManager } from './model';
+import { ICreateAdmin, ICreateContentManager } from './model';
 
 export const BASE_URL = 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/';
 export enum STAGE {
@@ -270,6 +270,31 @@ export const temp_content_managers: ICreateContentManager[] = [
     status: 'discarded',
     role_id: '9',
     standard: '7, 8, 9',
+    created_by: 'Samapika Nayak',
+  },
+];
+
+export const temp_admin: ICreateAdmin[] = [
+  {
+    id: '1',
+    first_name: 'Jeevan Jyoti',
+    last_name: 'Dash',
+    email: 'dashjeevanjyoti@gmail.com',
+    mobile_number: '8895475852',
+    school_code: 'Dps788',
+    status: 'pending',
+    role_id: '3',
+    created_by: 'Samapika Nayak',
+  },
+  {
+    id: '2',
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'johnDoe@gmail.com',
+    mobile_number: '8895475852',
+    school_code: 'Dps788',
+    status: 'approved',
+    role_id: '2',
     created_by: 'Samapika Nayak',
   },
 ];
