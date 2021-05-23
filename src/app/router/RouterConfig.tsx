@@ -40,6 +40,10 @@ export const RouterConfig: React.FC = () => {
         setRedirectToPath(APPLICATION_URL.SCHOOLTUTOR);
       } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSTUDENT) {
         setRedirectToPath(APPLICATION_URL.SCHOOLSTUDENT);
+      } else if (loggedInUser.role_id == USER_TYPE.CONTENTMANAGER) {
+        setRedirectToPath(APPLICATION_URL.CONTENTMANAGER);
+      } else if (loggedInUser.role_id == USER_TYPE.SCHOOLCONTENTMANAGER) {
+        setRedirectToPath(APPLICATION_URL.SCHOOLCONTENTMANAGER);
       } else {
         setRedirectToPath(APPLICATION_URL.LOGIN);
       }

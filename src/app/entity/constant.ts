@@ -2,6 +2,7 @@ import { APPLICATION_URL } from '../router/applicationRoutes';
 import { ChartBarIcon } from '@heroicons/react/solid';
 import { UserIcon } from '@heroicons/react/solid';
 import { UserGroupIcon } from '@heroicons/react/solid';
+import { UserGroupIcon as UserGroupOutlineIcon } from '@heroicons/react/outline';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
@@ -65,6 +66,8 @@ export enum USER_TYPE {
   SCHOOLADMIN = 6,
   SCHOOLTUTOR = 7,
   SCHOOLSTUDENT = 8,
+  CONTENTMANAGER = 9,
+  SCHOOLCONTENTMANAGER = 10,
 }
 
 export const LANGUAGES = [
@@ -76,6 +79,12 @@ export const SIDEBAR_PANELS = {
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
     { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.SUPERADMIN_MASTER, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.SUPERADMIN_ADMIN_LIST, isTopItem: true },
+    {
+      name: 'Content Manger List',
+      logo: UserGroupOutlineIcon,
+      redirectTo: APPLICATION_URL.SUPERADMIN_CONTENTMANAGER_LIST,
+      isTopItem: true,
+    },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
     { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SUPERADMIN_SCHOOL_LIST, isTopItem: true },
     {
@@ -94,6 +103,12 @@ export const SIDEBAR_PANELS = {
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
     { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.ADMIN_MASTER, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.ADMIN_ADMIN_LIST, isTopItem: true },
+    {
+      name: 'Content Manger List',
+      logo: UserGroupOutlineIcon,
+      redirectTo: APPLICATION_URL.ADMIN_CONTENTMANAGER_LIST,
+      isTopItem: true,
+    },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
     { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.ADMIN_SCHOOL_LIST, isTopItem: true },
     {
@@ -193,15 +208,17 @@ export enum ROLES {
   SCHOOLADMIN = 'SCHOOLADMIN',
   SCHOOLTUTOR = 'SCHOOLTUTOR',
   SCHOOLSTUDENT = 'SCHOOLSTUDENT',
+  CONTENTMANAGER = 'CONTENTMANAGER',
+  SCHOOLCONTENTMANAGER = 'SCHOOLCONTENTMANAGER',
 }
 
 export type Role = keyof typeof ROLES;
 
 export enum USER_STATUS {
-  PENDING = 1, // (EMAIL CONFIRMATION NOT DONE YET)
-  ONGOING = 2,
-  COMPLETED = 3,
-  DISCARDED = 4,
+  PENDING = 'pending', // (EMAIL CONFIRMATION NOT DONE YET)
+  ONGOING = 'ongoing',
+  APPROVED = 'approved',
+  DISCARDED = 'discarded',
 }
 
 export enum CONTENT_TYPE {

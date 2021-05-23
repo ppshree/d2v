@@ -1,4 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export interface IContentManager {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+  role_id: string;
+  school_code: string;
+  school_id?: string | null;
+  created_by: string;
+  status: string;
+}
+
 export interface IMedicUser {
   id?: string;
   id_auto?: number;
