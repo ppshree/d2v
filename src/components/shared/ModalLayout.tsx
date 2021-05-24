@@ -1,15 +1,18 @@
 import React from 'react';
 import { XCircleIcon } from '@heroicons/react/solid';
 import { MODAL_POSITION } from '../../app/entity/constant';
+import { useColorUserType } from '../../app/heplers/useColorUserType';
 
 interface Iprops {
   children: React.ReactElement;
   isOpen: boolean;
   closeModal: () => void;
   modalPosition: string;
+  title?: string;
 }
 
-export const ModalLayout: React.FC<Iprops> = ({ children, isOpen, closeModal, modalPosition }) => {
+export const ModalLayout: React.FC<Iprops> = ({ children, isOpen, closeModal, modalPosition, title }) => {
+  const { currentPrimaryColor } = useColorUserType();
   return (
     <>
       {isOpen && (
@@ -41,14 +44,23 @@ export const ModalLayout: React.FC<Iprops> = ({ children, isOpen, closeModal, mo
               }
             >
               <div className="bg-white">
-                <div className="flex justify-end items-center mx-1 my-1">
-                  <XCircleIcon
-                    onClick={(e: React.SyntheticEvent) => {
-                      e.preventDefault();
-                      closeModal();
-                    }}
-                    className="cursor-pointer w-6"
-                  />
+                <div
+                  className={
+                    title && title !== 'alert'
+                      ? `flex justify-end items-center bg-${currentPrimaryColor} rounded-md h-12 text-text_white px-5`
+                      : 'flex justify-end items-center mx-1 my-1'
+                  }
+                >
+                  {title && title !== 'alert' && <p className="mx-auto font-semibold">{title}</p>}
+                  {title !== 'alert' && (
+                    <XCircleIcon
+                      onClick={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        closeModal();
+                      }}
+                      className="cursor-pointer w-6"
+                    />
+                  )}
                 </div>
                 <div className="bg-white px-2 pt-5 pb-4 sm:p-5 sm:pb-4">{children}</div>
               </div>

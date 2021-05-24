@@ -23,6 +23,7 @@ export interface ICreateContentManager {
   school_id?: string | null;
   created_by?: string;
   status: string;
+  isEditFlag?: boolean;
 }
 
 // To be remove later

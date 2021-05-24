@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import { USER_TYPE } from '../../app/entity/constant';
 import './LoginForm.css';
+import { AlertBar } from '../shared/AlertBar';
 //import backArrow from '../../asset/back.svg';
 interface LoginFormProps {
   //errMessage: null | string;
@@ -31,7 +32,7 @@ export const LoginForm: FC<LoginFormProps> = ({
       <div className="popUp-ineer-container">
         <div className="mb-5">{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
         <form>
-          <span className="card-error-title">{errMessage ? errMessage : ''}</span>
+          {errMessage && <AlertBar message={errMessage} />}
           <input
             placeholder={t('Email')}
             className="card-input pii"

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
-import { USER_TYPE, COLORS } from '../../app/entity/constant';
 import { UserCircleIcon } from '@heroicons/react/solid';
 import { AnnotationIcon } from '@heroicons/react/solid';
 import { BellIcon } from '@heroicons/react/solid';
 import { RootState } from '../../app/rootReducer';
+import { useColorUserType } from '../../app/heplers/useColorUserType';
 
 interface Iprops {
   handleSignout: () => void;
@@ -12,34 +12,11 @@ interface Iprops {
 
 export const ProfileModalContent: React.FC<Iprops> = ({ handleSignout }) => {
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const [currentPrimaryColor, setCurrentPrimaryColor] = useState<string>('');
-  const [currentSecondaryColor, setCurrentSecondaryColor] = useState<string>('');
 
-  useEffect(() => {
-    if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
-      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
-      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
-      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
-      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
-      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
-    } else {
-      return;
-    }
-  }, [loggedInUser]);
+  const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
   return (
+    /* wrapper inside modal layout */
     <div className="flex flex-col justify-evenly items-center space-y-2">
       <UserCircleIcon className={`w-8 text-${currentPrimaryColor}`} />
       <div className="text-center">
@@ -68,5 +45,6 @@ export const ProfileModalContent: React.FC<Iprops> = ({ handleSignout }) => {
         Change Password
       </button>
     </div>
+    /* wrapper inside modal layout */
   );
 };

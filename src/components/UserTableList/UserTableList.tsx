@@ -1,49 +1,61 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { COLORS, USER_TYPE, ROLES } from '../../app/entity/constant';
+import { MODAL_POSITION, ROLES } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import { CustomeBadge } from '../../components/CustomeBadge/CustomeBadge';
 import './UserTableList.css';
+import { updateSelectedContentManager } from '../../containers/_superadmin/SuperAdminHomeSlice';
+import { useColorUserType } from '../../app/heplers/useColorUserType';
+import { ModalLayout } from '../shared/ModalLayout';
+import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
+  title: string;
   userList: any[];
 }
-export const UserTableList: React.FC<Iprops> = ({ userList }) => {
-  const [currentPrimaryColor, setCurrentPrimaryColor] = useState<string>('');
-  const [currentSecondaryColor, setCurrentSecondaryColor] = useState<string>('');
-
+export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
+  const dispatch = useDispatch();
+  const [isDelete, setIsDelete] = useState<boolean>(false);
+  const [userForDelete, setUserForDelete] = useState<string>('');
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
+  const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  useEffect(() => {
-    if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
-      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
-      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
-      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
-      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
-    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
-      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
-    } else {
-      return;
+  const editUserDetails = (user: any) => {
+    const userObj = { ...user };
+    userObj.isEditFlag = true;
+    if (title === 'Content Manager') {
+      dispatch(updateSelectedContentManager(userObj));
     }
-  }, [loggedInUser]);
+  };
+
+  const deleteUserDetails = (userId: string) => {
+    setIsDelete(true);
+    setUserForDelete(userId);
+  };
+
+  const alertResponse = (isConfirm: boolean) => {
+    if (isConfirm) {
+      if (title === 'Content Manager') {
+        console.log('Procedd for delete', userForDelete);
+        closeModal();
+      }
+    } else {
+      closeModal();
+    }
+  };
+
+  const closeModal = () => {
+    setUserForDelete('');
+    setIsDelete(false);
+  };
 
   return (
-    <>
-      <table className="auto w-full bordered">
+    <div className="overflow-x-auto bordered">
+      <table className="auto w-full">
         <thead>
           <tr className={`bg-${currentPrimaryColor} text-text_white`}>
             <th className="font-normal">Full Name</th>
@@ -73,12 +85,24 @@ export const UserTableList: React.FC<Iprops> = ({ userList }) => {
                       <CustomeBadge statusType={user.status} />
                     </td>
                     <td>
-                      <button className="focus:outline-none">
+                      <button
+                        onClick={(e: React.SyntheticEvent) => {
+                          e.preventDefault();
+                          editUserDetails(user);
+                        }}
+                        className="focus:outline-none"
+                      >
                         <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
                       </button>
                     </td>
                     <td>
-                      <button className="focus:outline-none">
+                      <button
+                        onClick={(e: React.SyntheticEvent) => {
+                          e.preventDefault();
+                          deleteUserDetails(user.id);
+                        }}
+                        className="focus:outline-none"
+                      >
                         <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
                       </button>
                     </td>
@@ -88,6 +112,9 @@ export const UserTableList: React.FC<Iprops> = ({ userList }) => {
             })}
         </tbody>
       </table>
-    </>
+      <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
+        <ConfirmAlert confirmResponse={alertResponse} />
+      </ModalLayout>
+    </div>
   );
 };
