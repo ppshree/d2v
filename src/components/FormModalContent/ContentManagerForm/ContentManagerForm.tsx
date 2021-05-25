@@ -42,10 +42,6 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
     }
   }, [currentContentManager]);
 
-  const handleClosePopup = () => {
-    handleCloseModal();
-  };
-
   return (
     /* wrapper inside modal layout */
     <form>
@@ -115,6 +111,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
             className="form-input px-4 py-1 rounded-lg"
           ></input>
         </div>
+        {/* Standard Lists */}
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="standard">
             Standard
@@ -138,6 +135,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
             })}
           </select>
         </div>
+        {/* User Type Lists */}
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="role_id">
             User Type
@@ -157,6 +155,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
           </select>
         </div>
       </div>
+      {/* School Lists */}
       <div className="grid grid-cols-1 gap-2">
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="school_code">
@@ -176,6 +175,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
             <option value="OPS">ODM Public School</option>
           </select>
         </div>
+        {/* Status Type */}
         <div className="flex flex-col h-25 justify-evenly space-y-2">
           <label className="block text-gray-500 font-bold">Status Type</label>
           {[USER_STATUS.PENDING, USER_STATUS.APPROVED, USER_STATUS.DISCARDED].map((type: string, idx: number) => {
@@ -210,7 +210,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal }) => {
           <button
             onClick={(e: React.SyntheticEvent) => {
               e.preventDefault();
-              handleClosePopup();
+              handleCloseModal();
             }}
             className={`px-2 py-2 rounded-lg focus:outline-none bg-${currentSecondaryColor} w-full button`}
           >

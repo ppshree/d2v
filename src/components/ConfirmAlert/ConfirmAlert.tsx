@@ -6,7 +6,6 @@ interface Iprops {
 }
 export const ConfirmAlert: React.FC<Iprops> = ({ confirmResponse }) => {
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
-
   return (
     /* wrapper inside modal layout */
     <div className="flex flex-col space-y-2">

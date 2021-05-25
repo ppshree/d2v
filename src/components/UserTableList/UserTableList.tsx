@@ -112,6 +112,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
             })}
         </tbody>
       </table>
+      {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
         <ConfirmAlert confirmResponse={alertResponse} />
       </ModalLayout>

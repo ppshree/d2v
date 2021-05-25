@@ -10,6 +10,7 @@ import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { UserTableList } from '../../../components/UserTableList/UserTableList';
 import { ContentManagerForm } from '../../../components/FormModalContent/ContentManagerForm/ContentManagerForm';
 import { updateSelectedContentManager, updateFormError } from '../SuperAdminHomeSlice';
+import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,8 @@ export const ContentManagerList: FC = () => {
           <ContentManagerForm handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter part not done yet */}
+      {/* Filter Header Part */}
+      <FilterHeader filterFor="Content Manager" />
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
         <UserTableList title="Content Manager" userList={contentManagerList} />

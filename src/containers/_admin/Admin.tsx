@@ -10,7 +10,6 @@ import { TutorList } from './modules/TutorList';
 import { SchoolList } from './modules/SchoolList';
 import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
-import { useStylesCommon } from '../../app/style';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {
@@ -18,14 +17,13 @@ export const Admin: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-  const classes = useStylesCommon();
 
   useEffect(() => {
     //make api calls
   }, []);
 
   return (
-    <div className={classes.root} style={{ height: '100%' }}>
+    <div className="h-full flex">
       <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.ADMIN_DASHBOARD} />

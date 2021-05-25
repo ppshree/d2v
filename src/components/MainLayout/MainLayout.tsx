@@ -41,7 +41,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
         <ProfileModalContent handleSignout={handleSignout} />
       </ModalLayout>
       <div
-        className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-14 xsm:pr-8 bg-text_white w-full overflow-x-hidden`}
+        className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 bg-text_white w-full overflow-x-hidden`}
       >
         <>{children}</>
       </div>

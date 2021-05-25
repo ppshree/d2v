@@ -10,12 +10,6 @@ import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 import { ICreateContentManager } from './model';
 
-export const BASE_URL = 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/';
-export enum STAGE {
-  DEV = 'Dev',
-  PROD = 'Prod',
-}
-
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',
   GSA_SECONDARY = 'gsa_secondary',
@@ -53,14 +47,6 @@ export enum MIN_MAX_WIDTH {
 
 export enum MODAL_POSITION {
   DEFAULT = 'inset-0',
-}
-
-export interface ItempUser {
-  //PATCH DELETE FOR PRODUCTION
-  status: number;
-  user_type: number;
-  email: string;
-  name: string;
 }
 
 export enum USER_TYPE {
@@ -231,10 +217,6 @@ export const SIDEBAR_PANELS = {
     },
   ],
 };
-export interface ISideBar {
-  name: string;
-  logo: string;
-}
 
 export const ROLES: any = {
   1: 'SUPERADMIN',
@@ -263,10 +245,6 @@ export enum CONTENT_TYPE {
 export interface IloginUser {
   email: string;
   password: string;
-}
-export interface IForgetloginUser {
-  email: string;
-  user_type: 1 | 2 | 3 | 4;
 }
 
 export const temp_content_managers: ICreateContentManager[] = [

@@ -24,6 +24,16 @@ export const getConfig = (encryptString?: string): any => {
   }
 };
 
+// export const getConfig = (encryptString?: string): any => {
+//   const TOKEN = localStorage.getItem('sessionToken');
+//   const AUTH_TOKEN = encryptString !== undefined ? 'Authenticate ' + encryptString : 'Bearer ' + TOKEN;
+//   return {
+//     headers: {
+//       Authorization: AUTH_TOKEN,
+//     },
+//   };
+// };
+
 //======================GET AND POST REQUESTS ARE FIRED FROM HERE==================
 export async function postRequest(url: string, param: AxiosRequestConfig, config?: any) {
   let responseBody: any = {};
