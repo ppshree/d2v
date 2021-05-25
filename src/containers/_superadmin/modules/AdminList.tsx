@@ -8,6 +8,7 @@ import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { UserTableList } from '../../../components/UserTableList/UserTableList';
+import { AdminModalContent } from '../../../components/AdminModalContent/AdminModalContent';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export const AdminList: FC = () => {
       <Header handleModalOpen={openModal} title={'Admin'} />
       {/* Modal Part */}
       <ModalLayout modalPosition={modalPosition} isOpen={isModalOpen} closeModal={closeModal}>
-        <p>Admin Add Form to be render</p>
+        <AdminModalContent closeModal={closeModal} />
       </ModalLayout>
       {/* Filter Part not done yet */}
       <div className="sm:my-3 xsm:my-3">
