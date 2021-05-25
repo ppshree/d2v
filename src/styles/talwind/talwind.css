@@ -43,7 +43,7 @@
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
-  background-color: var(--text_gray)
+  background: #EBEDEF;
 }
 
 .hand {

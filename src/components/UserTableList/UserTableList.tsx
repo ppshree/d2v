@@ -1,34 +1,34 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { MODAL_POSITION, ROLES } from '../../app/entity/constant';
+import { MODAL_POSITION, ROLES, USER_TYPE } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import { CustomeBadge } from '../../components/CustomeBadge/CustomeBadge';
 import './UserTableList.css';
-import { updateSelectedContentManager } from '../../containers/_superadmin/SuperAdminHomeSlice';
+import { updateSelectedContentManager as updateSelectedContentManagerAsSuperadmin } from '../../containers/_superadmin/SuperAdminHomeSlice';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
-  title: string;
+  currentUserType: number;
   userList: any[];
 }
-export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
+export const UserTableList: React.FC<Iprops> = ({ userList, currentUserType }) => {
   const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [userForDelete, setUserForDelete] = useState<string>('');
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
   const editUserDetails = (user: any) => {
     const userObj = { ...user };
     userObj.isEditFlag = true;
-    if (title === 'Content Manager') {
-      dispatch(updateSelectedContentManager(userObj));
+    if (currentUserType === USER_TYPE.SUPERADMIN) {
+      dispatch(updateSelectedContentManagerAsSuperadmin(userObj));
     }
   };
 
@@ -39,10 +39,26 @@ export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      if (title === 'Content Manager') {
+      if (currentUserType === USER_TYPE.SUPERADMIN) {
         console.log('Procedd for delete', userForDelete);
-        closeModal();
+      } else if (currentUserType === USER_TYPE.ADMIN) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.TUTOR) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.CONTENTMANAGER) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.SCHOOLSUPERADMIN) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.SCHOOLADMIN) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.SCHOOLTUTOR) {
+        console.log('Procedd for delete', userForDelete);
+      } else if (currentUserType === USER_TYPE.SCHOOLCONTENTMANAGER) {
+        console.log('Procedd for delete', userForDelete);
+      } else {
+        return;
       }
+      closeModal();
     } else {
       closeModal();
     }
@@ -69,7 +85,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
             <th className="font-normal"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-text_white">
           {userList.length > 0 &&
             userList.map((user: any) => {
               return (
