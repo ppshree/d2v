@@ -7,7 +7,6 @@ import { Dashboard } from './modules/Dashboard';
 import { AdminList } from './modules/AdminList';
 import { TutorList } from './modules/TutorList';
 import { StudentList } from './modules/StudentList';
-import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
@@ -16,7 +15,6 @@ export const SchoolSuperAdmin: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-  const classes = useStylesCommon();
 
   useEffect(() => {
     //make api calls

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-import { IrequestReadings } from '../entity/model';
 import { getConfig, getRequest, postRequest } from '../api/http.helper';
 import { IloginUser } from '../entity/constant';
 

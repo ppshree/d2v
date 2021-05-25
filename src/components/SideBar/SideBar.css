@@ -9,7 +9,7 @@
 }
 
 .sidebar-shadow {
-  box-shadow: 5px 5px 10px var(--text_dark) !important;
+  box-shadow: 8px 8px 4px rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Landscape */

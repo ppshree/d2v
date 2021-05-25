@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICreateContentManager, ICreateAdmin } from '../../app/entity/model';
 import { createNewContentManager } from '../../app/service/superadmin.service';
 import { retrieveAllContentManagers } from '../../app/service/superadmin.service';
-import { temp_content_managers, temp_admin } from '../../app/entity/constant';
+import { temp_content_managers, USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
   contentManagerList: ICreateContentManager[];
   adminList: ICreateAdmin[];
@@ -71,7 +71,17 @@ export const HomePageSlice = createSlice({
         state.contentManagerList.push(action.payload.data);
       }
       state.formError = '';
-      state.selectedContentManager = null;
+      state.selectedContentManager = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        mobile_number: '',
+        role_id: '',
+        standard: '',
+        school_code: '',
+        status: USER_STATUS.PENDING,
+        created_by: '',
+      };
       state.submitLoader = false;
     },
     [createNewContentManager.rejected.toString()]: (state, action: any) => {

@@ -2,7 +2,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { USER_TYPE, SIDEBAR_PANELS, MIN_MAX_WIDTH, COLORS } from '../../app/entity/constant';
+import { USER_TYPE, SIDEBAR_PANELS, MIN_MAX_WIDTH } from '../../app/entity/constant';
 import './SideBar.css';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +10,7 @@ import { updateActivePanel } from '../../containers/LoginPage/LoginPageSlice';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
+import { useColorUserType } from '../../app/heplers/useColorUserType';
 
 interface Iprops {
   handleLayoutWidth: (size: string) => void;
@@ -19,39 +20,30 @@ interface Iprops {
 export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => {
   const { loggedInUser, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
   const [listOfPanels, setListOfPanels] = useState<any[]>([]);
-  const [currentPrimaryColor, setCurrentPrimaryColor] = useState<string>('');
-  const [currentSecondaryColor, setCurrentSecondaryColor] = useState<string>('');
   const [sidebarWidth, setSidebarWidth] = useState<string>(MIN_MAX_WIDTH.MIN_SIDEBAR);
 
   const dispatch = useDispatch();
 
   const history = useHistory();
+  const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
   useEffect(() => {
     if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SUPERADMIN);
-      setCurrentPrimaryColor(COLORS.GSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.ADMIN) {
       setListOfPanels(SIDEBAR_PANELS.ADMIN);
-      setCurrentPrimaryColor(COLORS.GA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.TUTOR) {
       setListOfPanels(SIDEBAR_PANELS.TUTOR);
-      setCurrentPrimaryColor(COLORS.GT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.GT_SECONDARY);
+    } else if (loggedInUser.role_id == USER_TYPE.CONTENTMANAGER) {
+      setListOfPanels(SIDEBAR_PANELS.CONTENTMANAGER);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLSUPERADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLSUPERADMIN);
-      setCurrentPrimaryColor(COLORS.LSA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LSA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLADMIN) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLADMIN);
-      setCurrentPrimaryColor(COLORS.LA_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LA_SECONDARY);
     } else if (loggedInUser.role_id == USER_TYPE.SCHOOLTUTOR) {
       setListOfPanels(SIDEBAR_PANELS.SCHOOLTUTOR);
-      setCurrentPrimaryColor(COLORS.LT_PRIMARY);
-      setCurrentSecondaryColor(COLORS.LT_SECONDARY);
+    } else if (loggedInUser.role_id == USER_TYPE.SCHOOLCONTENTMANAGER) {
+      setListOfPanels(SIDEBAR_PANELS.SCHOOLCONTENTMANAGER);
     } else {
       return;
     }
@@ -127,24 +119,34 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
                   history.push(panel.redirectTo);
                 }}
               >
-                <div className="flex justify-evenly items-center">
+                <div className="flex justify-start items-center">
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <panel.logo onClick={handleProfileOpen} className="w-6 mx-3 cursor-pointer" />
+                    <panel.logo onClick={handleProfileOpen} className="w-6 mx-auto cursor-pointer" />
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <p className="text-left text-base">{t(panel.name + ' ' + loggedInUser.first_name)}</p>
+                    <p className="text-left text-base mx-auto">{t(panel.name + ' ' + loggedInUser.first_name)}</p>
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <ChevronLeftIcon
-                      onClick={() => handleSidebarWidth(MIN_MAX_WIDTH.MIN_SIDEBAR, MIN_MAX_WIDTH.MIN_LAYOUT)}
-                      className="w-8 ml-16 cursor-pointer"
-                    />
+                    <button
+                      className=" mx-auto cursor-pointer"
+                      onClick={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        handleSidebarWidth(MIN_MAX_WIDTH.MIN_SIDEBAR, MIN_MAX_WIDTH.MIN_LAYOUT);
+                      }}
+                    >
+                      <ChevronLeftIcon className="w-8" />
+                    </button>
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MIN_SIDEBAR && (
-                    <ChevronRightIcon
-                      onClick={() => handleSidebarWidth(MIN_MAX_WIDTH.MAX_SIDEBAR, MIN_MAX_WIDTH.MAX_LAYOUT)}
-                      className="w-8 m-auto cursor-pointer"
-                    />
+                    <button
+                      className=" m-auto cursor-pointer"
+                      onClick={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        handleSidebarWidth(MIN_MAX_WIDTH.MAX_SIDEBAR, MIN_MAX_WIDTH.MAX_LAYOUT);
+                      }}
+                    >
+                      <ChevronRightIcon className="w-8" />
+                    </button>
                   )}
                 </div>
               </li>

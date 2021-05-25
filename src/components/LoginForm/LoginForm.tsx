@@ -2,18 +2,15 @@ import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
-import { USER_TYPE } from '../../app/entity/constant';
 import './LoginForm.css';
+import { AlertBar } from '../shared/AlertBar';
 //import backArrow from '../../asset/back.svg';
 interface LoginFormProps {
   //errMessage: null | string;
   setUserEmail: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
   setPassword: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
   login: (ev: React.MouseEvent<HTMLButtonElement>) => void;
-  forgotKey?: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   loginIsLoading: boolean;
-  selectUserType?: React.Dispatch<React.SetStateAction<USER_TYPE | undefined>>;
-  userType?: USER_TYPE | undefined;
 }
 
 export const LoginForm: FC<LoginFormProps> = ({
@@ -31,7 +28,7 @@ export const LoginForm: FC<LoginFormProps> = ({
       <div className="popUp-ineer-container">
         <div className="mb-5">{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
         <form>
-          <span className="card-error-title">{errMessage ? errMessage : ''}</span>
+          {errMessage && <AlertBar message={errMessage} />}
           <input
             placeholder={t('Email')}
             className="card-input pii"

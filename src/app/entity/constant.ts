@@ -10,17 +10,13 @@ import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 import { ICreateAdmin, ICreateContentManager } from './model';
 
-export const BASE_URL = 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/';
-export enum STAGE {
-  DEV = 'Dev',
-  PROD = 'Prod',
-}
-
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',
   GSA_SECONDARY = 'gsa_secondary',
   GA_PRIMARY = 'ga_primary',
   GA_SECONDARY = 'ga_secondary',
+  GCM_PRIMARY = 'gcm_primary',
+  GCM_SECONDARY = 'gcm_secondary',
   GT_PRIMARY = 'gt_primary',
   GT_SECONDARY = 'gt_secondary',
   LSA_PRIMARY = 'lsa_primary',
@@ -29,6 +25,8 @@ export enum COLORS {
   LA_SECONDARY = 'la_secondary',
   LT_PRIMARY = 'lt_primary',
   LT_SECONDARY = 'lt_secondary',
+  LCM_PRIMARY = 'lcm_primary',
+  LCM_SECONDARY = 'lcm_secondary',
 }
 
 export enum RESPONSE {
@@ -49,14 +47,6 @@ export enum MIN_MAX_WIDTH {
 
 export enum MODAL_POSITION {
   DEFAULT = 'inset-0',
-}
-
-export interface ItempUser {
-  //PATCH DELETE FOR PRODUCTION
-  status: number;
-  user_type: number;
-  email: string;
-  name: string;
 }
 
 export enum USER_TYPE {
@@ -140,6 +130,21 @@ export const SIDEBAR_PANELS = {
       isTopItem: false,
     },
   ],
+  CONTENTMANAGER: [
+    { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: UserAddIcon,
+      redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
+      isTopItem: true,
+    },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
+  ],
   SCHOOLSUPERADMIN: [
     {
       name: 'Dashboard',
@@ -196,11 +201,22 @@ export const SIDEBAR_PANELS = {
       isTopItem: false,
     },
   ],
+  SCHOOLCONTENTMANAGER: [
+    { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    {
+      name: 'Student List',
+      logo: UserAddIcon,
+      redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
+      isTopItem: true,
+    },
+    {
+      name: 'Hi',
+      logo: UserCircleIcon,
+      isTopItem: false,
+    },
+  ],
 };
-export interface ISideBar {
-  name: string;
-  logo: string;
-}
 
 export const ROLES: any = {
   1: 'SUPERADMIN',
@@ -230,10 +246,6 @@ export interface IloginUser {
   email: string;
   password: string;
 }
-export interface IForgetloginUser {
-  email: string;
-  user_type: 1 | 2 | 3 | 4;
-}
 
 export const temp_content_managers: ICreateContentManager[] = [
   {
@@ -242,10 +254,10 @@ export const temp_content_managers: ICreateContentManager[] = [
     last_name: 'Dash',
     email: 'dashjeevanjyoti@gmail.com',
     mobile_number: '8895475852',
-    school_code: 'Dps788',
+    school_code: 'Dps',
     status: 'pending',
     role_id: '9',
-    standard: '1, 2, 3',
+    standard: '1',
     created_by: 'Samapika Nayak',
   },
   {
@@ -254,10 +266,10 @@ export const temp_content_managers: ICreateContentManager[] = [
     last_name: 'Doe',
     email: 'johnDoe@gmail.com',
     mobile_number: '8895475852',
-    school_code: 'Dps788',
+    school_code: 'Dps',
     status: 'approved',
     role_id: '9',
-    standard: '4, 5, 6',
+    standard: '2',
     created_by: 'Samapika Nayak',
   },
   {
@@ -266,10 +278,10 @@ export const temp_content_managers: ICreateContentManager[] = [
     last_name: 'Dey',
     email: 'hareshDey@gmail.com',
     mobile_number: '8895475852',
-    school_code: 'Dps788',
+    school_code: 'OPS',
     status: 'discarded',
     role_id: '9',
-    standard: '7, 8, 9',
+    standard: '3',
     created_by: 'Samapika Nayak',
   },
 ];

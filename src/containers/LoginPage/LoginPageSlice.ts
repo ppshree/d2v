@@ -51,6 +51,7 @@ export const LoginPageSlice = createSlice({
     },
     signOut: (state) => {
       localStorage.clear();
+      state.activePanel = '';
       state.loggedInUser = {};
       state.token = null;
       state.isAuthCompleted = false;

@@ -11,7 +11,6 @@ import { ContentManagerList } from './modules/ContentManagerList';
 import { SchoolList } from './modules/SchoolList';
 import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';
-import { useStylesCommon } from '../../app/style';
 //import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
@@ -20,7 +19,6 @@ export const SuperAdmin: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-  const classes = useStylesCommon();
 
   useEffect(() => {
     //make api calls

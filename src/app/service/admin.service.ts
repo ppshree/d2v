@@ -1,13 +1,12 @@
-import { getAllMedicAddedByAdmin, addNewMedic } from '../api/admin.api';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IMedicUser, Idevice } from '../entity/model';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
 export const retrieveAllMedics = createAsyncThunk('admin/getAllMedic', async () => {
-  return await getAllMedicAddedByAdmin();
+  return;
 });
-export const createNewMedicUser = createAsyncThunk('admin/addOrUpdateMedic', async (obj: IMedicUser) => {
-  return await addNewMedic(obj);
+export const createNewMedicUser = createAsyncThunk('admin/addOrUpdateMedic', async (obj: any) => {
+  return;
 });
 
 // ==================APIS ROUTING TO AWS-BACKEND=============================
