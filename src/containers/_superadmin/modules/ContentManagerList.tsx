@@ -5,12 +5,13 @@ import '../SuperAdmin.css';
 import { RootState } from '../../../app/rootReducer';
 //import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
-import { MODAL_POSITION, USER_STATUS, USER_TYPE } from '../../../app/entity/constant';
+import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { UserTableList } from '../../../components/UserTableList/UserTableList';
 import { ContentManagerForm } from '../../../components/FormModalContent/ContentManagerForm/ContentManagerForm';
 import { updateSelectedContentManager, updateFormError } from '../SuperAdminHomeSlice';
 import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
+import { ICreateContentManager } from '../../../app/entity/model';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,14 @@ export const ContentManagerList: FC = () => {
         created_by: loggedInUser.email,
       }),
     );
+  };
+
+  const updateContentManagerAction = (userObj: ICreateContentManager) => {
+    dispatch(updateSelectedContentManager(userObj));
+  };
+
+  const deleteContentManagerAction = (userId: string) => {
+    console.log('Proceed for delete content manager', userId);
   };
 
   const closeModal = () => {
@@ -75,7 +84,11 @@ export const ContentManagerList: FC = () => {
       <FilterHeader filterFor="Content Manager" />
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
-        <UserTableList currentUserType={USER_TYPE.SUPERADMIN} userList={contentManagerList} />
+        <UserTableList
+          updateActionUser={updateContentManagerAction}
+          deleteActionUser={deleteContentManagerAction}
+          userList={contentManagerList}
+        />
       </div>
     </>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
@@ -9,16 +8,16 @@ import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import { CustomeBadge } from '../../components/CustomeBadge/CustomeBadge';
 import './UserTableList.css';
-import { updateSelectedContentManager as updateSelectedContentManagerAsSuperadmin } from '../../containers/_superadmin/SuperAdminHomeSlice';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
-  currentUserType: number;
   userList: any[];
+  updateActionUser: (user: any) => void;
+  deleteActionUser: (userId: string) => void;
 }
-export const UserTableList: React.FC<Iprops> = ({ userList, currentUserType }) => {
+export const UserTableList: React.FC<Iprops> = ({ userList, updateActionUser, deleteActionUser }) => {
   const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [userForDelete, setUserForDelete] = useState<string>('');
@@ -27,9 +26,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, currentUserType }) =
   const editUserDetails = (user: any) => {
     const userObj = { ...user };
     userObj.isEditFlag = true;
-    if (currentUserType === USER_TYPE.SUPERADMIN) {
-      dispatch(updateSelectedContentManagerAsSuperadmin(userObj));
-    }
+    updateActionUser(user);
   };
 
   const deleteUserDetails = (userId: string) => {
@@ -39,25 +36,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, currentUserType }) =
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      if (currentUserType === USER_TYPE.SUPERADMIN) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.ADMIN) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.TUTOR) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.CONTENTMANAGER) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.SCHOOLSUPERADMIN) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.SCHOOLADMIN) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.SCHOOLTUTOR) {
-        console.log('Procedd for delete', userForDelete);
-      } else if (currentUserType === USER_TYPE.SCHOOLCONTENTMANAGER) {
-        console.log('Procedd for delete', userForDelete);
-      } else {
-        return;
-      }
+      deleteActionUser(userForDelete);
       closeModal();
     } else {
       closeModal();
