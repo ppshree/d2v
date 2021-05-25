@@ -16,10 +16,10 @@ export const Header: FC<Iprops> = ({ title, handleModalOpen }) => {
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
   return (
-    <div className={`w-full flex mt-1 sm:flex-row xsm:flex-col justify-center  items-center header-postion`}>
+    <div className={`w-full flex flex-wrap mt-1 flex-row justify-center  items-center header-postion`}>
       <h2 className={`flex-1 font-sans pt-3 font-normal text-${currentPrimaryColor} text-3xl`}>{activeMenu}</h2>
       {title && handleModalOpen && (
-        <div className="flex sm:flex-row xsm:flex-col justify-end sm:h-16 xsm:h-28 items-center flex-1 sm:space-x-3 sm:mt-0 xsm:mt-2 text-text_white">
+        <div className="flex flex-row sm:flex-nowrap xsm:flex-wrap justify-end sm:h-16 xsm:h-28 items-center flex-1 sm:space-x-3 sm:mt-0 xsm:mt-2 text-text_white">
           <button
             className={`bg-${currentSecondaryColor} w-60 p-2 focus:outline-none rounded-md button flex justify-center items-center`}
           >

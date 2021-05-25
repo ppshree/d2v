@@ -1,4 +1,4 @@
-@media (min-width: 300px) {
+@media (min-width: 760px) {
     .max-width-layout {
         padding-left: 15rem !important;
         transition: padding-left 200ms ease-in-out !important;

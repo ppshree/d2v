@@ -13,7 +13,7 @@ interface Iprops {
 export const FilterHeader: React.FC<Iprops> = ({ filterFor }) => {
   const { currentSecondaryColor } = useColorUserType();
   return (
-    <div className="flex justify-evenly items-center bg-white filter-shadow w-full h-16 rounded-lg my-5 px-3 space-x-3">
+    <div className="flex flex-wrap justify-evenly items-center bg-white filter-shadow w-full sm:h-16 xsm:h-auto rounded-lg my-5 px-3 space-x-3">
       <div className="flex-1 flex justify-start search-box w-full h-12">
         <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
