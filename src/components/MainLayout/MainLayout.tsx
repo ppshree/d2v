@@ -40,9 +40,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
       <ModalLayout modalPosition={modalPosition} isOpen={isProfileOpen} closeModal={closeModal}>
         <ProfileModalContent handleSignout={handleSignout} />
       </ModalLayout>
-      <div
-        className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 bg-text_white w-full overflow-x-hidden`}
-      >
+      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 w-full overflow-x-hidden`}>
         <>{children}</>
       </div>
     </>

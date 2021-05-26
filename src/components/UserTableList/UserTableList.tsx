@@ -3,33 +3,30 @@
 import React, { useState } from 'react';
 import { RootState } from '../../app/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { MODAL_POSITION, ROLES } from '../../app/entity/constant';
+import { MODAL_POSITION, ROLES, USER_TYPE } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import { CustomeBadge } from '../../components/CustomeBadge/CustomeBadge';
 import './UserTableList.css';
-import { updateSelectedContentManager } from '../../containers/_superadmin/SuperAdminHomeSlice';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
-  title: string;
   userList: any[];
+  updateActionUser: (user: any) => void;
+  deleteActionUser: (userId: string) => void;
 }
-export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
+export const UserTableList: React.FC<Iprops> = ({ userList, updateActionUser, deleteActionUser }) => {
   const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [userForDelete, setUserForDelete] = useState<string>('');
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
   const editUserDetails = (user: any) => {
     const userObj = { ...user };
     userObj.isEditFlag = true;
-    if (title === 'Content Manager') {
-      dispatch(updateSelectedContentManager(userObj));
-    }
+    updateActionUser(user);
   };
 
   const deleteUserDetails = (userId: string) => {
@@ -39,10 +36,8 @@ export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      if (title === 'Content Manager') {
-        console.log('Procedd for delete', userForDelete);
-        closeModal();
-      }
+      deleteActionUser(userForDelete);
+      closeModal();
     } else {
       closeModal();
     }
@@ -69,12 +64,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, title }) => {
             <th className="font-normal"></th>
           </tr>
         </thead>
-        <tbody>
-          {userList.length == 0 && (
-            <tr>
-              <td>No Items In The List</td>
-            </tr>
-          )}
+        <tbody className="bg-text_white">
           {userList.length > 0 &&
             userList.map((user: any) => {
               return (

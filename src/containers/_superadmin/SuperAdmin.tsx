@@ -18,10 +18,9 @@ export const SuperAdmin: React.FC = () => {
   const { path } = useRouteMatch();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
 
   useEffect(() => {
-    //make api calls
+    // make api calls
   }, []);
 
   return (
