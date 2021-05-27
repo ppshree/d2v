@@ -8,7 +8,6 @@ import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
-import { ICreateContentManager } from './model';
 
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',

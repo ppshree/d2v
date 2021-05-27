@@ -69,8 +69,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
       role_id: role_id,
       school_id: school_id,
       school_code: currentContentManager?.school_code ? currentContentManager.school_code : SCHOOL_CODE.GLOBAL,
-      status: currentContentManager?.status,
       isEditFlag: currentContentManager?.isEditFlag ? currentContentManager.isEditFlag : false,
+      status: status,
     };
     addOrUpdateUser(contentManagerFormData);
   };

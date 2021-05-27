@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICreateContentManager } from '../entity/model';
-import { getConfig, getRequest, postRequest, putRequest, deleteRequest } from '../api/http.helper';
+import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
 
 // ==================APIS ROUTING TO BACKEND=============================
 
@@ -23,7 +23,7 @@ export const addNewContentManager = async (obj: ICreateContentManager): Promise<
 };
 
 export const updateContentManager = async (obj: ICreateContentManager): Promise<any> => {
-  return await putRequest(`/user/contentManager/${obj.id}/`, { params: obj }, getConfig());
+  return await patchRequest(`/user/contentManager/${obj.id}/`, { params: obj }, getConfig());
 };
 export const deleteContentManager = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/contentManager/${id}/`, getConfig());

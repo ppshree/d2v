@@ -60,11 +60,11 @@ export async function postRequest(url: string, param: AxiosRequestConfig, config
   return responseBody;
 }
 
-export async function putRequest(url: string, param: AxiosRequestConfig, config?: any) {
+export async function patchRequest(url: string, param: AxiosRequestConfig, config?: any) {
   let responseBody: any = {};
   try {
     await axios
-      .put(BASE_API_URL + url, param.params, config)
+      .patch(BASE_API_URL + url, param.params, config)
       .then((response) => {
         responseBody = response.data;
       })

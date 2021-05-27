@@ -1,9 +1,7 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-// import { ListItems } from '../../../components/ListItem/ListItems';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
@@ -17,6 +15,7 @@ import {
   createNewContentManager,
   deleteContentManager,
 } from '../../../app/service/superadmin.service';
+import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +24,10 @@ export const ContentManagerList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
+  const [limit, setLimit] = useState<number>(0);
+
   useEffect(() => {
+    // api call for get all content manager lists
     dispatch(retrieveAllContentManagers());
   }, []);
 
@@ -107,6 +109,8 @@ export const ContentManagerList: FC = () => {
           userList={contentManagerList}
         />
       </div>
+      {/* Filter Bottom Part */}
+      <FilterBottom setLimit={setLimit} />
     </>
   );
 };
