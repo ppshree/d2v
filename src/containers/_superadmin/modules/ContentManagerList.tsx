@@ -25,11 +25,12 @@ export const ContentManagerList: FC = () => {
   );
 
   const [limit, setLimit] = useState<number>(0);
+  const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
     // api call for get all content manager lists
-    dispatch(retrieveAllContentManagers());
-  }, []);
+    dispatch(retrieveAllContentManagers({ limit, offset }));
+  }, [limit]);
 
   const openModalForm = () => {
     dispatch(
@@ -110,7 +111,7 @@ export const ContentManagerList: FC = () => {
         />
       </div>
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} />
+      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
     </>
   );
 };

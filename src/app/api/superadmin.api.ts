@@ -14,8 +14,8 @@ export const forgotKey = async (email: string): Promise<any> => {
 
 // ================== CONTENT MANAGER CRUD =================
 
-export const getAllContentManagers = async (): Promise<any> => {
-  return await getRequest('/user/contentManager/', getConfig());
+export const getAllContentManagers = async (limit: number, offset: number): Promise<any> => {
+  return await getRequest(`/user/contentManager/?limit=${limit}&offset=${offset}`, getConfig());
 };
 
 export const addNewContentManager = async (obj: ICreateContentManager): Promise<any> => {
