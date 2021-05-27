@@ -28,7 +28,6 @@ export const ContentManagerList: FC = () => {
   const [offset, setOffset] = useState<number>(0);
 
   useEffect(() => {
-    // api call for get all content manager lists
     dispatch(retrieveAllContentManagers({ limit, offset }));
   }, [limit]);
 

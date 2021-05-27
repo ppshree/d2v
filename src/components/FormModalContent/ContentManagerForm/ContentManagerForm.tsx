@@ -6,7 +6,7 @@ import { RootState } from '../../../app/rootReducer';
 import './ContentManager.css';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
 import { ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -38,6 +38,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
       dispatch(retrieveAllSchoolBySuperAdmin());
+    } else if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
+      dispatch(retrieveAllSchoolByAdmin());
     } else {
       setSchoolId('');
     }
@@ -158,7 +160,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             value={standard}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">None</option>
+            <option value="">None</option>
             {['1', '2', '3'].map((standard: string) => {
               return (
                 <option key={standard} value={standard}>
