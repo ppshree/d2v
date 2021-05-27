@@ -24,21 +24,27 @@ export const getConfig = (encryptString?: string): any => {
   }
 };
 
-// export const getConfig = (encryptString?: string): any => {
-//   const TOKEN = localStorage.getItem('sessionToken');
-//   const AUTH_TOKEN = encryptString !== undefined ? 'Authenticate ' + encryptString : 'Bearer ' + TOKEN;
-//   return {
-//     headers: {
-//       Authorization: AUTH_TOKEN,
-//     },
-//   };
-// };
+//======================GET, POST, PUT AND DELETE REQUESTS ARE FIRED FROM HERE=================
+export async function getRequest(url: string, config?: any) {
+  let responseBody = {};
+  try {
+    await axios
+      .get(BASE_API_URL + url, config)
+      .then((response) => {
+        responseBody = response.data;
+      })
+      .catch((err) => {
+        responseBody = err;
+      });
+  } catch (error) {
+    responseBody = error;
+  }
+  return responseBody;
+}
 
-//======================GET AND POST REQUESTS ARE FIRED FROM HERE==================
 export async function postRequest(url: string, param: AxiosRequestConfig, config?: any) {
   let responseBody: any = {};
   try {
-    //console.log('i am in postrequest');
     await axios
       .post(BASE_API_URL + url, param.params, config)
       .then((response) => {
@@ -54,16 +60,35 @@ export async function postRequest(url: string, param: AxiosRequestConfig, config
   return responseBody;
 }
 
-export async function getRequest(url: string, config?: any) {
-  let responseBody = {};
+export async function putRequest(url: string, param: AxiosRequestConfig, config?: any) {
+  let responseBody: any = {};
   try {
     await axios
-      .get(BASE_API_URL + url, config)
+      .put(BASE_API_URL + url, param.params, config)
       .then((response) => {
         responseBody = response.data;
       })
       .catch((err) => {
-        responseBody = err;
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
+      });
+  } catch (error) {
+    responseBody = error;
+  }
+  return responseBody;
+}
+
+export async function deleteRequest(url: string, config?: any) {
+  let responseBody: any = {};
+  try {
+    await axios
+      .delete(BASE_API_URL + url, config)
+      .then((response) => {
+        responseBody = response.data;
+      })
+      .catch((err) => {
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
       });
   } catch (error) {
     responseBody = error;

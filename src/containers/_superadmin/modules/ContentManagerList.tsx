@@ -12,6 +12,11 @@ import { ContentManagerForm } from '../../../components/FormModalContent/Content
 import { updateSelectedContentManager, updateFormError } from '../SuperAdminHomeSlice';
 import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateContentManager } from '../../../app/entity/model';
+import {
+  retrieveAllContentManagers,
+  createNewContentManager,
+  deleteContentManager,
+} from '../../../app/service/superadmin.service';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -21,7 +26,7 @@ export const ContentManagerList: FC = () => {
   );
 
   useEffect(() => {
-    //MAKE API CALLS
+    dispatch(retrieveAllContentManagers());
   }, []);
 
   const openModalForm = () => {
@@ -39,13 +44,25 @@ export const ContentManagerList: FC = () => {
       }),
     );
   };
+  const addOrUpdateContentManager = (userObj: ICreateContentManager) => {
+    try {
+      dispatch(updateFormError(''));
+      if (userObj.email && userObj.first_name && loggedInUser.email) {
+        dispatch(createNewContentManager(userObj));
+      } else {
+        dispatch(updateFormError('Fill All the Mandatory Fields.'));
+      }
+    } catch (err) {
+      dispatch(updateFormError(err));
+    }
+  };
 
   const updateContentManagerAction = (userObj: ICreateContentManager) => {
     dispatch(updateSelectedContentManager(userObj));
   };
 
   const deleteContentManagerAction = (userId: string) => {
-    console.log('Proceed for delete content manager', userId);
+    dispatch(deleteContentManager(userId));
   };
 
   const closeModal = () => {
@@ -77,7 +94,7 @@ export const ContentManagerList: FC = () => {
           isOpen={true}
           closeModal={closeModal}
         >
-          <ContentManagerForm handleCloseModal={closeModal} />
+          <ContentManagerForm addOrUpdateUser={addOrUpdateContentManager} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
       {/* Filter Header Part */}

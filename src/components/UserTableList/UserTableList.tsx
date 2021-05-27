@@ -26,7 +26,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, updateActionUser, de
   const editUserDetails = (user: any) => {
     const userObj = { ...user };
     userObj.isEditFlag = true;
-    updateActionUser(user);
+    updateActionUser(userObj);
   };
 
   const deleteUserDetails = (userId: string) => {

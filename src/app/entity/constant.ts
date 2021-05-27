@@ -231,11 +231,15 @@ export const ROLES: any = {
   10: 'SCHOOLCONTENTMANAGER',
 };
 
+export enum SCHOOL_CODE {
+  GLOBAL = 'ysyw1234',
+}
+
 export enum USER_STATUS {
-  PENDING = 'pending', // (EMAIL CONFIRMATION NOT DONE YET)
-  ONGOING = 'ongoing',
-  APPROVED = 'approved',
-  DISCARDED = 'discarded',
+  PENDING = 'Pending', // (EMAIL CONFIRMATION NOT DONE YET)
+  ONGOING = 'Ongoing',
+  APPROVED = 'Approved',
+  DISCARDED = 'Discarded',
 }
 
 export enum CONTENT_TYPE {
@@ -246,42 +250,3 @@ export interface IloginUser {
   email: string;
   password: string;
 }
-
-export const temp_content_managers: ICreateContentManager[] = [
-  {
-    id: '1',
-    first_name: 'Jeevan Jyoti',
-    last_name: 'Dash',
-    email: 'dashjeevanjyoti@gmail.com',
-    mobile_number: '8895475852',
-    school_code: 'Dps',
-    status: 'pending',
-    role_id: '9',
-    standard: '1',
-    created_by: 'Samapika Nayak',
-  },
-  {
-    id: '2',
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'johnDoe@gmail.com',
-    mobile_number: '8895475852',
-    school_code: 'Dps',
-    status: 'approved',
-    role_id: '9',
-    standard: '2',
-    created_by: 'Samapika Nayak',
-  },
-  {
-    id: '3',
-    first_name: 'Haresh',
-    last_name: 'Dey',
-    email: 'hareshDey@gmail.com',
-    mobile_number: '8895475852',
-    school_code: 'OPS',
-    status: 'discarded',
-    role_id: '9',
-    standard: '3',
-    created_by: 'Samapika Nayak',
-  },
-];
