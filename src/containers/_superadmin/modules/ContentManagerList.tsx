@@ -1,9 +1,7 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-// import { ListItems } from '../../../components/ListItem/ListItems';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
@@ -12,6 +10,12 @@ import { ContentManagerForm } from '../../../components/FormModalContent/Content
 import { updateSelectedContentManager, updateFormError } from '../SuperAdminHomeSlice';
 import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateContentManager } from '../../../app/entity/model';
+import {
+  retrieveAllContentManagers,
+  createNewContentManager,
+  deleteContentManager,
+} from '../../../app/service/superadmin.service';
+import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -20,9 +24,13 @@ export const ContentManagerList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
+  const [limit, setLimit] = useState<number>(0);
+  const [offset, setOffset] = useState<number>(0);
+
   useEffect(() => {
-    //MAKE API CALLS
-  }, []);
+    // api call for get all content manager lists
+    dispatch(retrieveAllContentManagers({ limit, offset }));
+  }, [limit]);
 
   const openModalForm = () => {
     dispatch(
@@ -39,13 +47,25 @@ export const ContentManagerList: FC = () => {
       }),
     );
   };
+  const addOrUpdateContentManager = (userObj: ICreateContentManager) => {
+    try {
+      dispatch(updateFormError(''));
+      if (userObj.email && userObj.first_name && loggedInUser.email) {
+        dispatch(createNewContentManager(userObj));
+      } else {
+        dispatch(updateFormError('Fill All the Mandatory Fields.'));
+      }
+    } catch (err) {
+      dispatch(updateFormError(err));
+    }
+  };
 
   const updateContentManagerAction = (userObj: ICreateContentManager) => {
     dispatch(updateSelectedContentManager(userObj));
   };
 
   const deleteContentManagerAction = (userId: string) => {
-    console.log('Proceed for delete content manager', userId);
+    dispatch(deleteContentManager(userId));
   };
 
   const closeModal = () => {
@@ -77,7 +97,7 @@ export const ContentManagerList: FC = () => {
           isOpen={true}
           closeModal={closeModal}
         >
-          <ContentManagerForm handleCloseModal={closeModal} />
+          <ContentManagerForm addOrUpdateUser={addOrUpdateContentManager} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
       {/* Filter Header Part */}
@@ -90,6 +110,8 @@ export const ContentManagerList: FC = () => {
           userList={contentManagerList}
         />
       </div>
+      {/* Filter Bottom Part */}
+      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
     </>
   );
 };

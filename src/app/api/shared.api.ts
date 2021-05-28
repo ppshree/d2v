@@ -6,11 +6,11 @@ import { IloginUser } from '../entity/constant';
 
 export const login = async (obj: IloginUser): Promise<any> => {
   const encryptString: string = btoa(btoa(`${obj.email}:${obj.password}`));
-  return await postRequest('/user/login', {}, getConfig(encryptString));
+  return await postRequest('/user/user-login/', {}, getConfig(encryptString));
 };
 
 export const authenticate = async (): Promise<any> => {
-  return await getRequest('/user/login', getConfig());
+  return await getRequest('/user/user-login/', getConfig());
 };
 
 export const resetPassword = async (userType: string, resetToken: string, password: string): Promise<any> => {
@@ -23,6 +23,7 @@ export const resetPassword = async (userType: string, resetToken: string, passwo
   });
 };
 
-// ==================APIS ROUTING TO RM-BACKEND=============================
-
-// ==================APIS ROUTING TO AWS-BACKEND=============================
+// ================== SCHOOL CRUD =============================
+export const getAllSchool = async (): Promise<any> => {
+  return await getRequest('/school/', getConfig());
+};
