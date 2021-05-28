@@ -12,7 +12,7 @@ import { AdminModalContent } from '../../../components/AdminModalContent/AdminMo
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
-  const { adminList } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  // const { adminList } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
   const { loggedInUser: user } = useSelector((state: RootState) => state.LoginPageReducer);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState<string>('');
