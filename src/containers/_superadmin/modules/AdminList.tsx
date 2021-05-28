@@ -39,9 +39,9 @@ export const AdminList: FC = () => {
         <AdminModalContent closeModal={closeModal} />
       </ModalLayout>
       {/* Filter Part not done yet */}
-      <div className="sm:my-3 xsm:my-3">
-        <UserTableList title="Admin" userList={adminList} />
-      </div>
+      {/* <div className="sm:my-3 xsm:my-3">
+        <UserTableList userList={adminList} />
+      </div> */}
     </>
   );
 };
