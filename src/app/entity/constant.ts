@@ -231,7 +231,8 @@ export const ROLES: any = {
 };
 
 export enum SCHOOL_CODE {
-  GLOBAL = 'ysyw1234',
+  GLOBAL = 'ysyw0001',
+  ADMIN = 'ysyw0002'
 }
 
 export enum USER_STATUS {
