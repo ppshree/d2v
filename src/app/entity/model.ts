@@ -7,8 +7,9 @@ export interface ICreateAdmin {
   mobile_number: string;
   role_id: string;
   school_code: string;
-  school_id?: string | null;
+  school_id?: string | any;
   created_by?: string;
+  isEditFlag?: boolean;
   status: string;
 }
 export interface ICreateContentManager {

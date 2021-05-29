@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICreateContentManager } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
 
 // ==================APIS ROUTING TO BACKEND=============================
@@ -38,4 +38,21 @@ export const updateContentManager = async (obj: ICreateContentManager): Promise<
 };
 export const deleteContentManager = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/contentManager/${id}/`, getConfig());
+};
+
+//=================ADMIN CRUD ====================================
+
+export const getAllAdmin = async (limit: number, offset: number): Promise<any> => {
+  return await getRequest(`/user/admins/?limit=${limit}&offset=${offset}`, getConfig());
+};
+
+export const addNewAdmin = async (obj: ICreateAdmin): Promise<any> => {
+  return await postRequest('/user/admins/', { params: obj }, getConfig());
+};
+
+export const updateAdmin = async (obj: ICreateAdmin): Promise<any> => {
+  return await patchRequest(`/user/admins/${obj.id}/`, { params: obj }, getConfig());
+};
+export const deleteAdmin = async (id: string): Promise<any> => {
+  return await deleteRequest(`/user/admins/${id}/`, getConfig());
 };
