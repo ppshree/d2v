@@ -27,10 +27,43 @@ export const ContentManagerList: FC = () => {
   const [limit, setLimit] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
 
+  /* filter State change */
+  const [queryName, setQueryName] = useState<string>('');
+  const [queryEmail, setQueryEmail] = useState<string>('');
+  const [queryPhone, setQueryPhone] = useState<string>('');
+  const [queryUserType, setQueryUserType] = useState<string>('');
+  const [queryStatus, setQueryStatus] = useState<string>('');
+  /* filter State change*/
+
   useEffect(() => {
     // api call for get all content manager lists
     dispatch(retrieveAllContentManagers({ limit, offset }));
   }, [limit]);
+
+  useEffect(() => {
+    // api call for get all content manager lists by search name
+    dispatch(retrieveAllContentManagers({ filterType: 'name', filterQuery: queryName, limit, offset }));
+  }, [limit, queryName]);
+
+  useEffect(() => {
+    // api call for get all content manager lists by search email
+    dispatch(retrieveAllContentManagers({ filterType: 'email', filterQuery: queryEmail, limit, offset }));
+  }, [limit, queryEmail]);
+
+  useEffect(() => {
+    // api call for get all content manager lists by search phone
+    dispatch(retrieveAllContentManagers({ filterType: 'phone', filterQuery: queryPhone, limit, offset }));
+  }, [limit, queryPhone]);
+
+  useEffect(() => {
+    // api call for get all content manager lists by role id
+    dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+  }, [limit, queryUserType]);
+
+  useEffect(() => {
+    // api call for get all content manager lists by user status
+    dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+  }, [limit, queryStatus]);
 
   const openModalForm = () => {
     dispatch(
@@ -101,7 +134,14 @@ export const ContentManagerList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      <FilterHeader filterFor="Content Manager" />
+      <FilterHeader
+        filterFor="Content Manager"
+        setQueryName={setQueryName}
+        setQueryEmail={setQueryEmail}
+        setQueryPhone={setQueryPhone}
+        setQueryUserType={setQueryUserType}
+        setQueryStatus={setQueryStatus}
+      />
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
         <UserTableList

@@ -17,6 +17,17 @@ export const forgotKey = async (email: string): Promise<any> => {
 export const getAllContentManagers = async (limit: number, offset: number): Promise<any> => {
   return await getRequest(`/user/contentManager/?limit=${limit}&offset=${offset}`, getConfig());
 };
+export const getFilteredContentManagers = async (
+  filterType: string,
+  filterQuery: string,
+  limit: number,
+  offset: number,
+): Promise<any> => {
+  return await getRequest(
+    `/user/contentManager/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`,
+    getConfig(),
+  );
+};
 
 export const addNewContentManager = async (obj: ICreateContentManager): Promise<any> => {
   return await postRequest('/user/contentManager/', { params: obj }, getConfig());

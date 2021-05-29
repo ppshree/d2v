@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   getAllContentManagers as getAllContentManagersAddedBySuperAdmin,
+  getFilteredContentManagers as getFilteredContentManagersAddedBySuperAdmin,
   addNewContentManager as addNewContentManagerAddedBySuperAdmin,
   updateContentManager as updateContentManagerAddedBySuperAdmin,
   deleteContentManager as deleteContentManagerAddedBySuperAdmin,
@@ -9,10 +10,21 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ICreateContentManager } from '../entity/model';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
+interface IGetContentManager {
+  filterType?: string;
+  filterQuery?: string;
+  limit: number;
+  offset: number;
+}
+
 export const retrieveAllContentManagers = createAsyncThunk(
   'superadmin/retrieveAllContentManagers',
-  async ({ limit, offset }: { limit: number; offset: number }) => {
-    return await getAllContentManagersAddedBySuperAdmin(limit, offset);
+  async ({ filterType, filterQuery, limit, offset }: IGetContentManager) => {
+    if (filterType && filterQuery) {
+      return await getFilteredContentManagersAddedBySuperAdmin(filterType, filterQuery, limit, offset);
+    } else {
+      return await getAllContentManagersAddedBySuperAdmin(limit, offset);
+    }
   },
 );
 
