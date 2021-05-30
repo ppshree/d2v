@@ -27,6 +27,36 @@ export interface ICreateContentManager {
   isEditFlag?: boolean;
 }
 
+export interface ICreateTutor {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+  role_id: string;
+  school_code?: string;
+  standard: string;
+  school_id?: string | any;
+  created_by?: string;
+  status: string | any;
+  isEditFlag?: boolean;
+}
+
+export interface ICreateStudent {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+  role_id: string;
+  school_code?: string;
+  standard: string;
+  school_id?: string | any;
+  created_by?: string;
+  status: string | any;
+  isEditFlag?: boolean;
+}
+
 export interface ICreateSchool {
   id?: string;
   school_name: string;

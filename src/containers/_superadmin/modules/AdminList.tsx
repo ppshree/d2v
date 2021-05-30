@@ -92,7 +92,7 @@ export const AdminList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      <FilterHeader filterFor="Content Manager" />
+      {/* <FilterHeader filterFor="Content Manager" /> */}
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
         <UserTableList updateActionUser={updateAdminAction} deleteActionUser={deleteAdminAction} userList={adminList} />
