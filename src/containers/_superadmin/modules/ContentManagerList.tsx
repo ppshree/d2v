@@ -36,33 +36,24 @@ export const ContentManagerList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
-    dispatch(retrieveAllContentManagers({ limit, offset }));
-  }, [limit]);
-
-  useEffect(() => {
-    // api call for get all content manager lists by search name
-    dispatch(retrieveAllContentManagers({ filterType: 'name', filterQuery: queryName, limit, offset }));
-  }, [limit, queryName]);
-
-  useEffect(() => {
-    // api call for get all content manager lists by search email
-    dispatch(retrieveAllContentManagers({ filterType: 'email', filterQuery: queryEmail, limit, offset }));
-  }, [limit, queryEmail]);
-
-  useEffect(() => {
-    // api call for get all content manager lists by search phone
-    dispatch(retrieveAllContentManagers({ filterType: 'phone', filterQuery: queryPhone, limit, offset }));
-  }, [limit, queryPhone]);
-
-  useEffect(() => {
-    // api call for get all content manager lists by role id
-    dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-  }, [limit, queryUserType]);
-
-  useEffect(() => {
-    // api call for get all content manager lists by user status
-    dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-  }, [limit, queryStatus]);
+    // debounce effect
+    const timer = setTimeout(() => {
+      if (queryName !== '') {
+        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
+      } else if (queryEmail !== '') {
+        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+      } else if (queryPhone !== '') {
+        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+      } else if (queryUserType !== '') {
+        dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+      } else if (queryStatus !== '') {
+        dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+      } else {
+        dispatch(retrieveAllContentManagers({ limit, offset }));
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom';
 import { APPLICATION_URL } from './applicationRoutes';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';
 import { RootState } from '../rootReducer';
 import { LoginPage } from '../../containers/LoginPage/LoginPage';
+import { PasswordSetupPage } from '../../containers/PasswordSetupPage/PasswordSetupPage';
 
 // =========== Global USER Components ===========
 import { SuperAdmin } from '../../containers/_superadmin/SuperAdmin';
@@ -19,6 +20,8 @@ import { SchoolTutor } from '../../containers/_schooltutor/SchoolTutor';
 import { SchoolStudent } from '../../containers/_schoolstudent/SchoolStudent';
 
 export const RouterConfig: React.FC = () => {
+  const location = useLocation();
+  const history = useHistory();
   const { loggedInUser, isAuthCompleted } = useSelector((state: RootState) => state.LoginPageReducer);
   const [redirectToPath, setRedirectToPath] = useState('');
 
@@ -44,6 +47,9 @@ export const RouterConfig: React.FC = () => {
         setRedirectToPath(APPLICATION_URL.CONTENTMANAGER);
       } else if (loggedInUser.role_id == USER_TYPE.SCHOOLCONTENTMANAGER) {
         setRedirectToPath(APPLICATION_URL.SCHOOLCONTENTMANAGER);
+      } else if (location.pathname.includes(APPLICATION_URL.CREATE_PASSWORD.split(':id')[0])) {
+        setRedirectToPath(APPLICATION_URL.CREATE_PASSWORD);
+        history.push(location.pathname);
       } else {
         setRedirectToPath(APPLICATION_URL.LOGIN);
       }
@@ -86,6 +92,10 @@ export const RouterConfig: React.FC = () => {
       {/* ==== Login Route ==== */}
       {!isAuthCompleted && redirectToPath === APPLICATION_URL.LOGIN && (
         <Route key={APPLICATION_URL.LOGIN} exact path={APPLICATION_URL.LOGIN} component={LoginPage} />
+      )}
+      {/* ==== Create Password Route ==== */}
+      {!isAuthCompleted && redirectToPath === APPLICATION_URL.CREATE_PASSWORD && (
+        <Route key={APPLICATION_URL.CREATE_PASSWORD} path={redirectToPath} component={PasswordSetupPage} />
       )}
       <Redirect key={'redirect'} to={redirectToPath} />
     </Switch>

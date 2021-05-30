@@ -24,7 +24,7 @@ interface IGetContentManager {
 export const retrieveAllContentManagers = createAsyncThunk(
   'superadmin/retrieveAllContentManagers',
   async ({ filterType, filterQuery, limit, offset }: IGetContentManager) => {
-    if (filterType && filterQuery) {
+    if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredContentManagersAddedBySuperAdmin(filterType, filterQuery, limit, offset);
     } else {
       return await getAllContentManagersAddedBySuperAdmin(limit, offset);
