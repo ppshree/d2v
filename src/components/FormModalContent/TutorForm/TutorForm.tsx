@@ -16,12 +16,9 @@ interface Iprops {
 export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const {
-    selectedTutor: currentTutor,
-    schoolList,
-    formError: errorMessage,
-    submitLoader: loader,
-  } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  const { selectedTutor: currentTutor, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+    (state: RootState) => state.SuperAdminHomePageReducer,
+  );
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -199,9 +196,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             onChange={(e) => {
               setSchoolId(e.target.value);
             }}
-            disabled={
-              role_id === '' || role_id === 'none' || role_id == USER_TYPE.TUTOR.toString() ? true : false
-            }
+            disabled={role_id === '' || role_id === 'none' || role_id == USER_TYPE.TUTOR.toString() ? true : false}
             id="school_id"
             name="school_id"
             value={school_id}
