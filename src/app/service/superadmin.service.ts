@@ -35,7 +35,7 @@ interface IGetAll {
 export const retrieveAllContentManagers = createAsyncThunk(
   'superadmin/retrieveAllContentManagers',
   async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery) {
+    if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredContentManagersAddedBySuperAdmin(filterType, filterQuery, limit, offset);
     } else {
       return await getAllContentManagersAddedBySuperAdmin(limit, offset);
@@ -62,7 +62,7 @@ export const deleteContentManager = createAsyncThunk('superadmin/deleteContantMa
 export const retrieveAllAdmin = createAsyncThunk(
   'superadmin/retrieveAllAdmin',
   async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery) {
+    if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredAdminAddedBySuperAdmin(filterType, filterQuery, limit, offset);
     } else {
       return await getAllAdminAddedBySuperAdmin(limit, offset);
@@ -86,7 +86,7 @@ export const deleteAdmin = createAsyncThunk('superadmin/deleteAdmin', async (obj
 export const retrieveAllTutor = createAsyncThunk(
   'superadmin/retrieveAllTutor',
   async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery) {
+    if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredTutorAddedBySuperAdmin(filterType, filterQuery, limit, offset);
     } else {
       return await getAllTutorAddedBySuperAdmin(limit, offset);
@@ -110,7 +110,7 @@ export const deleteTutor = createAsyncThunk('superadmin/deleteTutor', async (obj
 export const retrieveAllStudent = createAsyncThunk(
   'superadmin/retrieveAllStudent',
   async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery) {
+    if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredStudentAddedBySuperAdmin(filterType, filterQuery, limit, offset);
     } else {
       return await getAllStudentAddedBySuperAdmin(limit, offset);

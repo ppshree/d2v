@@ -10,19 +10,13 @@ import { TutorForm } from '../../../components/FormModalContent/TutorForm/TutorF
 import { updateSelectedTutor, updateFormError } from '../SuperAdminHomeSlice';
 import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateTutor } from '../../../app/entity/model';
-import {
-  retrieveAllTutor,
-  createNewTutor,
-  deleteTutor,
-} from '../../../app/service/superadmin.service';
+import { retrieveAllTutor, createNewTutor, deleteTutor } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 
 export const TutorList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { tutorList, selectedTutor } = useSelector(
-    (state: RootState) => state.SuperAdminHomePageReducer,
-  );
+  const { tutorList, selectedTutor } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
 
   const [limit, setLimit] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
@@ -36,33 +30,24 @@ export const TutorList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
-    dispatch(retrieveAllTutor({ limit, offset }));
-  }, [limit]);
-
-  useEffect(() => {
-    // api call for get all tutor lists by search name
-    dispatch(retrieveAllTutor({ filterType: 'name', filterQuery: queryName, limit, offset }));
-  }, [limit, queryName]);
-
-  useEffect(() => {
-    // api call for get all tutor lists by search email
-    dispatch(retrieveAllTutor({ filterType: 'email', filterQuery: queryEmail, limit, offset }));
-  }, [limit, queryEmail]);
-
-  useEffect(() => {
-    // api call for get all Tutor lists by search phone
-    dispatch(retrieveAllTutor({ filterType: 'phone', filterQuery: queryPhone, limit, offset }));
-  }, [limit, queryPhone]);
-
-  useEffect(() => {
-    // api call for get all Tutor lists by role id
-    dispatch(retrieveAllTutor({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-  }, [limit, queryUserType]);
-
-  useEffect(() => {
-    // api call for get all Tutor lists by user status
-    dispatch(retrieveAllTutor({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-  }, [limit, queryStatus]);
+    // debounce effect
+    const timer = setTimeout(() => {
+      if (queryName !== '') {
+        dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryName, limit, offset }));
+      } else if (queryEmail !== '') {
+        dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+      } else if (queryPhone !== '') {
+        dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+      } else if (queryUserType !== '') {
+        dispatch(retrieveAllTutor({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+      } else if (queryStatus !== '') {
+        dispatch(retrieveAllTutor({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+      } else {
+        dispatch(retrieveAllTutor({ limit, offset }));
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -123,12 +108,7 @@ export const TutorList: FC = () => {
       <Header handleModalOpen={openModalForm} title={'Tutor'} />
       {/* Modal Part */}
       {selectedTutor !== null && selectedTutor?.created_by !== '' && (
-        <ModalLayout
-          title="Tutor Form"
-          modalPosition={MODAL_POSITION.DEFAULT}
-          isOpen={true}
-          closeModal={closeModal}
-        >
+        <ModalLayout title="Tutor Form" modalPosition={MODAL_POSITION.DEFAULT} isOpen={true} closeModal={closeModal}>
           <TutorForm addOrUpdateUser={addOrUpdateTutor} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
@@ -143,11 +123,7 @@ export const TutorList: FC = () => {
       />
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
-        <UserTableList
-          updateActionUser={updateTutorAction}
-          deleteActionUser={deleteTutorAction}
-          userList={tutorList}
-        />
+        <UserTableList updateActionUser={updateTutorAction} deleteActionUser={deleteTutorAction} userList={tutorList} />
       </div>
       {/* Filter Bottom Part */}
       <FilterBottom setLimit={setLimit} setOffset={setOffset} />

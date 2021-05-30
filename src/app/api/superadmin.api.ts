@@ -52,7 +52,7 @@ export const getFilteredAdmin = async (
   limit: number,
   offset: number,
 ): Promise<any> => {
-  return await getRequest(`/user/admin/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`, getConfig());
+  return await getRequest(`/user/admins/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`, getConfig());
 };
 
 export const addNewAdmin = async (obj: ICreateAdmin): Promise<any> => {

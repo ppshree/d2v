@@ -24,10 +24,33 @@ export const AdminList: FC = () => {
   const [limit, setLimit] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
 
+  /* filter State change */
+  const [queryName, setQueryName] = useState<string>('');
+  const [queryEmail, setQueryEmail] = useState<string>('');
+  const [queryPhone, setQueryPhone] = useState<string>('');
+  const [queryUserType, setQueryUserType] = useState<string>('');
+  const [queryStatus, setQueryStatus] = useState<string>('');
+  /* filter State change*/
+
   useEffect(() => {
-    // api call for get all content manager lists
-    dispatch(retrieveAllAdmin({ limit, offset }));
-  }, [limit]);
+    // debounce effect
+    const timer = setTimeout(() => {
+      if (queryName !== '') {
+        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
+      } else if (queryEmail !== '') {
+        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+      } else if (queryPhone !== '') {
+        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+      } else if (queryUserType !== '') {
+        dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+      } else if (queryStatus !== '') {
+        dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+      } else {
+        dispatch(retrieveAllAdmin({ limit, offset }));
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -92,7 +115,16 @@ export const AdminList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      {/* <FilterHeader filterFor="Content Manager" /> */}
+      {/* Filter Header Part */}
+      <FilterHeader
+        filterFor="Admin"
+        setQueryName={setQueryName}
+        setQueryEmail={setQueryEmail}
+        setQueryPhone={setQueryPhone}
+        setQueryUserType={setQueryUserType}
+        setQueryStatus={setQueryStatus}
+      />
+      {/* User Table List */}
       {/* User Table List */}
       <div className="sm:my-3 xsm:my-3">
         <UserTableList updateActionUser={updateAdminAction} deleteActionUser={deleteAdminAction} userList={adminList} />

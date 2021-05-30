@@ -30,33 +30,24 @@ export const StudentList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
-    dispatch(retrieveAllStudent({ limit, offset }));
-  }, [limit]);
-
-  useEffect(() => {
-    // api call for get all student lists by search name
-    dispatch(retrieveAllStudent({ filterType: 'name', filterQuery: queryName, limit, offset }));
-  }, [limit, queryName]);
-
-  useEffect(() => {
-    // api call for get all student lists by search email
-    dispatch(retrieveAllStudent({ filterType: 'email', filterQuery: queryEmail, limit, offset }));
-  }, [limit, queryEmail]);
-
-  useEffect(() => {
-    // api call for get all student lists by search phone
-    dispatch(retrieveAllStudent({ filterType: 'phone', filterQuery: queryPhone, limit, offset }));
-  }, [limit, queryPhone]);
-
-  useEffect(() => {
-    // api call for get all student lists by role id
-    dispatch(retrieveAllStudent({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-  }, [limit, queryUserType]);
-
-  useEffect(() => {
-    // api call for get all student lists by user status
-    dispatch(retrieveAllStudent({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-  }, [limit, queryStatus]);
+    // debounce effect
+    const timer = setTimeout(() => {
+      if (queryName !== '') {
+        dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryName, limit, offset }));
+      } else if (queryEmail !== '') {
+        dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+      } else if (queryPhone !== '') {
+        dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+      } else if (queryUserType !== '') {
+        dispatch(retrieveAllStudent({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+      } else if (queryStatus !== '') {
+        dispatch(retrieveAllStudent({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+      } else {
+        dispatch(retrieveAllStudent({ limit, offset }));
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(

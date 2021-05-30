@@ -91,8 +91,32 @@ export const FilterHeader: React.FC<Iprops> = ({
             className="py-2 rounded-md w-full pl-10 focus:outline-none"
           >
             <option value="none">None</option>
+            {filterFor === 'Admin' &&
+              [USER_TYPE.ADMIN, USER_TYPE.SCHOOLSUPERADMIN, USER_TYPE.SCHOOLADMIN].map((userType: number) => {
+                return (
+                  <option key={userType} value={userType}>
+                    {ROLES[userType]}
+                  </option>
+                );
+              })}
+            {filterFor === 'Tutor' &&
+              [USER_TYPE.TUTOR, USER_TYPE.SCHOOLTUTOR].map((userType: number) => {
+                return (
+                  <option key={userType} value={userType}>
+                    {ROLES[userType]}
+                  </option>
+                );
+              })}
             {filterFor === 'Content Manager' &&
               [USER_TYPE.CONTENTMANAGER, USER_TYPE.SCHOOLCONTENTMANAGER].map((userType: number) => {
+                return (
+                  <option key={userType} value={userType}>
+                    {ROLES[userType]}
+                  </option>
+                );
+              })}
+            {filterFor === 'Student' &&
+              [USER_TYPE.STUDENT, USER_TYPE.SCHOOLSTUDENT].map((userType: number) => {
                 return (
                   <option key={userType} value={userType}>
                     {ROLES[userType]}
