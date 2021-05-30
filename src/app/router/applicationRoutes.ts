@@ -1,6 +1,6 @@
 const APPLICATION_URL = {
   LOGIN: '/login',
-  CREATE_PASSWORD: '/create-password',
+  CREATE_PASSWORD: '/createPassword/:id',
   RESET_PASSWORD: '/reset-password',
   // ========== Global USERS Routes =========
   SUPERADMIN: '/superAdmin',

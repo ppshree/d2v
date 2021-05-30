@@ -1,35 +1,65 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICreateContentManager, ICreateSchool } from '../../app/entity/model';
+import {
+  ICreateAdmin,
+  ICreateContentManager,
+  ICreateSchool,
+  ICreateTutor,
+  ICreateStudent,
+} from '../../app/entity/model';
 import {
   retrieveAllContentManagers,
   createNewContentManager,
   deleteContentManager,
+  retrieveAllAdmin,
+  createNewAdmin,
+  deleteAdmin,
+  retrieveAllTutor,
+  createNewTutor,
+  deleteTutor,
+  retrieveAllStudent,
+  createNewStudent,
+  deleteStudent,
 } from '../../app/service/superadmin.service';
 import { retrieveAllSchoolBySuperAdmin } from '../../app/service/shared.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
+  adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
   schoolList: ICreateSchool[];
+  tutorList: ICreateTutor[];
+  studentList: ICreateStudent[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
   selectedContentManager: ICreateContentManager | null;
+  selectedAdmin: ICreateAdmin | null;
+  selectedTutor: ICreateTutor | null;
+  selectedStudent: ICreateStudent | null;
   selectedSchool: ICreateSchool | null;
 }
 
 const initialState: HomePageState = {
+  adminList: [],
   contentManagerList: [],
   schoolList: [],
+  tutorList: [],
+  studentList: [],
   pageLoader: false,
   submitLoader: false,
   formError: '',
   selectedContentManager: null,
+  selectedAdmin: null,
+  selectedStudent: null,
+  selectedTutor: null,
   selectedSchool: null,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
 type ContentManagerPayloadAction = PayloadAction<ICreateContentManager | null>;
+type AdminPayloadAction = PayloadAction<ICreateAdmin | null>;
+type TutorPayloadAction = PayloadAction<ICreateTutor | null>;
+type StudentPayloadAction = PayloadAction<ICreateStudent | null>;
 type SchoolPayloadAction = PayloadAction<ICreateSchool | null>;
 export const HomePageSlice = createSlice({
   name: 'SuperAdminHomePageReducer',
@@ -41,8 +71,17 @@ export const HomePageSlice = createSlice({
     updateSelectedContentManager: (state, action: ContentManagerPayloadAction) => {
       state.selectedContentManager = action.payload;
     },
+    updateSelectedAdmin: (state, action: AdminPayloadAction) => {
+      state.selectedAdmin = action.payload;
+    },
     updateSelectedSchool: (state, action: SchoolPayloadAction) => {
       state.selectedSchool = action.payload;
+    },
+    updateSelectedTutor: (state, action: TutorPayloadAction) => {
+      state.selectedTutor = action.payload;
+    },
+    updateSelectedStudent: (state, action: StudentPayloadAction) => {
+      state.selectedStudent = action.payload;
     },
   },
   extraReducers: {
@@ -137,7 +176,235 @@ export const HomePageSlice = createSlice({
       state.schoolList = [];
       state.pageLoader = false;
     },
+    [retrieveAllAdmin.pending.toString()]: (state) => {
+      state.adminList = [];
+      state.pageLoader = true;
+    },
+    [retrieveAllAdmin.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.adminList = [];
+        state.pageLoader = false;
+        return;
+      }
+      state.adminList = action.payload && action.payload.data ? action.payload.data : [];
+      state.pageLoader = false;
+    },
+    [retrieveAllAdmin.rejected.toString()]: (state) => {
+      state.adminList = [];
+      state.pageLoader = false;
+    },
+
+    [createNewAdmin.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewAdmin.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.adminList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.adminList[index] = action.payload.data;
+      } else {
+        state.adminList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedAdmin = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        mobile_number: '',
+        role_id: '',
+        school_code: '',
+        status: USER_STATUS.PENDING,
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewAdmin.rejected.toString()]: (state: any, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteAdmin.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteAdmin.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.adminList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.adminList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteAdmin.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+    [retrieveAllTutor.pending.toString()]: (state) => {
+      state.tutorList = [];
+      state.pageLoader = true;
+    },
+    [retrieveAllTutor.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.tutorList = [];
+        state.pageLoader = false;
+        return;
+      }
+      state.tutorList = action.payload && action.payload.data ? action.payload.data : [];
+      state.pageLoader = false;
+    },
+    [retrieveAllTutor.rejected.toString()]: (state) => {
+      state.tutorList = [];
+      state.pageLoader = false;
+    },
+
+    [createNewTutor.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewTutor.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tutorList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.tutorList[index] = action.payload.data;
+      } else {
+        state.tutorList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedTutor = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        mobile_number: '',
+        role_id: '',
+        standard: '',
+        school_code: '',
+        status: USER_STATUS.PENDING,
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewTutor.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteTutor.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteTutor.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tutorList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.tutorList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteTutor.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+    [retrieveAllStudent.pending.toString()]: (state) => {
+      state.studentList = [];
+      state.pageLoader = true;
+    },
+    [retrieveAllStudent.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.studentList = [];
+        state.pageLoader = false;
+        return;
+      }
+      state.studentList = action.payload && action.payload.data ? action.payload.data : [];
+      state.pageLoader = false;
+    },
+    [retrieveAllStudent.rejected.toString()]: (state) => {
+      state.studentList = [];
+      state.pageLoader = false;
+    },
+
+    [createNewStudent.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewStudent.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.studentList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.studentList[index] = action.payload.data;
+      } else {
+        state.studentList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedStudent = {
+        first_name: '',
+        last_name: '',
+        email: '',
+        mobile_number: '',
+        role_id: '',
+        standard: '',
+        school_code: '',
+        status: USER_STATUS.PENDING,
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewStudent.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteStudent.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteStudent.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.studentList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.studentList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteStudent.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
   },
 });
-export const { updateFormError, updateSelectedContentManager, updateSelectedSchool } = HomePageSlice.actions;
+export const {
+  updateFormError,
+  updateSelectedContentManager,
+  updateSelectedAdmin,
+  updateSelectedSchool,
+  updateSelectedTutor,
+  updateSelectedStudent,
+} = HomePageSlice.actions;
 export const SuperAdminHomePageReducer = HomePageSlice.reducer;

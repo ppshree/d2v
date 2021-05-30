@@ -3,26 +3,22 @@ import React, { useState, useEffect } from 'react';
 import { USER_TYPE, USER_STATUS, SCHOOL_CODE } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
-import './ContentManager.css';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
-import { ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
+import { retrieveAllSchoolBySuperAdmin } from '../../../app/service/shared.service';
+import { ICreateAdmin, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
-  addOrUpdateUser: (userObj: ICreateContentManager) => void;
+  addOrUpdateUser: (userObj: ICreateAdmin) => void;
   handleCloseModal: () => void;
 }
 
-export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
+export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const {
-    selectedContentManager: currentContentManager,
-    schoolList,
-    formError: errorMessage,
-    submitLoader: loader,
-  } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  const { selectedAdmin: currentAdmin, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+    (state: RootState) => state.SuperAdminHomePageReducer,
+  );
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -30,51 +26,49 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   const [last_name, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile_number, setMobileNumber] = useState<string>('');
-  const [standard, setStandard] = useState<string>('');
   const [role_id, setRoleId] = useState<string>('');
   const [school_id, setSchoolId] = useState<string>('');
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
+    if (
+      (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) &&
+      loggedInUser.role_id == USER_TYPE.SUPERADMIN
+    ) {
       dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
-      dispatch(retrieveAllSchoolByAdmin());
     } else {
       setSchoolId('');
     }
   }, [role_id]);
 
   useEffect(() => {
-    if (currentContentManager) {
-      setFirstName(currentContentManager?.first_name);
-      setLastName(currentContentManager?.last_name);
-      setEmail(currentContentManager?.email);
-      setMobileNumber(currentContentManager?.mobile_number);
-      setStandard(currentContentManager?.standard);
-      setRoleId(currentContentManager?.role_id);
-      setSchoolId(currentContentManager.school_id);
-      setStatus(currentContentManager?.status);
+    if (currentAdmin) {
+      setFirstName(currentAdmin?.first_name);
+      setLastName(currentAdmin?.last_name);
+      setEmail(currentAdmin?.email);
+      setMobileNumber(currentAdmin?.mobile_number);
+      setRoleId(currentAdmin?.role_id);
+      setSchoolId(currentAdmin.school_id);
+      setStatus(currentAdmin?.status);
     } else {
       return;
     }
-  }, [currentContentManager]);
+  }, [currentAdmin]);
 
   const handleFormSubmitAction = () => {
-    const contentManagerFormData: ICreateContentManager = {
-      id: currentContentManager?.id,
+    const AdminFormData: ICreateAdmin = {
+      id: currentAdmin?.id,
       first_name: first_name,
       last_name: last_name,
       email: email,
       mobile_number: mobile_number,
-      standard: standard,
       role_id: role_id,
       school_id: school_id,
-      school_code: currentContentManager?.school_code ? currentContentManager.school_code : SCHOOL_CODE.GLOBAL,
-      isEditFlag: currentContentManager?.isEditFlag ? currentContentManager.isEditFlag : false,
+      school_code: currentAdmin?.school_code ? currentAdmin.school_code : SCHOOL_CODE.GLOBAL,
+      isEditFlag: currentAdmin?.isEditFlag ? currentAdmin.isEditFlag : false,
       status: status,
     };
-    addOrUpdateUser(contentManagerFormData);
+    addOrUpdateUser(AdminFormData);
   };
 
   return (
@@ -146,30 +140,6 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-input px-4 py-1 rounded-lg"
           ></input>
         </div>
-        {/* Standard Lists */}
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="standard">
-            Standard
-          </label>
-          <select
-            onChange={(e) => {
-              setStandard(e.target.value);
-            }}
-            id="standard"
-            name="standard"
-            value={standard}
-            className="form-select px-4 py-1 rounded-lg"
-          >
-            <option value="">None</option>
-            {['1', '2', '3'].map((standard: string) => {
-              return (
-                <option key={standard} value={standard}>
-                  {standard}
-                </option>
-              );
-            })}
-          </select>
-        </div>
         {/* User Type Lists */}
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="role_id">
@@ -185,13 +155,12 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.CONTENTMANAGER}>CONTENTMANAGER</option>
-            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOLCONTENTMANAGER</option>
+            <option value={USER_TYPE.ADMIN}>GLOBAL ADMIN</option>
+            <option value={USER_TYPE.SCHOOLSUPERADMIN}>SCHOOLSUPERADMIN</option>
+            <option value={USER_TYPE.SCHOOLADMIN}>SCHOOLADMIN</option>
           </select>
         </div>
-      </div>
-      {/* School Lists */}
-      <div className="grid grid-cols-1 gap-2">
+        {/* School Code */}
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="school_id">
             School Name
@@ -200,15 +169,13 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             onChange={(e) => {
               setSchoolId(e.target.value);
             }}
-            disabled={
-              role_id === '' || role_id === 'none' || role_id == USER_TYPE.CONTENTMANAGER.toString() ? true : false
-            }
+            disabled={role_id === '' || role_id === 'none' || role_id == USER_TYPE.ADMIN.toString() ? true : false}
             id="school_id"
             name="school_id"
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.CONTENTMANAGER.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
+            <option value="none">{role_id == USER_TYPE.ADMIN.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (
@@ -219,6 +186,9 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
               })}
           </select>
         </div>
+      </div>
+      {/* School Lists */}
+      <div className="grid grid-cols-1 gap-2">
         {/* Status Type */}
         <div className="flex flex-col h-25 justify-evenly space-y-2">
           <label className="block text-gray-500 font-bold">Status Type</label>
@@ -250,7 +220,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             }}
             className={`px-2 py-2 rounded-lg focus:outline-none bg-${currentPrimaryColor} w-full button`}
           >
-            {currentContentManager?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
+            {currentAdmin?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
           </button>
           <button
             onClick={(e: React.SyntheticEvent) => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React from 'react';
 import { ChevronRightIcon } from '@heroicons/react/solid';
@@ -11,7 +12,7 @@ interface Iprops {
 export const FilterBottom: React.FC<Iprops> = ({ setLimit, setOffset }) => {
   const { currentPrimaryColor } = useColorUserType();
   return (
-    <div className="flex justify-end item-center flex-wrap w-full space-x-3">
+    <div className="flex justify-end item-center flex-wrap w-full space-x-3 mb-3">
       <div className="flex justify-evenly items-center space-x-2">
         <label className="font-bold" htmlFor="limit">
           Rows per page:

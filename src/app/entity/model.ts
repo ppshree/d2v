@@ -7,11 +7,42 @@ export interface ICreateAdmin {
   mobile_number: string;
   role_id: string;
   school_code: string;
-  school_id?: string | null;
+  school_id?: string | any;
   created_by?: string;
+  isEditFlag?: boolean;
   status: string;
 }
 export interface ICreateContentManager {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+  role_id: string;
+  school_code?: string;
+  standard: string;
+  school_id?: string | any;
+  created_by?: string;
+  status: string | any;
+  isEditFlag?: boolean;
+}
+
+export interface ICreateTutor {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_number: string;
+  role_id: string;
+  school_code?: string;
+  standard: string;
+  school_id?: string | any;
+  created_by?: string;
+  status: string | any;
+  isEditFlag?: boolean;
+}
+
+export interface ICreateStudent {
   id?: string;
   first_name: string;
   last_name: string;

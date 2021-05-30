@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  resetPassword as resetPasswordApi,
   login as userLogin,
   authenticate as userAuthenticate,
   getAllSchool as getAllSchoolByCurrentAdmin,

@@ -3,26 +3,22 @@ import React, { useState, useEffect } from 'react';
 import { USER_TYPE, USER_STATUS, SCHOOL_CODE } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
-import './ContentManager.css';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
 import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
-import { ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
+import { ICreateTutor, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
-  addOrUpdateUser: (userObj: ICreateContentManager) => void;
+  addOrUpdateUser: (userObj: ICreateTutor) => void;
   handleCloseModal: () => void;
 }
 
-export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
+export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const {
-    selectedContentManager: currentContentManager,
-    schoolList,
-    formError: errorMessage,
-    submitLoader: loader,
-  } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  const { selectedTutor: currentTutor, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+    (state: RootState) => state.SuperAdminHomePageReducer,
+  );
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -36,9 +32,9 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
+    if (role_id == USER_TYPE.SCHOOLTUTOR.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
       dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
+    } else if (role_id == USER_TYPE.SCHOOLTUTOR.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
       dispatch(retrieveAllSchoolByAdmin());
     } else {
       setSchoolId('');
@@ -46,23 +42,23 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   }, [role_id]);
 
   useEffect(() => {
-    if (currentContentManager) {
-      setFirstName(currentContentManager?.first_name);
-      setLastName(currentContentManager?.last_name);
-      setEmail(currentContentManager?.email);
-      setMobileNumber(currentContentManager?.mobile_number);
-      setStandard(currentContentManager?.standard);
-      setRoleId(currentContentManager?.role_id);
-      setSchoolId(currentContentManager.school_id);
-      setStatus(currentContentManager?.status);
+    if (currentTutor) {
+      setFirstName(currentTutor?.first_name);
+      setLastName(currentTutor?.last_name);
+      setEmail(currentTutor?.email);
+      setMobileNumber(currentTutor?.mobile_number);
+      setStandard(currentTutor?.standard);
+      setRoleId(currentTutor?.role_id);
+      setSchoolId(currentTutor.school_id);
+      setStatus(currentTutor?.status);
     } else {
       return;
     }
-  }, [currentContentManager]);
+  }, [currentTutor]);
 
   const handleFormSubmitAction = () => {
-    const contentManagerFormData: ICreateContentManager = {
-      id: currentContentManager?.id,
+    const TutorFormData: ICreateTutor = {
+      id: currentTutor?.id,
       first_name: first_name,
       last_name: last_name,
       email: email,
@@ -70,11 +66,11 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
       standard: standard,
       role_id: role_id,
       school_id: school_id,
-      school_code: currentContentManager?.school_code ? currentContentManager.school_code : SCHOOL_CODE.GLOBAL,
-      isEditFlag: currentContentManager?.isEditFlag ? currentContentManager.isEditFlag : false,
+      school_code: currentTutor?.school_code ? currentTutor.school_code : SCHOOL_CODE.GLOBAL,
+      isEditFlag: currentTutor?.isEditFlag ? currentTutor.isEditFlag : false,
       status: status,
     };
-    addOrUpdateUser(contentManagerFormData);
+    addOrUpdateUser(TutorFormData);
   };
 
   return (
@@ -185,8 +181,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.CONTENTMANAGER}>CONTENTMANAGER</option>
-            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOLCONTENTMANAGER</option>
+            <option value={USER_TYPE.TUTOR}>TUTOR</option>
+            <option value={USER_TYPE.SCHOOLTUTOR}>SCHOOLTUTOR</option>
           </select>
         </div>
       </div>
@@ -200,15 +196,13 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             onChange={(e) => {
               setSchoolId(e.target.value);
             }}
-            disabled={
-              role_id === '' || role_id === 'none' || role_id == USER_TYPE.CONTENTMANAGER.toString() ? true : false
-            }
+            disabled={role_id === '' || role_id === 'none' || role_id == USER_TYPE.TUTOR.toString() ? true : false}
             id="school_id"
             name="school_id"
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.CONTENTMANAGER.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
+            <option value="none">{role_id == USER_TYPE.TUTOR.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (
@@ -250,7 +244,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             }}
             className={`px-2 py-2 rounded-lg focus:outline-none bg-${currentPrimaryColor} w-full button`}
           >
-            {currentContentManager?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
+            {currentTutor?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
           </button>
           <button
             onClick={(e: React.SyntheticEvent) => {
