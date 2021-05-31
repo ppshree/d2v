@@ -17,9 +17,10 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
-  // const { adminList } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { adminList, selectedAdmin } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  const { adminList, selectedAdmin, pageLoader: loader } = useSelector(
+    (state: RootState) => state.SuperAdminHomePageReducer,
+  );
 
   const [limit, setLimit] = useState<number>(0);
   const [offset, setOffset] = useState<number>(0);
@@ -34,22 +35,26 @@ export const AdminList: FC = () => {
 
   useEffect(() => {
     // debounce effect
-    const timer = setTimeout(() => {
-      if (queryName !== '') {
-        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
-      } else if (queryEmail !== '') {
-        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-      } else if (queryPhone !== '') {
-        dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-      } else if (queryUserType !== '') {
-        dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-      } else if (queryStatus !== '') {
-        dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-      } else {
-        dispatch(retrieveAllAdmin({ limit, offset }));
-      }
-    }, 500);
-    return () => clearTimeout(timer);
+    if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
+      const timer = setTimeout(() => {
+        if (queryName !== '') {
+          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
+        } else if (queryEmail !== '') {
+          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+        } else if (queryPhone !== '') {
+          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+        } else if (queryUserType !== '') {
+          dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+        } else if (queryStatus !== '') {
+          dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+        } else {
+          dispatch(retrieveAllAdmin({ limit, offset }));
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      dispatch(retrieveAllAdmin({ limit, offset }));
+    }
   }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
@@ -115,7 +120,6 @@ export const AdminList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      {/* Filter Header Part */}
       <FilterHeader
         filterFor="Admin"
         setQueryName={setQueryName}
@@ -125,10 +129,17 @@ export const AdminList: FC = () => {
         setQueryStatus={setQueryStatus}
       />
       {/* User Table List */}
-      {/* User Table List */}
-      <div className="sm:my-3 xsm:my-3">
-        <UserTableList updateActionUser={updateAdminAction} deleteActionUser={deleteAdminAction} userList={adminList} />
-      </div>
+      {loader ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="sm:my-3 xsm:my-3">
+          <UserTableList
+            updateActionUser={updateAdminAction}
+            deleteActionUser={deleteAdminAction}
+            userList={adminList}
+          />
+        </div>
+      )}
       {/* Filter Bottom Part */}
       <FilterBottom setLimit={setLimit} setOffset={setOffset} />
     </>

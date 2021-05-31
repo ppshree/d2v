@@ -107,6 +107,7 @@ export const UserTableList: React.FC<Iprops> = ({ userList, updateActionUser, de
             })}
         </tbody>
       </table>
+      {userList.length == 0 && <p className="flex justify-center items-center p-8 w-full">No User Found</p>}
       {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
         <ConfirmAlert confirmResponse={alertResponse} />

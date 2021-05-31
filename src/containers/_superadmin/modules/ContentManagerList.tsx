@@ -20,7 +20,7 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { contentManagerList, selectedContentManager } = useSelector(
+  const { contentManagerList, selectedContentManager, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -37,22 +37,26 @@ export const ContentManagerList: FC = () => {
 
   useEffect(() => {
     // debounce effect
-    const timer = setTimeout(() => {
-      if (queryName !== '') {
-        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
-      } else if (queryEmail !== '') {
-        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-      } else if (queryPhone !== '') {
-        dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-      } else if (queryUserType !== '') {
-        dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-      } else if (queryStatus !== '') {
-        dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-      } else {
-        dispatch(retrieveAllContentManagers({ limit, offset }));
-      }
-    }, 500);
-    return () => clearTimeout(timer);
+    if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
+      const timer = setTimeout(() => {
+        if (queryName !== '') {
+          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
+        } else if (queryEmail !== '') {
+          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
+        } else if (queryPhone !== '') {
+          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
+        } else if (queryUserType !== '') {
+          dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
+        } else if (queryStatus !== '') {
+          dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
+        } else {
+          dispatch(retrieveAllContentManagers({ limit, offset }));
+        }
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      dispatch(retrieveAllContentManagers({ limit, offset }));
+    }
   }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
@@ -133,13 +137,17 @@ export const ContentManagerList: FC = () => {
         setQueryStatus={setQueryStatus}
       />
       {/* User Table List */}
-      <div className="sm:my-3 xsm:my-3">
-        <UserTableList
-          updateActionUser={updateContentManagerAction}
-          deleteActionUser={deleteContentManagerAction}
-          userList={contentManagerList}
-        />
-      </div>
+      {loader ? (
+        <div>Loading... </div>
+      ) : (
+        <div className="sm:my-3 xsm:my-3">
+          <UserTableList
+            updateActionUser={updateContentManagerAction}
+            deleteActionUser={deleteContentManagerAction}
+            userList={contentManagerList}
+          />
+        </div>
+      )}
       {/* Filter Bottom Part */}
       <FilterBottom setLimit={setLimit} setOffset={setOffset} />
     </>
