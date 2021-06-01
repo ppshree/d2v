@@ -66,8 +66,9 @@ export const LoginPageSlice = createSlice({
     },
     [authenticateUser.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && action.payload.isAxiosError) {
-        const { status, msg } = action.payload;
-        state.loginError = status === RESPONSE.FAILED ? msg : 'Network Error';
+        const { status } = action.payload;
+        const { message } = action.payload.errors[0];
+        state.loginError = status === RESPONSE.FAILED ? message : 'Network Error';
         state.isLoading = false;
         state.loggedInUser = {};
         state.isAuthCompleted = false;
@@ -94,8 +95,9 @@ export const LoginPageSlice = createSlice({
     },
     [loginUser.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && action.payload.isAxiosError) {
-        const { status, msg } = action.payload;
-        state.loginError = status === RESPONSE.FAILED ? msg : 'Network Error';
+        const { status } = action.payload;
+        const { message } = action.payload.errors[0];
+        state.loginError = status === RESPONSE.FAILED ? message : 'Network Error';
         state.isLoading = false;
         return;
       }
