@@ -63,6 +63,8 @@ module.exports = {
       status_discard_bg: 'var(--status_discard_bg)',
       status_pending_text: 'var(--status_pending_text)',
       status_pending_bg: 'var(--status_pending_bg)',
+      // login Button
+      login_button: 'var(--login_button)',
     },
     spacing: {
       px: '1px',

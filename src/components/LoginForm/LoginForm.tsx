@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import './LoginForm.css';
 import { AlertBar } from '../shared/AlertBar';
+import { DEFAULT } from '../../app/entity/constant';
 //import backArrow from '../../asset/back.svg';
 interface LoginFormProps {
   //errMessage: null | string;
@@ -21,38 +22,89 @@ export const LoginForm: FC<LoginFormProps> = ({
   loginIsLoading,
 }) => {
   const { t } = useTranslation();
+  const [loginTitle, setLoginTitle] = useState<string>(DEFAULT.LOGINTITLE);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   const { loginError: errMessage } = useSelector((state: RootState) => state.LoginPageReducer);
 
   return (
     <div className="popUp-container">
-      <div className="popUp-ineer-container">
-        <div className="mb-5">{/* <img src={logo} alt="Test" style={{ height: '30px' }} /> */}</div>
-        <form>
+      <div className="flex flex-col h-full justify-evenly">
+        <div className="login-title-section">
+          <h3 className="login-title">{loginTitle}</h3>
+          {!isLogin && (
+            <p className="text-gray-500 w-full font-light">
+              Enter a registered email/mobile number associated with your account to reset the password
+            </p>
+          )}
+        </div>
+        <form className="flex flex-col h-60 justify-evenly">
           {errMessage && <AlertBar message={errMessage} />}
-          <input
-            placeholder={t('Email')}
-            className="card-input pii"
-            type="text"
-            maxLength={50}
-            onChange={(e) => {
-              setUserEmail(e.target.value);
-            }}
-            required
-          ></input>
-          <input
-            // style={{ visibility: isLogin ? 'visible' : 'hidden' }}
-            placeholder={t('Password')}
-            className="card-input"
-            type="password"
-            maxLength={15}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            required
-          ></input>
-          <button onClick={login} className="card-button" style={{ width: '305px' }}>
-            {!loginIsLoading ? t('Login') : t('Loading') + '...'}
-          </button>
+          <div className="flex flex-col h-full space-y-2 justify-center">
+            <label className="block text-gray-500 w-full font-bold" htmlFor="email">
+              Email/Mobile Number
+            </label>
+            <input
+              style={{ width: '305px' }}
+              className="appearance-none focus:outline-none px-4 py-2 rounded input-box-shadow"
+              type="text"
+              maxLength={50}
+              onChange={(e) => {
+                setUserEmail(e.target.value);
+              }}
+              required
+            ></input>
+          </div>
+          {isLogin && (
+            <div className="flex flex-col h-full space-y-2 justify-center">
+              <label className="block text-gray-500 w-full font-bold" htmlFor="password">
+                Password
+              </label>
+              <input
+                style={{ width: '305px' }}
+                // style={{ visibility: isLogin ? 'visible' : 'hidden' }}
+                className="appearance-none focus:outline-none px-4 py-2 rounded input-box-shadow"
+                type="password"
+                maxLength={15}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                required
+              ></input>
+            </div>
+          )}
+          <div className="login-button">
+            {isLogin && (
+              <button
+                onClick={login}
+                className="mt-4 px-2 py-2 rounded focus:outline-none bg-login_button text-text_white button"
+                style={{ width: '305px' }}
+              >
+                {!loginIsLoading ? t('Login') : t('Loading') + '...'}
+              </button>
+            )}
+            {!isLogin && (
+              <button
+                onClick={login}
+                className="mt-4 px-2 py-2 rounded focus:outline-none bg-login_button text-text_white button"
+                style={{ width: '305px' }}
+              >
+                {!loginIsLoading ? t('Confirm') : t('Loading') + '...'}
+              </button>
+            )}
+            <p className="text-gray-500 w-full font-bold mt-2">
+              {t(isLogin ? 'Having issue in login? ' : '')}
+              <span
+                onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                  event.preventDefault();
+                  setIsLogin(isLogin ? false : true);
+                  setLoginTitle(isLogin ? DEFAULT.FORGETPASSWORD : DEFAULT.LOGINTITLE);
+                }}
+                className="text-gs_primary cursor-pointer"
+              >
+                {t(isLogin ? 'Forgot Password' : 'Back To Login')}
+              </span>
+            </p>
+          </div>
         </form>
       </div>
     </div>

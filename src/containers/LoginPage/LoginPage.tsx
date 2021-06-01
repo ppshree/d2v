@@ -6,6 +6,7 @@ import { RootState } from '../../app/rootReducer';
 import { IloginUser } from '../../app/entity/constant';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
 import { updateLoginError } from '../../containers/LoginPage/LoginPageSlice';
+import { LoginShowcase } from '../../components/LoginShowcase/LoginShowcase';
 export const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const { isLoading: loginIsLoading } = useSelector((state: RootState) => state.LoginPageReducer);
@@ -29,12 +30,17 @@ export const LoginPage: FC = () => {
 
   return (
     <div className="login-background">
-      <LoginForm
-        setUserEmail={setUserEmail}
-        setPassword={setPassword}
-        login={handleSubmit}
-        loginIsLoading={loginIsLoading}
-      />
+      <div className="login-form">
+        <div className="ml-28">
+          <LoginForm
+            setUserEmail={setUserEmail}
+            setPassword={setPassword}
+            login={handleSubmit}
+            loginIsLoading={loginIsLoading}
+          />
+        </div>
+      </div>
+      <LoginShowcase />
     </div>
   );
 };

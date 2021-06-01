@@ -39,6 +39,8 @@
   --status_discard_bg: #FFCFC8;
   --status_pending_text: #ED7302;
   --status_pending_bg: #F8EDB6;
+  /* Login Button */
+  --login_button: #8B55FE;
 }
 body {
   margin: 0;
