@@ -1,26 +1,22 @@
 import React, { FC, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/rootReducer';
 import './LoginForm.css';
 import { AlertBar } from '../shared/AlertBar';
 import { DEFAULT } from '../../app/entity/constant';
-//import backArrow from '../../asset/back.svg';
+import { updateLoginError } from '../../containers/LoginPage/LoginPageSlice';
+
 interface LoginFormProps {
-  //errMessage: null | string;
-  setUserEmail: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
-  setPassword: React.Dispatch<React.SetStateAction<string>>; //(e: React.ChangeEvent<HTMLInputElement>) => void;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
   login: (ev: React.MouseEvent<HTMLButtonElement>) => void;
   loginIsLoading: boolean;
 }
 
-export const LoginForm: FC<LoginFormProps> = ({
-  //errMessage,
-  setUserEmail,
-  setPassword,
-  login,
-  loginIsLoading,
-}) => {
+export const LoginForm: FC<LoginFormProps> = ({ setUserEmail, setPassword, login, loginIsLoading }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [loginTitle, setLoginTitle] = useState<string>(DEFAULT.LOGINTITLE);
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -37,8 +33,8 @@ export const LoginForm: FC<LoginFormProps> = ({
             </p>
           )}
         </div>
+        {errMessage && <AlertBar message={errMessage} />}
         <form className="flex flex-col h-60 justify-evenly">
-          {errMessage && <AlertBar message={errMessage} />}
           <div className="flex flex-col h-full space-y-2 justify-center">
             <label className="block text-gray-500 w-full font-bold" htmlFor="email">
               Email/Mobile Number
@@ -61,7 +57,6 @@ export const LoginForm: FC<LoginFormProps> = ({
               </label>
               <input
                 style={{ width: '305px' }}
-                // style={{ visibility: isLogin ? 'visible' : 'hidden' }}
                 className="appearance-none focus:outline-none px-4 py-2 rounded input-box-shadow"
                 type="password"
                 maxLength={15}
@@ -96,6 +91,7 @@ export const LoginForm: FC<LoginFormProps> = ({
               <span
                 onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
                   event.preventDefault();
+                  dispatch(updateLoginError(''));
                   setIsLogin(isLogin ? false : true);
                   setLoginTitle(isLogin ? DEFAULT.FORGETPASSWORD : DEFAULT.LOGINTITLE);
                 }}

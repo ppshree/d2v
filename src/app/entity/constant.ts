@@ -252,3 +252,8 @@ export interface IloginUser {
   email: string;
   password: string;
 }
+export interface IcreatePassword {
+  userId: string;
+  password: string;
+  confirmPassword: string;
+}

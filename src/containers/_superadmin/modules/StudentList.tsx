@@ -133,6 +133,7 @@ export const StudentList: FC = () => {
       ) : (
         <div className="sm:my-3 xsm:my-3">
           <UserTableList
+            refer="Student"
             updateActionUser={updateStudentAction}
             deleteActionUser={deleteStudentAction}
             userList={studentList}
