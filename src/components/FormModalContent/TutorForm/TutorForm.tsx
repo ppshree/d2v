@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { USER_TYPE, USER_STATUS, SCHOOL_CODE } from '../../../app/entity/constant';
+import { USER_TYPE, USER_STATUS, DEFAULT } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
@@ -66,7 +66,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
       standard: standard,
       role_id: role_id,
       school_id: school_id,
-      school_code: currentTutor?.school_code ? currentTutor.school_code : SCHOOL_CODE.GLOBAL,
+      school_code: currentTutor?.school_code ? currentTutor.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentTutor?.isEditFlag ? currentTutor.isEditFlag : false,
       status: status,
     };
@@ -202,7 +202,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.TUTOR.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
+            <option value="none">{role_id == USER_TYPE.TUTOR.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (
