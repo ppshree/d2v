@@ -257,3 +257,11 @@ export interface IcreatePassword {
   password: string;
   confirmPassword: string;
 }
+
+export interface IFilterUserObj {
+  limit: number;
+  offset: number;
+  search: string;
+  role_id: string;
+  status: string;
+}

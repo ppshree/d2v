@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Redirect, Route, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Redirect, Route, useLocation } from 'react-router-dom';
 import { APPLICATION_URL } from './applicationRoutes';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';
@@ -23,9 +23,9 @@ import { SchoolStudent } from '../../containers/_schoolstudent/SchoolStudent';
 
 export const RouterConfig: React.FC = () => {
   const location = useLocation();
-  const history = useHistory();
   const { loggedInUser, isAuthCompleted } = useSelector((state: RootState) => state.LoginPageReducer);
   const [redirectToPath, setRedirectToPath] = useState('');
+  const [passwordResetToken, setPasswordResetToken] = useState<string>('');
 
   useEffect(() => {
     if (loggedInUser) {
@@ -50,15 +50,23 @@ export const RouterConfig: React.FC = () => {
       } else if (loggedInUser.role_id == USER_TYPE.SCHOOLCONTENTMANAGER) {
         setRedirectToPath(APPLICATION_URL.SCHOOLCONTENTMANAGER);
       } else if (location.pathname.includes(APPLICATION_URL.CREATE_PASSWORD.split(':id')[0])) {
+        setPasswordResetToken(location.pathname.split('/createPassword/')[1]);
         setRedirectToPath(APPLICATION_URL.CREATE_PASSWORD);
-        history.push(location.pathname);
       } else {
         setRedirectToPath(APPLICATION_URL.LOGIN);
       }
     } else {
       setRedirectToPath(APPLICATION_URL.LOGIN);
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, location]);
+
+  const handleRedirectToPath = (path: string): string => {
+    if (path === APPLICATION_URL.CREATE_PASSWORD) {
+      return '/';
+    } else {
+      return path;
+    }
+  };
 
   return (
     <Switch>
@@ -100,9 +108,23 @@ export const RouterConfig: React.FC = () => {
       )}
       {/* ==== Create Password Route ==== */}
       {!isAuthCompleted && redirectToPath === APPLICATION_URL.CREATE_PASSWORD && (
-        <Route key={APPLICATION_URL.CREATE_PASSWORD} path={redirectToPath} component={PasswordSetupPage} />
+        <Route
+          exact
+          key={APPLICATION_URL.CREATE_PASSWORD}
+          path={APPLICATION_URL.CREATE_PASSWORD}
+          component={PasswordSetupPage}
+        />
       )}
-      <Redirect key={'redirect'} to={redirectToPath} />
+      <Redirect
+        key={'redirect'}
+        to={
+          !location.pathname.includes('/createPassword/')
+            ? handleRedirectToPath(redirectToPath)
+            : !isAuthCompleted
+            ? `/createPassword/${passwordResetToken}`
+            : redirectToPath
+        }
+      />
     </Switch>
   );
 };

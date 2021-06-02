@@ -5,11 +5,12 @@ import { ChevronRightIcon } from '@heroicons/react/solid';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 interface Iprops {
+  limit?: number;
   setLimit: React.Dispatch<React.SetStateAction<number>>;
   setOffset: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const FilterBottom: React.FC<Iprops> = ({ setLimit, setOffset }) => {
+export const FilterBottom: React.FC<Iprops> = ({ limit, setLimit, setOffset }) => {
   const { currentPrimaryColor } = useColorUserType();
   return (
     <div className="flex justify-end item-center flex-wrap w-full space-x-3 mb-3">
@@ -18,6 +19,7 @@ export const FilterBottom: React.FC<Iprops> = ({ setLimit, setOffset }) => {
           Rows per page:
         </label>
         <select
+          value={limit && limit}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             setLimit(parseInt(e.target.value));
           }}

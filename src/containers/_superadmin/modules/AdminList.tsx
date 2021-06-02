@@ -20,7 +20,7 @@ export const AdminList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -35,25 +35,27 @@ export const AdminList: FC = () => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        }
-        if (queryEmail !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        }
-        if (queryPhone !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        }
-        if (queryUserType !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        }
-        if (queryStatus !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        }
+        dispatch(
+          retrieveAllAdmin({
+            search: queryName || queryEmail || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllAdmin({ limit, offset }));
+      dispatch(
+        retrieveAllAdmin({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
   }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
@@ -141,7 +143,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} setLimit={setLimit} setOffset={setOffset} />
     </>
   );
 };

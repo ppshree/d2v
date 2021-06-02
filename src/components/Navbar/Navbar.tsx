@@ -15,7 +15,7 @@ export const Navbar = () => {
           {['Home', 'Course', 'Help'].map((link: string) => {
             return (
               <li
-                onClick={() => history.push(`/${link.toLowerCase()}`)}
+                onClick={() => history.push(`/login`)}
                 key={link}
                 className="list-none text-gray font-bold cursor-pointer"
               >
