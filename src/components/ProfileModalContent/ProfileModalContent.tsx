@@ -29,7 +29,7 @@ export const ProfileModalContent: React.FC<Iprops> = ({ openLogoutModal }) => {
           <BellIcon className={`cursor-pointer w-6 text-${currentPrimaryColor}`} />
         </div>
         <button
-          className={`focus:outline-none rounded-md hover:shadow-lg bg-${currentPrimaryColor} py-0.5 text-text_white w-full`}
+          className={`button focus:outline-none rounded-md bg-${currentPrimaryColor} py-0.5 text-text_white w-full`}
           onClick={(e: React.SyntheticEvent) => {
             e.preventDefault();
             openLogoutModal();
@@ -38,7 +38,7 @@ export const ProfileModalContent: React.FC<Iprops> = ({ openLogoutModal }) => {
           Logout
         </button>
         <button
-          className={`focus:outline-none rounded-md hover:shadow-lg bg-${currentSecondaryColor} py-0.5 px-1.5 text-text_white w-full`}
+          className={`button focus:outline-none rounded-md bg-${currentSecondaryColor} py-0.5 px-1.5 text-text_white w-full`}
           onClick={(e: React.SyntheticEvent) => {
             e.preventDefault();
           }}

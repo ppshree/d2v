@@ -97,7 +97,7 @@ export const LoginForm: FC<LoginFormProps> = ({ setUserEmail, setPassword, login
                 }}
                 className="text-gs_primary cursor-pointer"
               >
-                {t(isLogin ? 'Forgot Password' : 'Back To Login')}
+                {t(isLogin ? 'Forget Password' : 'Back To Login')}
               </span>
             </p>
           </div>

@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  ICreateAdmin,
-  ICreateContentManager,
-  ICreateSchool,
-  ICreateTutor,
-  ICreateStudent,
-} from '../../app/entity/model';
+import { ICreateAdmin, ICreateContentManager, ICreateTutor, ICreateStudent } from '../../app/entity/model';
 import {
   retrieveAllContentManagers,
   createNewContentManager,
@@ -21,12 +15,10 @@ import {
   createNewStudent,
   deleteStudent,
 } from '../../app/service/superadmin.service';
-import { retrieveAllSchoolBySuperAdmin } from '../../app/service/shared.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
   adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
-  schoolList: ICreateSchool[];
   tutorList: ICreateTutor[];
   studentList: ICreateStudent[];
   pageLoader: boolean;
@@ -36,13 +28,11 @@ interface HomePageState {
   selectedAdmin: ICreateAdmin | null;
   selectedTutor: ICreateTutor | null;
   selectedStudent: ICreateStudent | null;
-  selectedSchool: ICreateSchool | null;
 }
 
 const initialState: HomePageState = {
   adminList: [],
   contentManagerList: [],
-  schoolList: [],
   tutorList: [],
   studentList: [],
   pageLoader: false,
@@ -52,7 +42,6 @@ const initialState: HomePageState = {
   selectedAdmin: null,
   selectedStudent: null,
   selectedTutor: null,
-  selectedSchool: null,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
@@ -60,7 +49,6 @@ type ContentManagerPayloadAction = PayloadAction<ICreateContentManager | null>;
 type AdminPayloadAction = PayloadAction<ICreateAdmin | null>;
 type TutorPayloadAction = PayloadAction<ICreateTutor | null>;
 type StudentPayloadAction = PayloadAction<ICreateStudent | null>;
-type SchoolPayloadAction = PayloadAction<ICreateSchool | null>;
 export const HomePageSlice = createSlice({
   name: 'SuperAdminHomePageReducer',
   initialState,
@@ -73,9 +61,6 @@ export const HomePageSlice = createSlice({
     },
     updateSelectedAdmin: (state, action: AdminPayloadAction) => {
       state.selectedAdmin = action.payload;
-    },
-    updateSelectedSchool: (state, action: SchoolPayloadAction) => {
-      state.selectedSchool = action.payload;
     },
     updateSelectedTutor: (state, action: TutorPayloadAction) => {
       state.selectedTutor = action.payload;
@@ -158,23 +143,6 @@ export const HomePageSlice = createSlice({
     [deleteContentManager.rejected.toString()]: (state, action: any) => {
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
-    },
-    [retrieveAllSchoolBySuperAdmin.pending.toString()]: (state) => {
-      state.schoolList = [];
-      state.pageLoader = true;
-    },
-    [retrieveAllSchoolBySuperAdmin.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.schoolList = [];
-        state.pageLoader = false;
-        return;
-      }
-      state.schoolList = action.payload && action.payload.data ? action.payload.data : [];
-      state.pageLoader = false;
-    },
-    [retrieveAllSchoolBySuperAdmin.rejected.toString()]: (state) => {
-      state.schoolList = [];
-      state.pageLoader = false;
     },
     [retrieveAllAdmin.pending.toString()]: (state) => {
       state.adminList = [];
@@ -403,7 +371,6 @@ export const {
   updateFormError,
   updateSelectedContentManager,
   updateSelectedAdmin,
-  updateSelectedSchool,
   updateSelectedTutor,
   updateSelectedStudent,
 } = HomePageSlice.actions;
