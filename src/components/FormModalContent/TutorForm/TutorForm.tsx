@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchool } from '../../../app/service/shared.service';
 import { ICreateTutor, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -15,10 +15,10 @@ interface Iprops {
 
 export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { selectedTutor: currentTutor, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+  const { selectedTutor: currentTutor, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -32,10 +32,8 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (role_id == USER_TYPE.SCHOOLTUTOR.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (role_id == USER_TYPE.SCHOOLTUTOR.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
-      dispatch(retrieveAllSchoolByAdmin());
+    if (role_id == USER_TYPE.SCHOOLTUTOR.toString()) {
+      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
     } else {
       setSchoolId('');
     }

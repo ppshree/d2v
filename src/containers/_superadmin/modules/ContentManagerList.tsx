@@ -41,16 +41,18 @@ export const ContentManagerList: FC = () => {
       const timer = setTimeout(() => {
         if (queryName !== '') {
           dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
+        }
+        if (queryEmail !== '') {
           dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
+        }
+        if (queryPhone !== '') {
           dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
+        }
+        if (queryUserType !== '') {
           dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
+        }
+        if (queryStatus !== '') {
           dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllContentManagers({ limit, offset }));
         }
       }, 500);
       return () => clearTimeout(timer);

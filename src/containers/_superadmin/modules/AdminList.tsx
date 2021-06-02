@@ -1,9 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-// import { ListItems } from '../../../components/ListItem/ListItems';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
@@ -39,16 +37,18 @@ export const AdminList: FC = () => {
       const timer = setTimeout(() => {
         if (queryName !== '') {
           dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
+        }
+        if (queryEmail !== '') {
           dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
+        }
+        if (queryPhone !== '') {
           dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
+        }
+        if (queryUserType !== '') {
           dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
+        }
+        if (queryStatus !== '') {
           dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllAdmin({ limit, offset }));
         }
       }, 500);
       return () => clearTimeout(timer);

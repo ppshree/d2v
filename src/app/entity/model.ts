@@ -65,9 +65,11 @@ export interface ICreateSchool {
   address: string;
   pin: string;
   city: string;
-  contact_number?: string;
+  contact_number: string;
   email: string;
-  affiliation_no?: string;
+  affiliation_no: string;
   authorized_by?: string;
   is_active?: boolean;
+  created_by?: string;
+  isEditFlag?: boolean;
 }

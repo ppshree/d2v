@@ -25,7 +25,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor } from '../entity/model';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
-interface IGetAll {
+export interface IGetAll {
   filterType?: string;
   filterQuery?: string;
   limit: number;

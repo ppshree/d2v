@@ -77,55 +77,57 @@ export const FilterHeader: React.FC<Iprops> = ({
           />
         </div>
       </div>
-      <div className="flex-1 flex justify-start user-type-box w-full h-12">
-        <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-            <AcademicCapIcon className={`text-${currentSecondaryColor} w-6`} />
-          </span>
-          <select
-            onChange={(e) => {
-              setQueryUserType(e.target.value);
-            }}
-            id="userType"
-            name="userType"
-            className="py-2 rounded-md w-full pl-10 focus:outline-none"
-          >
-            <option value="none">None</option>
-            {filterFor === 'Admin' &&
-              [USER_TYPE.ADMIN, USER_TYPE.SCHOOLSUPERADMIN, USER_TYPE.SCHOOLADMIN].map((userType: number) => {
-                return (
-                  <option key={userType} value={userType}>
-                    {ROLES[userType]}
-                  </option>
-                );
-              })}
-            {filterFor === 'Tutor' &&
-              [USER_TYPE.TUTOR, USER_TYPE.SCHOOLTUTOR].map((userType: number) => {
-                return (
-                  <option key={userType} value={userType}>
-                    {ROLES[userType]}
-                  </option>
-                );
-              })}
-            {filterFor === 'Content Manager' &&
-              [USER_TYPE.CONTENTMANAGER, USER_TYPE.SCHOOLCONTENTMANAGER].map((userType: number) => {
-                return (
-                  <option key={userType} value={userType}>
-                    {ROLES[userType]}
-                  </option>
-                );
-              })}
-            {filterFor === 'Student' &&
-              [USER_TYPE.STUDENT, USER_TYPE.SCHOOLSTUDENT].map((userType: number) => {
-                return (
-                  <option key={userType} value={userType}>
-                    {ROLES[userType]}
-                  </option>
-                );
-              })}
-          </select>
+      {filterFor !== 'School' && (
+        <div className="flex-1 flex justify-start user-type-box w-full h-12">
+          <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+              <AcademicCapIcon className={`text-${currentSecondaryColor} w-6`} />
+            </span>
+            <select
+              onChange={(e) => {
+                setQueryUserType(e.target.value);
+              }}
+              id="userType"
+              name="userType"
+              className="py-2 rounded-md w-full pl-10 focus:outline-none"
+            >
+              <option value="none">None</option>
+              {filterFor === 'Admin' &&
+                [USER_TYPE.ADMIN, USER_TYPE.SCHOOLSUPERADMIN, USER_TYPE.SCHOOLADMIN].map((userType: number) => {
+                  return (
+                    <option key={userType} value={userType}>
+                      {ROLES[userType]}
+                    </option>
+                  );
+                })}
+              {filterFor === 'Tutor' &&
+                [USER_TYPE.TUTOR, USER_TYPE.SCHOOLTUTOR].map((userType: number) => {
+                  return (
+                    <option key={userType} value={userType}>
+                      {ROLES[userType]}
+                    </option>
+                  );
+                })}
+              {filterFor === 'Content Manager' &&
+                [USER_TYPE.CONTENTMANAGER, USER_TYPE.SCHOOLCONTENTMANAGER].map((userType: number) => {
+                  return (
+                    <option key={userType} value={userType}>
+                      {ROLES[userType]}
+                    </option>
+                  );
+                })}
+              {filterFor === 'Student' &&
+                [USER_TYPE.STUDENT, USER_TYPE.SCHOOLSTUDENT].map((userType: number) => {
+                  return (
+                    <option key={userType} value={userType}>
+                      {ROLES[userType]}
+                    </option>
+                  );
+                })}
+            </select>
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex-1 flex justify-start status-box w-full h-12">
         <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
           <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -138,13 +140,22 @@ export const FilterHeader: React.FC<Iprops> = ({
             className="py-2 rounded-md w-full pl-10 focus:outline-none"
           >
             <option value="none">None</option>
-            {[USER_STATUS.PENDING, USER_STATUS.APPROVED, USER_STATUS.DISCARDED].map((status: string) => {
-              return (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              );
-            })}
+            {filterFor !== 'School' &&
+              [USER_STATUS.PENDING, USER_STATUS.APPROVED, USER_STATUS.DISCARDED].map((status: string) => {
+                return (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                );
+              })}
+            {filterFor === 'School' &&
+              ['active', 'not-active'].map((status: string) => {
+                return (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                );
+              })}
           </select>
         </div>
       </div>

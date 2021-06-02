@@ -77,7 +77,7 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SUPERADMIN_SCHOOL_LIST, isTopItem: true },
+    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
@@ -101,7 +101,7 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.ADMIN_SCHOOL_LIST, isTopItem: true },
+    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
@@ -251,4 +251,9 @@ export enum CONTENT_TYPE {
 export interface IloginUser {
   email: string;
   password: string;
+}
+export interface IcreatePassword {
+  userId: string;
+  password: string;
+  confirmPassword: string;
 }

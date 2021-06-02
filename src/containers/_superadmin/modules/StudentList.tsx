@@ -37,16 +37,18 @@ export const StudentList: FC = () => {
       const timer = setTimeout(() => {
         if (queryName !== '') {
           dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
+        }
+        if (queryEmail !== '') {
           dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
+        }
+        if (queryPhone !== '') {
           dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
+        }
+        if (queryUserType !== '') {
           dispatch(retrieveAllStudent({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
+        }
+        if (queryStatus !== '') {
           dispatch(retrieveAllStudent({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllStudent({ limit, offset }));
         }
       }, 500);
       return () => clearTimeout(timer);
@@ -133,6 +135,7 @@ export const StudentList: FC = () => {
       ) : (
         <div className="sm:my-3 xsm:my-3">
           <UserTableList
+            refer="Student"
             updateActionUser={updateStudentAction}
             deleteActionUser={deleteStudentAction}
             userList={studentList}

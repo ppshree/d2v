@@ -7,6 +7,8 @@ import { RootState } from '../rootReducer';
 import { LoginPage } from '../../containers/LoginPage/LoginPage';
 import { PasswordSetupPage } from '../../containers/PasswordSetupPage/PasswordSetupPage';
 
+// =========== School Routes ==================
+import { School } from '../../containers/_school/School';
 // =========== Global USER Components ===========
 import { SuperAdmin } from '../../containers/_superadmin/SuperAdmin';
 import { Admin } from '../../containers/_admin/Admin';
@@ -60,6 +62,9 @@ export const RouterConfig: React.FC = () => {
 
   return (
     <Switch>
+      {isAuthCompleted && (loggedInUser.role_id == USER_TYPE.SUPERADMIN || loggedInUser.role_id == USER_TYPE.ADMIN) && (
+        <Route key={APPLICATION_URL.SCHOOL} path={APPLICATION_URL.SCHOOL} component={School} />
+      )}
       {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SUPERADMIN && (
         <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />
       )}

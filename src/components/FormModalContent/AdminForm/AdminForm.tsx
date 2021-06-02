@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchool } from '../../../app/service/shared.service';
 import { ICreateAdmin, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -15,10 +15,10 @@ interface Iprops {
 
 export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { selectedAdmin: currentAdmin, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+  const { selectedAdmin: currentAdmin, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -31,11 +31,8 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (
-      (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) &&
-      loggedInUser.role_id == USER_TYPE.SUPERADMIN
-    ) {
-      dispatch(retrieveAllSchoolBySuperAdmin());
+    if (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) {
+      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
     } else {
       setSchoolId('');
     }
