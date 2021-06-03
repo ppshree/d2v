@@ -16,7 +16,7 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { adminList, selectedAdmin, pageLoader: loader } = useSelector(
+  const { adminList, selectedAdmin, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -31,12 +31,9 @@ export const AdminList: FC = () => {
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
 
-  /*page state change*/
-  const [count, setCount] = useState<number>(0);
-
   useEffect(() => {
-    if (adminList.length > count) setCount(Math.max(count, adminList.length));
-  }, [adminList]);
+    setOffset(0);
+  }, [limit]);
 
   useEffect(() => {
     // debounce effect

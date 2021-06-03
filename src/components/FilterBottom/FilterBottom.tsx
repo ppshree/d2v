@@ -18,20 +18,31 @@ export const FilterBottom: React.FC<Iprops> = ({ limit, offset, setLimit, setOff
   const [leftButtonDisabled, setleftButtonDisabled] = useState<boolean>(true);
   const [rightButtonDisabled, setrightButtonDisabled] = useState<boolean>(true);
 
-  useEffect(() => {
-    console.log(offset, limit, listLength);
-    offset - limit < 0 ? setleftButtonDisabled(true) : setleftButtonDisabled(false);
-    offset + limit > listLength ? setrightButtonDisabled(true) : setrightButtonDisabled(false);
-  }, [offset, limit]);
-
   const loadPrevPage = () => {
-    console.log('entered load prev page', offset - limit);
     setOffset(offset - limit);
   };
   const loadNextPage = () => {
-    console.log('entered load next page', offset + limit);
     setOffset(limit + offset);
   };
+
+  useEffect(() => {
+    // console.log(offset, listLength);
+    offset - limit < 0
+      ? setleftButtonDisabled(true)
+      : offset === 0 && limit === 0
+      ? setleftButtonDisabled(true)
+      : setleftButtonDisabled(false);
+    offset + limit >= listLength
+      ? setrightButtonDisabled(true)
+      : offset === 0 && limit === 0
+      ? setrightButtonDisabled(true)
+      : setrightButtonDisabled(false);
+    if (offset === listLength) {
+      if (leftButtonDisabled === false) {
+        loadPrevPage();
+      }
+    }
+  }, [offset, limit, listLength]);
 
   return (
     <div className="flex justify-end item-center flex-wrap w-full space-x-3 mb-3">
@@ -58,14 +69,18 @@ export const FilterBottom: React.FC<Iprops> = ({ limit, offset, setLimit, setOff
         <button
           disabled={leftButtonDisabled}
           onClick={loadPrevPage}
-          className={`button rounded-lg focus:outline-none border border-${currentPrimaryColor}`}
+          className={`${!leftButtonDisabled ? 'button' : ''} rounded-lg focus:outline-none border ${
+            !leftButtonDisabled ? `border-${currentPrimaryColor}` : 'bg-text_grey'
+          }`}
         >
           <ChevronLeftIcon className="w-6" />
         </button>
         <button
           disabled={rightButtonDisabled}
           onClick={loadNextPage}
-          className={`button rounded-lg focus:outline-none border border-${currentPrimaryColor}`}
+          className={`${!rightButtonDisabled ? 'button' : ''} rounded-lg focus:outline-none border ${
+            !rightButtonDisabled ? `border-${currentPrimaryColor}` : 'bg-text_grey'
+          }`}
         >
           <ChevronRightIcon className="w-6" />
         </button>
