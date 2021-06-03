@@ -29,6 +29,7 @@ interface HomePageState {
   selectedAdmin: ICreateAdmin | null;
   selectedTutor: ICreateTutor | null;
   selectedStudent: ICreateStudent | null;
+  count: number;
 }
 
 const initialState: HomePageState = {
@@ -44,6 +45,7 @@ const initialState: HomePageState = {
   selectedAdmin: null,
   selectedStudent: null,
   selectedTutor: null,
+  count: 0,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
@@ -74,19 +76,23 @@ export const HomePageSlice = createSlice({
   extraReducers: {
     [retrieveAllContentManagers.pending.toString()]: (state) => {
       state.contentManagerList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllContentManagers.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.contentManagerList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.contentManagerList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllContentManagers.rejected.toString()]: (state) => {
       state.contentManagerList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -104,6 +110,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.contentManagerList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.contentManagerList.push(action.payload.data);
       }
       state.formError = '';
@@ -137,6 +144,7 @@ export const HomePageSlice = createSlice({
       const index = state.contentManagerList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.contentManagerList.splice(index, 1);
       }
       state.formError = '';
@@ -148,20 +156,23 @@ export const HomePageSlice = createSlice({
     },
     [retrieveAllAdmin.pending.toString()]: (state) => {
       state.adminList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllAdmin.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.adminList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.adminList = action.payload && action.payload.data ? action.payload.data : [];
-      state.countList = action.payload && action.payload.count ? action.payload.count : 0;
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllAdmin.rejected.toString()]: (state) => {
       state.adminList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -180,6 +191,7 @@ export const HomePageSlice = createSlice({
         state.adminList[index] = action.payload.data;
       } else {
         state.adminList.push(action.payload.data);
+        state.count += 1;
       }
       state.formError = '';
       state.selectedAdmin = {
@@ -211,6 +223,7 @@ export const HomePageSlice = createSlice({
       const index = state.adminList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.adminList.splice(index, 1);
       }
       state.formError = '';
@@ -222,19 +235,23 @@ export const HomePageSlice = createSlice({
     },
     [retrieveAllTutor.pending.toString()]: (state) => {
       state.tutorList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllTutor.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.tutorList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.tutorList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllTutor.rejected.toString()]: (state) => {
       state.tutorList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -252,6 +269,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.tutorList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.tutorList.push(action.payload.data);
       }
       state.formError = '';
@@ -285,6 +303,7 @@ export const HomePageSlice = createSlice({
       const index = state.tutorList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.tutorList.splice(index, 1);
       }
       state.formError = '';
@@ -296,19 +315,23 @@ export const HomePageSlice = createSlice({
     },
     [retrieveAllStudent.pending.toString()]: (state) => {
       state.studentList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllStudent.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.studentList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.studentList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllStudent.rejected.toString()]: (state) => {
       state.studentList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -326,6 +349,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.studentList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.studentList.push(action.payload.data);
       }
       state.formError = '';
@@ -359,6 +383,7 @@ export const HomePageSlice = createSlice({
       const index = state.studentList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.studentList.splice(index, 1);
       }
       state.formError = '';

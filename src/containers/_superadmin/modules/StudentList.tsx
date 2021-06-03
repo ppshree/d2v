@@ -16,7 +16,7 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const StudentList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { studentList, selectedStudent, pageLoader: loader } = useSelector(
+  const { studentList, selectedStudent, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -30,6 +30,10 @@ export const StudentList: FC = () => {
   const [queryUserType, setQueryUserType] = useState<string>('');
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
+
+  useEffect(() => {
+    setOffset(0);
+  }, [limit]);
 
   useEffect(() => {
     // debounce effect
@@ -55,7 +59,7 @@ export const StudentList: FC = () => {
     } else {
       dispatch(retrieveAllStudent({ limit, offset }));
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -143,7 +147,7 @@ export const StudentList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      {/* <FilterBottom setLimit={setLimit} setOffset={setOffset} /> */}
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

@@ -18,25 +18,32 @@ export const FilterBottom: React.FC<Iprops> = ({ limit, offset, setLimit, setOff
   const [leftButtonDisabled, setleftButtonDisabled] = useState<boolean>(true);
   const [rightButtonDisabled, setrightButtonDisabled] = useState<boolean>(true);
 
-  useEffect(() => {
-    offset - limit < 0
-      ? setleftButtonDisabled(true)
-      : offset === 0 && limit === 0
-      ? setleftButtonDisabled(true)
-      : setleftButtonDisabled(false);
-    offset + limit > listLength
-      ? setrightButtonDisabled(true)
-      : offset === 0 && limit === 0
-      ? setrightButtonDisabled(true)
-      : setrightButtonDisabled(false);
-  }, [offset, limit, listLength]);
-
   const loadPrevPage = () => {
     setOffset(offset - limit);
   };
   const loadNextPage = () => {
     setOffset(limit + offset);
   };
+
+  useEffect(() => {
+    // console.log(offset, listLength);
+    offset - limit < 0
+      ? setleftButtonDisabled(true)
+      : offset === 0 && limit === 0
+      ? setleftButtonDisabled(true)
+      : setleftButtonDisabled(false);
+    offset + limit >= listLength
+      ? setrightButtonDisabled(true)
+      : offset === 0 && limit === 0
+      ? setrightButtonDisabled(true)
+      : setrightButtonDisabled(false);
+    if (offset === listLength) {
+      if (leftButtonDisabled === false) {
+        loadPrevPage();
+      }
+    }
+  }, [offset, limit, listLength]);
+
   return (
     <div className="flex justify-end item-center flex-wrap w-full space-x-3 mb-3">
       <div className="flex justify-evenly items-center space-x-2">

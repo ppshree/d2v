@@ -17,7 +17,7 @@ import { Loader } from '../../../components/Loader/Loader';
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { adminList, countList, selectedAdmin, pageLoader: loader } = useSelector(
+  const { adminList, selectedAdmin, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -148,7 +148,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={countList} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };
