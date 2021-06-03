@@ -40,6 +40,7 @@ export const FilterBottom: React.FC<Iprops> = ({ limit, offset, setLimit, setOff
           Rows per page:
         </label>
         <select
+          value={limit && limit}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
             setLimit(parseInt(e.target.value));
           }}

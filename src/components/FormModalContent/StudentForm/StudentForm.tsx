@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchool } from '../../../app/service/shared.service';
 import { ICreateStudent, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -15,10 +15,10 @@ interface Iprops {
 
 export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { selectedStudent: currentStudent, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+  const { selectedStudent: currentStudent, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -32,16 +32,8 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (
-      (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) &&
-      loggedInUser.role_id == USER_TYPE.SUPERADMIN
-    ) {
-      dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (
-      (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) &&
-      loggedInUser.role_id == USER_TYPE.ADMIN
-    ) {
-      dispatch(retrieveAllSchoolByAdmin());
+    if (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) {
+      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
     } else {
       setSchoolId('');
     }

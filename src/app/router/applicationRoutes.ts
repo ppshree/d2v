@@ -2,6 +2,11 @@ const APPLICATION_URL = {
   LOGIN: '/login',
   CREATE_PASSWORD: '/createPassword/:id',
   RESET_PASSWORD: '/reset-password',
+
+  // ========== School Routes =============
+  SCHOOL: '/schoolList',
+  SCHOOL_SUPERADMIN: '/schoolList/superAdmin',
+  SCHOOL_ADMIN: '/schoolList/admin',
   // ========== Global USERS Routes =========
   SUPERADMIN: '/superAdmin',
   SUPERADMIN_DASHBOARD: '/superAdmin/dashboard',
@@ -10,7 +15,6 @@ const APPLICATION_URL = {
   SUPERADMIN_CONTENTMANAGER_LIST: '/superAdmin/contentManagerList',
   SUPERADMIN_TUTOR_LIST: '/superAdmin/tutorList',
   SUPERADMIN_STUDENT_LIST: '/superAdmin/studentList',
-  SUPERADMIN_SCHOOL_LIST: '/superAdmin/schoolList',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_MASTER: '/admin/master',
@@ -18,7 +22,6 @@ const APPLICATION_URL = {
   ADMIN_CONTENTMANAGER_LIST: '/admin/contentManagerList',
   ADMIN_TUTOR_LIST: '/admin/tutorList',
   ADMIN_STUDENT_LIST: '/admin/studentList',
-  ADMIN_SCHOOL_LIST: '/admin/schoolList',
   TUTOR: '/tutor',
   TUTOR_DASHBOARD: '/tutor/dashboard',
   TUTOR_COURSE: '/tutor/course',
