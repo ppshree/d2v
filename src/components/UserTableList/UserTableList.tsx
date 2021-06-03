@@ -67,42 +67,40 @@ export const UserTableList: React.FC<Iprops> = ({ refer, userList, updateActionU
           {userList.length > 0 &&
             userList.map((user: any) => {
               return (
-                <>
-                  <tr key={user.id} className="border-b-2">
-                    <td className="font-semibold">{user.first_name + ' ' + user.last_name}</td>
-                    <td className="font-normal">{user.email}</td>
-                    <td className="font-normal">{user.mobile_number}</td>
-                    <td className="font-normal">{user.school_code}</td>
-                    {refer && refer === 'Student' && <td className="font-normal">{user.student_id}</td>}
-                    <td className="font-semibold">{ROLES[parseInt(user.role_id)]}</td>
-                    <td className="font-normal">{user.created_by}</td>
-                    <td className="font-semibold">
-                      <CustomeBadge statusType={user.status} />
-                    </td>
-                    <td>
-                      <button
-                        onClick={(e: React.SyntheticEvent) => {
-                          e.preventDefault();
-                          editUserDetails(user);
-                        }}
-                        className="focus:outline-none"
-                      >
-                        <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        onClick={(e: React.SyntheticEvent) => {
-                          e.preventDefault();
-                          deleteUserDetails(user.id);
-                        }}
-                        className="focus:outline-none"
-                      >
-                        <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
-                      </button>
-                    </td>
-                  </tr>
-                </>
+                <tr key={user.id} className="border-b-2">
+                  <td className="font-semibold">{user.first_name + ' ' + user.last_name}</td>
+                  <td className="font-normal">{user.email}</td>
+                  <td className="font-normal">{user.mobile_number}</td>
+                  <td className="font-normal">{user.school_code}</td>
+                  {refer && refer === 'Student' && <td className="font-normal">{user.student_id}</td>}
+                  <td className="font-semibold">{ROLES[parseInt(user.role_id)]}</td>
+                  <td className="font-normal">{user.created_by}</td>
+                  <td className="font-semibold">
+                    <CustomeBadge statusType={user.status} />
+                  </td>
+                  <td>
+                    <button
+                      onClick={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        editUserDetails(user);
+                      }}
+                      className="focus:outline-none"
+                    >
+                      <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={(e: React.SyntheticEvent) => {
+                        e.preventDefault();
+                        deleteUserDetails(user.id);
+                      }}
+                      className="focus:outline-none"
+                    >
+                      <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
+                    </button>
+                  </td>
+                </tr>
               );
             })}
         </tbody>

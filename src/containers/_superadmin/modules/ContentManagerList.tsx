@@ -20,7 +20,7 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { contentManagerList, selectedContentManager, pageLoader: loader } = useSelector(
+  const { adminList, selectedContentManager, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -146,7 +146,7 @@ export const ContentManagerList: FC = () => {
           <UserTableList
             updateActionUser={updateContentManagerAction}
             deleteActionUser={deleteContentManagerAction}
-            userList={contentManagerList}
+            userList={adminList}
           />
         </div>
       )}

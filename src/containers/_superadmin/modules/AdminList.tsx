@@ -12,15 +12,16 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateAdmin } from '../../../app/entity/model';
 import { retrieveAllAdmin, createNewAdmin, deleteAdmin } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { adminList, selectedAdmin, pageLoader: loader } = useSelector(
+  const { adminList, countList, selectedAdmin, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(10);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -31,12 +32,9 @@ export const AdminList: FC = () => {
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
 
-  /*page state change*/
-  const [count, setCount] = useState<number>(0);
-
   useEffect(() => {
-    if (adminList.length > count) setCount(Math.max(count, adminList.length));
-  }, [adminList]);
+    setOffset(0);
+  }, [limit]);
 
   useEffect(() => {
     // debounce effect
@@ -44,7 +42,7 @@ export const AdminList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllAdmin({
-            search: queryName || queryEmail || queryPhone,
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -139,7 +137,7 @@ export const AdminList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div className="sm:my-3 xsm:my-3">
           <UserTableList
@@ -150,7 +148,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={countList} />
     </>
   );
 };

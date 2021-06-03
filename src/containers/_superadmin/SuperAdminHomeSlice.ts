@@ -17,6 +17,7 @@ import {
 } from '../../app/service/superadmin.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
+  countList: number;
   adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
   tutorList: ICreateTutor[];
@@ -31,6 +32,7 @@ interface HomePageState {
 }
 
 const initialState: HomePageState = {
+  countList: 0,
   adminList: [],
   contentManagerList: [],
   tutorList: [],
@@ -155,6 +157,7 @@ export const HomePageSlice = createSlice({
         return;
       }
       state.adminList = action.payload && action.payload.data ? action.payload.data : [];
+      state.countList = action.payload && action.payload.count ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllAdmin.rejected.toString()]: (state) => {

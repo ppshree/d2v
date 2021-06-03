@@ -31,6 +31,13 @@ export const AdminSchoolList: FC = () => {
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
 
+  /*page state change*/
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (schoolList.length > count) setCount(Math.max(count, schoolList.length));
+  }, [schoolList]);
+
   useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
@@ -145,7 +152,7 @@ export const AdminSchoolList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} listLength={count} setLimit={setLimit} setOffset={setOffset} />
     </>
   );
 };

@@ -25,8 +25,8 @@ export const resetPassword = async (userType: string, resetToken: string, passwo
 };
 
 // ================== SCHOOL CRUD =============================
-export const getAllSchool = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/school/?limit=${limit}&offset=${offset}`, getConfig());
+export const getAllSchool = async (active: number, limit: number, offset: number): Promise<any> => {
+  return await getRequest(`/school/?is_active=${active}&limit=${limit}&offset=${offset}`, getConfig());
 };
 
 export const getFilteredSchools = async (
