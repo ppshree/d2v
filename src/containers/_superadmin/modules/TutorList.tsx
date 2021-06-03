@@ -140,7 +140,7 @@ export const TutorList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      {/* <FilterBottom setLimit={setLimit} setOffset={setOffset} /> */}
     </>
   );
 };

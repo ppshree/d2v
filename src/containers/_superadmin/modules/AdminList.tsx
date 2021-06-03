@@ -33,6 +33,13 @@ export const AdminList: FC = () => {
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
 
+  /*page state change*/
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (adminList.length > count) setCount(Math.max(count, adminList.length));
+  }, [adminList]);
+
   useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
@@ -53,9 +60,10 @@ export const AdminList: FC = () => {
       }, 500);
       return () => clearTimeout(timer);
     } else {
+      console.log('offset value', offset);
       dispatch(retrieveAllAdmin({ limit, offset }));
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -141,7 +149,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };
