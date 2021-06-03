@@ -91,7 +91,7 @@ export const FilterHeader: React.FC<Iprops> = ({
               name="userType"
               className="py-2 rounded-md w-full pl-10 focus:outline-none"
             >
-              <option value="none">None</option>
+              <option value="">Filter By User</option>
               {filterFor === 'Admin' &&
                 [USER_TYPE.ADMIN, USER_TYPE.SCHOOLSUPERADMIN, USER_TYPE.SCHOOLADMIN].map((userType: number) => {
                   return (
@@ -139,7 +139,7 @@ export const FilterHeader: React.FC<Iprops> = ({
             name="status"
             className="py-2 rounded-md w-full pl-10 focus:outline-none"
           >
-            <option value="none">None</option>
+            <option value="">Filter By Status</option>
             {filterFor !== 'School' &&
               [USER_STATUS.PENDING, USER_STATUS.APPROVED, USER_STATUS.DISCARDED].map((status: string) => {
                 return (

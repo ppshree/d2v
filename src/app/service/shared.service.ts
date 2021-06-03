@@ -10,7 +10,7 @@ import {
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IloginUser } from '../entity/constant';
+import { IloginUser, SCHOOL } from '../entity/constant';
 import { IGetAll } from './superadmin.service';
 import { ICreateSchool } from '../entity/model';
 
@@ -32,7 +32,7 @@ export const retrieveAllSchool = createAsyncThunk(
     if (filterType && filterQuery && filterQuery !== 'none') {
       return await getFilteredSchools(filterType, filterQuery, limit, offset);
     } else {
-      return await getAllSchool(limit, offset);
+      return await getAllSchool(SCHOOL.ACTIVE, limit, offset);
     }
   },
 );

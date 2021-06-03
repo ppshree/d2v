@@ -218,16 +218,16 @@ export const SIDEBAR_PANELS = {
 };
 
 export const ROLES: any = {
-  1: 'SUPERADMIN',
+  1: 'SUPER ADMIN',
   2: 'ADMIN',
   3: 'TUTOR',
   4: 'STUDENT',
-  5: 'SCHOOLSUPERADMIN',
-  6: 'SCHOOLADMIN',
-  7: 'SCHOOLTUTOR',
-  8: 'SCHOOLSTUDENT',
-  9: 'CONTENTMANAGER',
-  10: 'SCHOOLCONTENTMANAGER',
+  5: 'SCHOOL SUPER ADMIN',
+  6: 'SCHOOL ADMIN',
+  7: 'SCHOOL TUTOR',
+  8: 'SCHOOL STUDENT',
+  9: 'CONTENT MANAGER',
+  10: 'SCHOOL CONTENT MANAGER',
 };
 
 export enum DEFAULT {
@@ -244,6 +244,11 @@ export enum USER_STATUS {
   DISCARDED = 'Discarded',
 }
 
+export enum SCHOOL {
+  NOTACTIVE = 0,
+  ACTIVE = 1,
+}
+
 export enum CONTENT_TYPE {
   TEXT = 1,
   FILE = 2, //TO BE ADDED LATER
@@ -256,4 +261,12 @@ export interface IcreatePassword {
   userId: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface IFilterUserObj {
+  limit: number;
+  offset: number;
+  search: string;
+  role_id: string;
+  status: string;
 }

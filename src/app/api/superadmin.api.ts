@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
+import { IFilterUserObj } from '../entity/constant';
 
 // ==================APIS ROUTING TO BACKEND=============================
 
@@ -40,10 +41,15 @@ export const deleteContentManager = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/contentManager/${id}/`, getConfig());
 };
 
-//=================ADMIN CRUD ====================================
+//=================ADMIN CRUD =======================
 
-export const getAllAdmin = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/user/admins/?limit=${limit}&offset=${offset}`, getConfig());
+export const getAllAdmin = async ({ search, role_id, status, limit, offset }: IFilterUserObj): Promise<any> => {
+  return await getRequest(
+    `/user/admins/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
+      status && status
+    }`,
+    getConfig(),
+  );
 };
 
 export const getFilteredAdmin = async (

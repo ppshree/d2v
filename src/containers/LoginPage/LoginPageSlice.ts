@@ -9,7 +9,7 @@ interface LoginPageState {
   loginError?: string | null;
   isAxiosError: boolean;
   error: string | null;
-  loggedInUser: IloginUser | any; //PATCH DELETE FOR PRODUCTION
+  loggedInUser: IloginUser | any;
   defaultLanguage: string | null;
   isAuthCompleted: string | boolean;
   isForgotPassword: boolean;
@@ -67,7 +67,7 @@ export const LoginPageSlice = createSlice({
     [authenticateUser.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && action.payload.isAxiosError) {
         const { status } = action.payload;
-        const { message } = action.payload.errors[0];
+        const { message } = action.payload.errors.length > 0 && action.payload.errors[0];
         state.loginError = status === RESPONSE.FAILED ? message : 'Network Error';
         state.isLoading = false;
         state.loggedInUser = {};
@@ -96,7 +96,7 @@ export const LoginPageSlice = createSlice({
     [loginUser.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && action.payload.isAxiosError) {
         const { status } = action.payload;
-        const { message } = action.payload.errors[0];
+        const { message } = action.payload.errors.length > 0 && action.payload.errors[0];
         state.loginError = status === RESPONSE.FAILED ? message : 'Network Error';
         state.isLoading = false;
         return;
