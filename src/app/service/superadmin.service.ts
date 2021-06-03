@@ -23,9 +23,10 @@ import {
 } from '../api/superadmin.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor } from '../entity/model';
+import { IFilterUserObj } from '../entity/constant';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
-interface IGetAll {
+export interface IGetAll {
   filterType?: string;
   filterQuery?: string;
   limit: number;
@@ -61,12 +62,8 @@ export const deleteContentManager = createAsyncThunk('superadmin/deleteContantMa
 //===========API FOR ADMIN ===========================
 export const retrieveAllAdmin = createAsyncThunk(
   'superadmin/retrieveAllAdmin',
-  async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery && filterQuery !== 'none') {
-      return await getFilteredAdminAddedBySuperAdmin(filterType, filterQuery, limit, offset);
-    } else {
-      return await getAllAdminAddedBySuperAdmin(limit, offset);
-    }
+  async ({ search, role_id, status, limit, offset }: IFilterUserObj) => {
+    return await getAllAdminAddedBySuperAdmin({ search, role_id, status, limit, offset });
   },
 );
 

@@ -1,9 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-// import { ListItems } from '../../../components/ListItem/ListItems';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
@@ -22,7 +20,7 @@ export const AdminList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -33,29 +31,40 @@ export const AdminList: FC = () => {
   const [queryStatus, setQueryStatus] = useState<string>('');
   /* filter State change*/
 
+  /*page state change*/
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (adminList.length > count) setCount(Math.max(count, adminList.length));
+  }, [adminList]);
+
   useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllAdmin({ limit, offset }));
-        }
+        dispatch(
+          retrieveAllAdmin({
+            search: queryName || queryEmail || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllAdmin({ limit, offset }));
+      dispatch(
+        retrieveAllAdmin({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -141,7 +150,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

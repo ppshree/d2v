@@ -37,16 +37,18 @@ export const TutorList: FC = () => {
       const timer = setTimeout(() => {
         if (queryName !== '') {
           dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
+        }
+        if (queryEmail !== '') {
           dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
+        }
+        if (queryPhone !== '') {
           dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
+        }
+        if (queryUserType !== '') {
           dispatch(retrieveAllTutor({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
+        }
+        if (queryStatus !== '') {
           dispatch(retrieveAllTutor({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllTutor({ limit, offset }));
         }
       }, 500);
       return () => clearTimeout(timer);
@@ -140,7 +142,7 @@ export const TutorList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      {/* <FilterBottom setLimit={setLimit} setOffset={setOffset} /> */}
     </>
   );
 };
