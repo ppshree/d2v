@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
 import { IFilterUserObj } from '../entity/constant';
 
@@ -118,4 +118,21 @@ export const updateStudent = async (obj: ICreateStudent): Promise<any> => {
 };
 export const deleteStudent = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/students/${id}/`, getConfig());
+};
+
+//=================TAGS CRUD=============================================
+
+export const getAllTags = async (limit: number, offset: number): Promise<any> => {
+  return await getRequest(`/courses/learning-outcome/?limit=${limit}&offset=${offset}`, getConfig());
+};
+
+export const addNewTags = async (obj: ITags): Promise<any> => {
+  return await postRequest('/courses/learning-outcome/', { params: obj }, getConfig());
+};
+
+export const updateTags = async (obj: ITags): Promise<any> => {
+  return await patchRequest(`/courses/learning-outcome/${obj.id}/`, { params: obj }, getConfig());
+};
+export const deleteTags = async (id: string): Promise<any> => {
+  return await deleteRequest(`/courses/learning-outcome/${id}/`, getConfig());
 };

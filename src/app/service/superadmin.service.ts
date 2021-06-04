@@ -20,9 +20,13 @@ import {
   addNewTutor as addNewTutorAddedBySuperAdmin,
   updateTutor as updateTutorAddedBySuperAdmin,
   deleteTutor as deleteTutorAddedBySuperAdmin,
+  getAllTags as getAllTagsAddedBySuperAdmin,
+  addNewTags as addNewTagsAddedBySuperAdmin,
+  updateTags as updateTagsAddedBySuperAdmin,
+  deleteTags as deleteTagsAddedBySuperAdmin,
 } from '../api/superadmin.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags } from '../entity/model';
 import { IFilterUserObj } from '../entity/constant';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
@@ -125,4 +129,21 @@ export const createNewStudent = createAsyncThunk('superadmin/addOrUpdateStudent'
 
 export const deleteStudent = createAsyncThunk('superadmin/deleteStudent', async (objId: string) => {
   return await deleteStudentAddedBySuperAdmin(objId);
+});
+
+//===========API FOR TAGS ===========================
+export const retrieveAllTags = createAsyncThunk('superadmin/retrieveAllTags', async ({ limit, offset }: IGetAll) => {
+  return await getAllTagsAddedBySuperAdmin(limit, offset);
+});
+
+export const createNewTags = createAsyncThunk('superadmin/addOrUpdateTags', async (obj: ITags) => {
+  if (obj.isEditFlag) {
+    return await updateTagsAddedBySuperAdmin(obj);
+  } else {
+    return await addNewTagsAddedBySuperAdmin(obj);
+  }
+});
+
+export const deleteTags = createAsyncThunk('superadmin/deleteTags', async (objId: string) => {
+  return await deleteTagsAddedBySuperAdmin(objId);
 });

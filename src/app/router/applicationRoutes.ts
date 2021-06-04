@@ -15,6 +15,7 @@ const APPLICATION_URL = {
   SUPERADMIN_CONTENTMANAGER_LIST: '/superAdmin/contentManagerList',
   SUPERADMIN_TUTOR_LIST: '/superAdmin/tutorList',
   SUPERADMIN_STUDENT_LIST: '/superAdmin/studentList',
+  SUPERADMIN_TAG_LIST: '/superAdmin/tagList',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
   ADMIN_MASTER: '/admin/master',
