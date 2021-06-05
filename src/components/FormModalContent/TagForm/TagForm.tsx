@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { USER_TYPE, USER_STATUS, DEFAULT } from '../../../app/entity/constant';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
@@ -13,7 +12,6 @@ interface Iprops {
 }
 
 export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
-  const dispatch = useDispatch();
   const { selectedTags: currentTag, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
@@ -58,7 +56,7 @@ export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser })
           className="form-input px-4 py-1 rounded-lg"
         ></input>
       </div>
-      <div className="flex flex-row space-x-2 text-text_white">
+      <div className="flex flex-row space-x-2 my-2 text-text_white">
         <button
           onClick={(e: React.SyntheticEvent) => {
             e.preventDefault();

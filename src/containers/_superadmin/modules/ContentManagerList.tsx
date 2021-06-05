@@ -24,7 +24,7 @@ export const ContentManagerList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -43,25 +43,27 @@ export const ContentManagerList: FC = () => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        }
-        if (queryEmail !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        }
-        if (queryPhone !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        }
-        if (queryUserType !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        }
-        if (queryStatus !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        }
+        dispatch(
+          retrieveAllContentManagers({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllContentManagers({ limit, offset }));
+      dispatch(
+        retrieveAllContentManagers({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
   }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 

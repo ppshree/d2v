@@ -39,25 +39,27 @@ export const StudentList: FC = () => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        }
-        if (queryEmail !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        }
-        if (queryPhone !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        }
-        if (queryUserType !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        }
-        if (queryStatus !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        }
+        dispatch(
+          retrieveAllStudent({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllStudent({ limit, offset }));
+      dispatch(
+        retrieveAllStudent({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
   }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 

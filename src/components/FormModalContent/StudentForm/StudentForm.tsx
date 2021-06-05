@@ -179,8 +179,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.STUDENT}>STUDENT</option>
-            <option value={USER_TYPE.SCHOOLSTUDENT}>SCHOOLSTUDENT</option>
+            <option value={USER_TYPE.SCHOOLSTUDENT}>SCHOOL STUDENT</option>
           </select>
         </div>
       </div>

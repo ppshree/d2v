@@ -23,18 +23,35 @@ export const TagList: FC = () => {
   const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
+  const [queryName, setQueryName] = useState<string>('');
+
   useEffect(() => {
     setOffset(0);
   }, [limit]);
 
   useEffect(() => {
-    dispatch(
-      retrieveAllTags({
-        limit,
-        offset,
-      }),
-    );
-  }, [limit, offset]);
+    // debounce effect
+    if (queryName) {
+      const timer = setTimeout(() => {
+        dispatch(
+          retrieveAllTags({
+            search: queryName.toLowerCase(),
+            limit,
+            offset,
+          }),
+        );
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      dispatch(
+        retrieveAllTags({
+          search: '',
+          limit,
+          offset,
+        }),
+      );
+    }
+  }, [limit, offset, queryName]);
 
   const openModalForm = () => {
     dispatch(
@@ -86,6 +103,8 @@ export const TagList: FC = () => {
           <TagForm addOrUpdateUser={addOrUpdateTag} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
+      {/* Filter Header Part */}
+      <FilterHeader filterFor="Tag" setQueryName={setQueryName} />
       {loader ? (
         <div>Loading...</div>
       ) : (

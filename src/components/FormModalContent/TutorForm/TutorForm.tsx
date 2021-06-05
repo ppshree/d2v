@@ -180,7 +180,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
           >
             <option value="none">None</option>
             <option value={USER_TYPE.TUTOR}>TUTOR</option>
-            <option value={USER_TYPE.SCHOOLTUTOR}>SCHOOLTUTOR</option>
+            <option value={USER_TYPE.SCHOOLTUTOR}>SCHOOL TUTOR</option>
           </select>
         </div>
       </div>

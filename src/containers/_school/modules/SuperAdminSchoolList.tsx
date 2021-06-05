@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../School.css';
 import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
-import { MODAL_POSITION } from '../../../app/entity/constant';
+import { MODAL_POSITION, SCHOOL } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { SchoolTableList } from '../../../components/SchoolTableList/SchoolTableList';
 import { SchoolForm } from '../../../components/FormModalContent/SchoolForm/SchoolForm';
@@ -27,8 +27,7 @@ export const SuperAdminSchoolList: FC = () => {
   const [queryName, setQueryName] = useState<string>('');
   const [queryEmail, setQueryEmail] = useState<string>('');
   const [queryPhone, setQueryPhone] = useState<string>('');
-  const [queryUserType, setQueryUserType] = useState<string>('');
-  const [queryStatus, setQueryStatus] = useState<string>('');
+  const [queryStatus, setQueryStatus] = useState<number>();
   /* filter State change*/
 
   /*page state change*/
@@ -40,26 +39,29 @@ export const SuperAdminSchoolList: FC = () => {
 
   useEffect(() => {
     // debounce effect
-    if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
+    if (queryEmail || queryName || queryPhone || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllSchool({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        }
-        if (queryEmail !== '') {
-          dispatch(retrieveAllSchool({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        }
-        if (queryPhone !== '') {
-          dispatch(retrieveAllSchool({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        }
-        if (queryStatus !== '') {
-          dispatch(retrieveAllSchool({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        }
+        dispatch(
+          retrieveAllSchool({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllSchool({ limit, offset }));
+      dispatch(
+        retrieveAllSchool({
+          search: '',
+          status: SCHOOL.ACTIVE,
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus]);
 
   const openModalForm = () => {
     dispatch(
@@ -136,7 +138,6 @@ export const SuperAdminSchoolList: FC = () => {
         setQueryName={setQueryName}
         setQueryEmail={setQueryEmail}
         setQueryPhone={setQueryPhone}
-        setQueryUserType={setQueryUserType}
         setQueryStatus={setQueryStatus}
       />
       {/* User Table List */}

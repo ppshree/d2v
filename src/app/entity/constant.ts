@@ -270,10 +270,11 @@ export interface IcreatePassword {
   confirmPassword: string;
 }
 
-export interface IFilterUserObj {
+export interface IFilterObj {
   limit: number;
   offset: number;
-  search: string;
-  role_id: string;
-  status: string;
+  search?: string;
+  role_id?: string;
+  status?: string | number;
+  active_school?: number | any;
 }
