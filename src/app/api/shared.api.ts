@@ -28,7 +28,7 @@ export const resetPassword = async (userType: string, resetToken: string, passwo
 export const getAllSchool = async ({ active_school, search, limit, offset }: IFilterObj): Promise<any> => {
   return await getRequest(
     `/school/?limit=${limit}&offset=${offset}&is_active=${
-      parseInt(active_school) === SCHOOL.NOTACTIVE ? parseInt(active_school) : SCHOOL.ACTIVE
+      parseInt(active_school) === SCHOOL.NOTACTIVE ? SCHOOL.NOTACTIVE : SCHOOL.ACTIVE
     }&search=${search ? search : ''}`,
     getConfig(),
   );
