@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { USER_TYPE, USER_STATUS, SCHOOL_CODE } from '../../../app/entity/constant';
+import { USER_TYPE, USER_STATUS, DEFAULT } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchool } from '../../../app/service/shared.service';
 import { ICreateStudent, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -15,10 +15,10 @@ interface Iprops {
 
 export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { selectedStudent: currentStudent, schoolList, formError: errorMessage, submitLoader: loader } = useSelector(
+  const { selectedStudent: currentStudent, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -32,16 +32,8 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (
-      (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) &&
-      loggedInUser.role_id == USER_TYPE.SUPERADMIN
-    ) {
-      dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (
-      (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) &&
-      loggedInUser.role_id == USER_TYPE.ADMIN
-    ) {
-      dispatch(retrieveAllSchoolByAdmin());
+    if (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) {
+      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
     } else {
       setSchoolId('');
     }
@@ -72,7 +64,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
       standard: standard,
       role_id: role_id,
       school_id: school_id,
-      school_code: currentStudent?.school_code ? currentStudent.school_code : SCHOOL_CODE.GLOBAL,
+      school_code: currentStudent?.school_code ? currentStudent.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentStudent?.isEditFlag ? currentStudent.isEditFlag : false,
       status: status,
     };
@@ -187,8 +179,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.STUDENT}>STUDENT</option>
-            <option value={USER_TYPE.SCHOOLSTUDENT}>SCHOOLSTUDENT</option>
+            <option value={USER_TYPE.SCHOOLSTUDENT}>SCHOOL STUDENT</option>
           </select>
         </div>
       </div>
@@ -208,7 +199,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.STUDENT.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
+            <option value="none">{role_id == USER_TYPE.STUDENT.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

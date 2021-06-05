@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  ICreateAdmin,
-  ICreateContentManager,
-  ICreateSchool,
-  ICreateTutor,
-  ICreateStudent,
-} from '../../app/entity/model';
+import { ICreateAdmin, ICreateContentManager, ICreateTutor, ICreateStudent, ITags } from '../../app/entity/model';
 import {
   retrieveAllContentManagers,
   createNewContentManager,
@@ -20,15 +14,17 @@ import {
   retrieveAllStudent,
   createNewStudent,
   deleteStudent,
+  createNewTags,
+  retrieveAllTags,
+  deleteTags,
 } from '../../app/service/superadmin.service';
-import { retrieveAllSchoolBySuperAdmin } from '../../app/service/shared.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
   adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
-  schoolList: ICreateSchool[];
   tutorList: ICreateTutor[];
   studentList: ICreateStudent[];
+  tagList: ITags[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
@@ -36,15 +32,16 @@ interface HomePageState {
   selectedAdmin: ICreateAdmin | null;
   selectedTutor: ICreateTutor | null;
   selectedStudent: ICreateStudent | null;
-  selectedSchool: ICreateSchool | null;
+  selectedTags: ITags | null;
+  count: number;
 }
 
 const initialState: HomePageState = {
   adminList: [],
   contentManagerList: [],
-  schoolList: [],
   tutorList: [],
   studentList: [],
+  tagList: [],
   pageLoader: false,
   submitLoader: false,
   formError: '',
@@ -52,7 +49,8 @@ const initialState: HomePageState = {
   selectedAdmin: null,
   selectedStudent: null,
   selectedTutor: null,
-  selectedSchool: null,
+  selectedTags: null,
+  count: 0,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
@@ -60,7 +58,7 @@ type ContentManagerPayloadAction = PayloadAction<ICreateContentManager | null>;
 type AdminPayloadAction = PayloadAction<ICreateAdmin | null>;
 type TutorPayloadAction = PayloadAction<ICreateTutor | null>;
 type StudentPayloadAction = PayloadAction<ICreateStudent | null>;
-type SchoolPayloadAction = PayloadAction<ICreateSchool | null>;
+type TagPayloadAction = PayloadAction<ITags | null>;
 export const HomePageSlice = createSlice({
   name: 'SuperAdminHomePageReducer',
   initialState,
@@ -74,32 +72,36 @@ export const HomePageSlice = createSlice({
     updateSelectedAdmin: (state, action: AdminPayloadAction) => {
       state.selectedAdmin = action.payload;
     },
-    updateSelectedSchool: (state, action: SchoolPayloadAction) => {
-      state.selectedSchool = action.payload;
-    },
     updateSelectedTutor: (state, action: TutorPayloadAction) => {
       state.selectedTutor = action.payload;
     },
     updateSelectedStudent: (state, action: StudentPayloadAction) => {
       state.selectedStudent = action.payload;
     },
+    updateSelectedTag: (state, action: TagPayloadAction) => {
+      state.selectedTags = action.payload;
+    },
   },
   extraReducers: {
     [retrieveAllContentManagers.pending.toString()]: (state) => {
       state.contentManagerList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllContentManagers.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.contentManagerList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.contentManagerList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllContentManagers.rejected.toString()]: (state) => {
       state.contentManagerList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -117,6 +119,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.contentManagerList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.contentManagerList.push(action.payload.data);
       }
       state.formError = '';
@@ -150,6 +153,7 @@ export const HomePageSlice = createSlice({
       const index = state.contentManagerList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.contentManagerList.splice(index, 1);
       }
       state.formError = '';
@@ -159,38 +163,25 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
-    [retrieveAllSchoolBySuperAdmin.pending.toString()]: (state) => {
-      state.schoolList = [];
-      state.pageLoader = true;
-    },
-    [retrieveAllSchoolBySuperAdmin.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.schoolList = [];
-        state.pageLoader = false;
-        return;
-      }
-      state.schoolList = action.payload && action.payload.data ? action.payload.data : [];
-      state.pageLoader = false;
-    },
-    [retrieveAllSchoolBySuperAdmin.rejected.toString()]: (state) => {
-      state.schoolList = [];
-      state.pageLoader = false;
-    },
     [retrieveAllAdmin.pending.toString()]: (state) => {
       state.adminList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllAdmin.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.adminList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.adminList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllAdmin.rejected.toString()]: (state) => {
       state.adminList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -209,6 +200,7 @@ export const HomePageSlice = createSlice({
         state.adminList[index] = action.payload.data;
       } else {
         state.adminList.push(action.payload.data);
+        state.count += 1;
       }
       state.formError = '';
       state.selectedAdmin = {
@@ -240,6 +232,7 @@ export const HomePageSlice = createSlice({
       const index = state.adminList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.adminList.splice(index, 1);
       }
       state.formError = '';
@@ -251,19 +244,23 @@ export const HomePageSlice = createSlice({
     },
     [retrieveAllTutor.pending.toString()]: (state) => {
       state.tutorList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllTutor.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.tutorList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.tutorList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllTutor.rejected.toString()]: (state) => {
       state.tutorList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -281,6 +278,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.tutorList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.tutorList.push(action.payload.data);
       }
       state.formError = '';
@@ -314,6 +312,7 @@ export const HomePageSlice = createSlice({
       const index = state.tutorList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.tutorList.splice(index, 1);
       }
       state.formError = '';
@@ -325,19 +324,23 @@ export const HomePageSlice = createSlice({
     },
     [retrieveAllStudent.pending.toString()]: (state) => {
       state.studentList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllStudent.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.studentList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.studentList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllStudent.rejected.toString()]: (state) => {
       state.studentList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
 
@@ -355,6 +358,7 @@ export const HomePageSlice = createSlice({
       if (index != -1) {
         state.studentList[index] = action.payload.data;
       } else {
+        state.count += 1;
         state.studentList.push(action.payload.data);
       }
       state.formError = '';
@@ -388,6 +392,7 @@ export const HomePageSlice = createSlice({
       const index = state.studentList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.studentList.splice(index, 1);
       }
       state.formError = '';
@@ -397,14 +402,87 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    [retrieveAllTags.pending.toString()]: (state) => {
+      state.tagList = [];
+      state.count = 0;
+      state.pageLoader = true;
+    },
+    [retrieveAllTags.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.tagList = [];
+        state.count = 0;
+        state.pageLoader = false;
+        return;
+      }
+      state.tagList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
+      state.pageLoader = false;
+    },
+    [retrieveAllTags.rejected.toString()]: (state) => {
+      state.studentList = [];
+      state.count = 0;
+      state.pageLoader = false;
+    },
+
+    [createNewTags.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewTags.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tagList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.tagList[index] = action.payload.data;
+      } else {
+        state.count += 1;
+        state.tagList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedTags = {
+        learning_outcome: '',
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewTags.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteTags.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteTags.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tagList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.count -= 1;
+        state.tagList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteTags.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
   },
 });
 export const {
   updateFormError,
   updateSelectedContentManager,
   updateSelectedAdmin,
-  updateSelectedSchool,
   updateSelectedTutor,
   updateSelectedStudent,
+  updateSelectedTag,
 } = HomePageSlice.actions;
 export const SuperAdminHomePageReducer = HomePageSlice.reducer;

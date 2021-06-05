@@ -2,11 +2,15 @@
 import {
   login as userLogin,
   authenticate as userAuthenticate,
-  getAllSchool as getAllSchoolByCurrentAdmin,
+  getAllSchool,
+  addNewSchool,
+  updateSchool,
+  deleteSchool,
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IloginUser } from '../entity/constant';
+import { IFilterObj, IloginUser } from '../entity/constant';
+import { ICreateSchool } from '../entity/model';
 
 // ==================LOGIN API=============================
 export const authenticateUser = createAsyncThunk('user/authenticate', async () => {
@@ -20,9 +24,21 @@ export const loginUser = createAsyncThunk('user/login', async (obj: IloginUser) 
 });
 
 // ======================= SCHOOL CRUD ===========================
-export const retrieveAllSchoolBySuperAdmin = createAsyncThunk('superadmin/retrieveAllSchool', async () => {
-  return await getAllSchoolByCurrentAdmin();
+export const retrieveAllSchool = createAsyncThunk(
+  'school/retrieveAllSchool',
+  async ({ search, status, limit, offset }: IFilterObj) => {
+    return await getAllSchool({ active_school: status && status, search, limit, offset });
+  },
+);
+
+export const createSchool = createAsyncThunk('school/addOrUpdateSchool', async (obj: ICreateSchool) => {
+  if (obj.isEditFlag) {
+    return await updateSchool(obj);
+  } else {
+    return await addNewSchool(obj);
+  }
 });
-export const retrieveAllSchoolByAdmin = createAsyncThunk('admin/retrieveAllSchool', async () => {
-  return await getAllSchoolByCurrentAdmin();
+
+export const deleteSchoolById = createAsyncThunk('school/deleteSchoolById', async (objId: string) => {
+  return await deleteSchool(objId);
 });

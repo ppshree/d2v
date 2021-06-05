@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
+import { IFilterObj } from '../entity/constant';
 
 // ==================APIS ROUTING TO BACKEND=============================
 
@@ -14,17 +15,11 @@ export const forgotKey = async (email: string): Promise<any> => {
 
 // ================== CONTENT MANAGER CRUD =================
 
-export const getAllContentManagers = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/user/contentManager/?limit=${limit}&offset=${offset}`, getConfig());
-};
-export const getFilteredContentManagers = async (
-  filterType: string,
-  filterQuery: string,
-  limit: number,
-  offset: number,
-): Promise<any> => {
+export const getAllContentManagers = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
   return await getRequest(
-    `/user/contentManager/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`,
+    `/user/contentManager/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${
+      role_id && role_id
+    }&status=${status && status}`,
     getConfig(),
   );
 };
@@ -40,19 +35,15 @@ export const deleteContentManager = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/contentManager/${id}/`, getConfig());
 };
 
-//=================ADMIN CRUD ====================================
+//=================ADMIN CRUD =======================
 
-export const getAllAdmin = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/user/admins/?limit=${limit}&offset=${offset}`, getConfig());
-};
-
-export const getFilteredAdmin = async (
-  filterType: string,
-  filterQuery: string,
-  limit: number,
-  offset: number,
-): Promise<any> => {
-  return await getRequest(`/user/admins/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`, getConfig());
+export const getAllAdmin = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(
+    `/user/admins/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
+      status && status
+    }`,
+    getConfig(),
+  );
 };
 
 export const addNewAdmin = async (obj: ICreateAdmin): Promise<any> => {
@@ -67,8 +58,13 @@ export const deleteAdmin = async (id: string): Promise<any> => {
 };
 
 //================ TUTOR CRUD =================================================
-export const getAllTutor = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/user/tutors/?limit=${limit}&offset=${offset}`, getConfig());
+export const getAllTutor = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(
+    `/user/tutors/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
+      status && status
+    }`,
+    getConfig(),
+  );
 };
 export const getFilteredTutor = async (
   filterType: string,
@@ -91,8 +87,13 @@ export const deleteTutor = async (id: string): Promise<any> => {
 };
 
 //================ STUDENT CRUD =================================================
-export const getAllStudent = async (limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/user/students/?limit=${limit}&offset=${offset}`, getConfig());
+export const getAllStudent = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(
+    `/user/students/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
+      status && status
+    }`,
+    getConfig(),
+  );
 };
 export const getFilteredStudent = async (
   filterType: string,
@@ -112,4 +113,24 @@ export const updateStudent = async (obj: ICreateStudent): Promise<any> => {
 };
 export const deleteStudent = async (id: string): Promise<any> => {
   return await deleteRequest(`/user/students/${id}/`, getConfig());
+};
+
+//=================TAGS CRUD=============================================
+
+export const getAllTags = async ({ search, limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(
+    `/courses/learning-outcome/?limit=${limit}&offset=${offset}&search=${search && search}`,
+    getConfig(),
+  );
+};
+
+export const addNewTags = async (obj: ITags): Promise<any> => {
+  return await postRequest('/courses/learning-outcome/', { params: obj }, getConfig());
+};
+
+export const updateTags = async (obj: ITags): Promise<any> => {
+  return await patchRequest(`/courses/learning-outcome/${obj.id}/`, { params: obj }, getConfig());
+};
+export const deleteTags = async (id: string): Promise<any> => {
+  return await deleteRequest(`/courses/learning-outcome/${id}/`, getConfig());
 };

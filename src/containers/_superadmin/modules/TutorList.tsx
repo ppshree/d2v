@@ -16,11 +16,11 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const TutorList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { tutorList, selectedTutor, pageLoader: loader } = useSelector(
+  const { tutorList, selectedTutor, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -32,28 +32,36 @@ export const TutorList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
+    setOffset(0);
+  }, [limit]);
+
+  useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllTutor({ limit, offset }));
-        }
+        dispatch(
+          retrieveAllTutor({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllTutor({ limit, offset }));
+      dispatch(
+        retrieveAllTutor({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -140,7 +148,7 @@ export const TutorList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

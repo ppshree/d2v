@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { USER_TYPE, USER_STATUS, SCHOOL_CODE } from '../../../app/entity/constant';
+import { USER_TYPE, USER_STATUS, DEFAULT } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import './ContentManager.css';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchoolBySuperAdmin, retrieveAllSchoolByAdmin } from '../../../app/service/shared.service';
+import { retrieveAllSchool } from '../../../app/service/shared.service';
 import { ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
@@ -16,13 +16,10 @@ interface Iprops {
 
 export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
   const dispatch = useDispatch();
-  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const {
-    selectedContentManager: currentContentManager,
-    schoolList,
-    formError: errorMessage,
-    submitLoader: loader,
-  } = useSelector((state: RootState) => state.SuperAdminHomePageReducer);
+  const { selectedContentManager: currentContentManager, formError: errorMessage, submitLoader: loader } = useSelector(
+    (state: RootState) => state.SuperAdminHomePageReducer,
+  );
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -36,10 +33,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   const [status, setStatus] = useState('');
 
   useEffect(() => {
-    if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
-      dispatch(retrieveAllSchoolBySuperAdmin());
-    } else if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString() && loggedInUser.role_id == USER_TYPE.ADMIN) {
-      dispatch(retrieveAllSchoolByAdmin());
+    if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString()) {
+      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
     } else {
       setSchoolId('');
     }
@@ -70,7 +65,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
       standard: standard,
       role_id: role_id,
       school_id: school_id,
-      school_code: currentContentManager?.school_code ? currentContentManager.school_code : SCHOOL_CODE.GLOBAL,
+      school_code: currentContentManager?.school_code ? currentContentManager.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentContentManager?.isEditFlag ? currentContentManager.isEditFlag : false,
       status: status,
     };
@@ -185,8 +180,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.CONTENTMANAGER}>CONTENTMANAGER</option>
-            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOLCONTENTMANAGER</option>
+            <option value={USER_TYPE.CONTENTMANAGER}>CONTENT MANAGER</option>
+            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOL CONTENTMANAGER</option>
           </select>
         </div>
       </div>
@@ -208,7 +203,9 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.CONTENTMANAGER.toString() ? SCHOOL_CODE.GLOBAL : 'None'}</option>
+            <option value="none">
+              {role_id == USER_TYPE.CONTENTMANAGER.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}
+            </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

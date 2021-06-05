@@ -16,7 +16,7 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const StudentList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { studentList, selectedStudent, pageLoader: loader } = useSelector(
+  const { studentList, selectedStudent, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
@@ -32,28 +32,36 @@ export const StudentList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
+    setOffset(0);
+  }, [limit]);
+
+  useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
-          dispatch(retrieveAllStudent({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllStudent({ limit, offset }));
-        }
+        dispatch(
+          retrieveAllStudent({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllStudent({ limit, offset }));
+      dispatch(
+        retrieveAllStudent({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -133,6 +141,7 @@ export const StudentList: FC = () => {
       ) : (
         <div className="sm:my-3 xsm:my-3">
           <UserTableList
+            refer="Student"
             updateActionUser={updateStudentAction}
             deleteActionUser={deleteStudentAction}
             userList={studentList}
@@ -140,7 +149,7 @@ export const StudentList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

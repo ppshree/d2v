@@ -20,11 +20,11 @@ import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { contentManagerList, selectedContentManager, pageLoader: loader } = useSelector(
+  const { contentManagerList, selectedContentManager, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -36,28 +36,36 @@ export const ContentManagerList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
+    setOffset(0);
+  }, [limit]);
+
+  useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
-          dispatch(retrieveAllContentManagers({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllContentManagers({ limit, offset }));
-        }
+        dispatch(
+          retrieveAllContentManagers({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllContentManagers({ limit, offset }));
+      dispatch(
+        retrieveAllContentManagers({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -149,7 +157,7 @@ export const ContentManagerList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

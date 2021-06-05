@@ -1,9 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
-// import { ListItems } from '../../../components/ListItem/ListItems';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
@@ -14,15 +12,16 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateAdmin } from '../../../app/entity/model';
 import { retrieveAllAdmin, createNewAdmin, deleteAdmin } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { adminList, selectedAdmin, pageLoader: loader } = useSelector(
+  const { adminList, selectedAdmin, count, pageLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -34,28 +33,36 @@ export const AdminList: FC = () => {
   /* filter State change*/
 
   useEffect(() => {
+    setOffset(0);
+  }, [limit]);
+
+  useEffect(() => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        } else if (queryEmail !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        } else if (queryPhone !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        } else if (queryUserType !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        } else if (queryStatus !== '') {
-          dispatch(retrieveAllAdmin({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        } else {
-          dispatch(retrieveAllAdmin({ limit, offset }));
-        }
+        dispatch(
+          retrieveAllAdmin({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllAdmin({ limit, offset }));
+      dispatch(
+        retrieveAllAdmin({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
-  }, [limit, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 
   const openModalForm = () => {
     dispatch(
@@ -130,7 +137,7 @@ export const AdminList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
         <div className="sm:my-3 xsm:my-3">
           <UserTableList
@@ -141,7 +148,7 @@ export const AdminList: FC = () => {
         </div>
       )}
       {/* Filter Bottom Part */}
-      <FilterBottom setLimit={setLimit} setOffset={setOffset} />
+      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

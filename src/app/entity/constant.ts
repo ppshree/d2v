@@ -6,6 +6,7 @@ import { UserGroupIcon } from '@heroicons/react/solid';
 import { UserGroupIcon as UserGroupOutlineIcon } from '@heroicons/react/outline';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
+import { HashtagIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 
@@ -77,11 +78,17 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SUPERADMIN_SCHOOL_LIST, isTopItem: true },
+    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
+    {
+      name: 'Tag List',
+      logo: HashtagIcon,
+      redirectTo: APPLICATION_URL.SUPERADMIN_TAG_LIST,
       isTopItem: true,
     },
     {
@@ -101,7 +108,7 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.ADMIN_SCHOOL_LIST, isTopItem: true },
+    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
     {
       name: 'Student List',
       logo: UserAddIcon,
@@ -218,20 +225,23 @@ export const SIDEBAR_PANELS = {
 };
 
 export const ROLES: any = {
-  1: 'SUPERADMIN',
+  1: 'SUPER ADMIN',
   2: 'ADMIN',
   3: 'TUTOR',
   4: 'STUDENT',
-  5: 'SCHOOLSUPERADMIN',
-  6: 'SCHOOLADMIN',
-  7: 'SCHOOLTUTOR',
-  8: 'SCHOOLSTUDENT',
-  9: 'CONTENTMANAGER',
-  10: 'SCHOOLCONTENTMANAGER',
+  5: 'SCHOOL SUPER ADMIN',
+  6: 'SCHOOL ADMIN',
+  7: 'SCHOOL TUTOR',
+  8: 'SCHOOL STUDENT',
+  9: 'CONTENT MANAGER',
+  10: 'SCHOOL CONTENT MANAGER',
 };
 
-export enum SCHOOL_CODE {
-  GLOBAL = 'ysyw1234',
+export enum DEFAULT {
+  GLOBALSCHOOL = 'ysyw1234',
+  LOGINTITLE = 'LEARN FROM THE BEST AT YOUR OWN PACE',
+  FORGETPASSWORD = 'FORGET PASSWORD',
+  CREATEPASSWORD = 'CREATE NEW PASSWORD',
 }
 
 export enum USER_STATUS {
@@ -241,6 +251,11 @@ export enum USER_STATUS {
   DISCARDED = 'Discarded',
 }
 
+export enum SCHOOL {
+  NOTACTIVE = 0,
+  ACTIVE = 1,
+}
+
 export enum CONTENT_TYPE {
   TEXT = 1,
   FILE = 2, //TO BE ADDED LATER
@@ -248,4 +263,18 @@ export enum CONTENT_TYPE {
 export interface IloginUser {
   email: string;
   password: string;
+}
+export interface IcreatePassword {
+  userId: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IFilterObj {
+  limit: number;
+  offset: number;
+  search?: string;
+  role_id?: string;
+  status?: string | number;
+  active_school?: number | any;
 }

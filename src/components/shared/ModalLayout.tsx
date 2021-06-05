@@ -39,7 +39,9 @@ export const ModalLayout: React.FC<Iprops> = ({ children, isOpen, closeModal, mo
             <div
               className={
                 modalPosition === MODAL_POSITION.DEFAULT
-                  ? 'inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full my-8 align-middle max-w-lg w-full'
+                  ? `inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle ${
+                      title ? 'max-w-lg' : 'max-w-xs'
+                    } w-auto my-8 align-middle`
                   : 'inline-block bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 sm:align-middle max-w-lg w-full xsm:align-bottom'
               }
             >

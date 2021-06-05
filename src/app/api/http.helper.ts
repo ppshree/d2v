@@ -26,7 +26,7 @@ export const getConfig = (encryptString?: string): any => {
 
 //======================GET, POST, PUT AND DELETE REQUESTS ARE FIRED FROM HERE=================
 export async function getRequest(url: string, config?: any) {
-  let responseBody = {};
+  let responseBody: any = {};
   try {
     await axios
       .get(BASE_API_URL + url, config)
@@ -34,7 +34,8 @@ export async function getRequest(url: string, config?: any) {
         responseBody = response.data;
       })
       .catch((err) => {
-        responseBody = err;
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
       });
   } catch (error) {
     responseBody = error;
