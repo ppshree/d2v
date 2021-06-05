@@ -17,7 +17,6 @@ import {
 } from '../../app/service/superadmin.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
-  countList: number;
   adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
   tutorList: ICreateTutor[];
@@ -33,7 +32,6 @@ interface HomePageState {
 }
 
 const initialState: HomePageState = {
-  countList: 0,
   adminList: [],
   contentManagerList: [],
   tutorList: [],
