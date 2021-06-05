@@ -20,7 +20,7 @@ export const TutorList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(15);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -39,25 +39,27 @@ export const TutorList: FC = () => {
     // debounce effect
     if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
       const timer = setTimeout(() => {
-        if (queryName !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryName, limit, offset }));
-        }
-        if (queryEmail !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryEmail, limit, offset }));
-        }
-        if (queryPhone !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'search', filterQuery: queryPhone, limit, offset }));
-        }
-        if (queryUserType !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'role_id', filterQuery: queryUserType, limit, offset }));
-        }
-        if (queryStatus !== '') {
-          dispatch(retrieveAllTutor({ filterType: 'status', filterQuery: queryStatus, limit, offset }));
-        }
+        dispatch(
+          retrieveAllTutor({
+            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            role_id: queryUserType,
+            status: queryStatus,
+            limit,
+            offset,
+          }),
+        );
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      dispatch(retrieveAllTutor({ limit, offset }));
+      dispatch(
+        retrieveAllTutor({
+          search: '',
+          role_id: '',
+          status: '',
+          limit,
+          offset,
+        }),
+      );
     }
   }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
 

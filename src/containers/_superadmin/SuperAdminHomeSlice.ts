@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICreateAdmin, ICreateContentManager, ICreateTutor, ICreateStudent } from '../../app/entity/model';
+import { ICreateAdmin, ICreateContentManager, ICreateTutor, ICreateStudent, ITags } from '../../app/entity/model';
 import {
   retrieveAllContentManagers,
   createNewContentManager,
@@ -14,14 +14,17 @@ import {
   retrieveAllStudent,
   createNewStudent,
   deleteStudent,
+  createNewTags,
+  retrieveAllTags,
+  deleteTags,
 } from '../../app/service/superadmin.service';
 import { USER_STATUS } from '../../app/entity/constant';
 interface HomePageState {
-  countList: number;
   adminList: ICreateAdmin[];
   contentManagerList: ICreateContentManager[];
   tutorList: ICreateTutor[];
   studentList: ICreateStudent[];
+  tagList: ITags[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
@@ -29,15 +32,16 @@ interface HomePageState {
   selectedAdmin: ICreateAdmin | null;
   selectedTutor: ICreateTutor | null;
   selectedStudent: ICreateStudent | null;
+  selectedTags: ITags | null;
   count: number;
 }
 
 const initialState: HomePageState = {
-  countList: 0,
   adminList: [],
   contentManagerList: [],
   tutorList: [],
   studentList: [],
+  tagList: [],
   pageLoader: false,
   submitLoader: false,
   formError: '',
@@ -45,6 +49,7 @@ const initialState: HomePageState = {
   selectedAdmin: null,
   selectedStudent: null,
   selectedTutor: null,
+  selectedTags: null,
   count: 0,
 };
 
@@ -53,6 +58,7 @@ type ContentManagerPayloadAction = PayloadAction<ICreateContentManager | null>;
 type AdminPayloadAction = PayloadAction<ICreateAdmin | null>;
 type TutorPayloadAction = PayloadAction<ICreateTutor | null>;
 type StudentPayloadAction = PayloadAction<ICreateStudent | null>;
+type TagPayloadAction = PayloadAction<ITags | null>;
 export const HomePageSlice = createSlice({
   name: 'SuperAdminHomePageReducer',
   initialState,
@@ -71,6 +77,9 @@ export const HomePageSlice = createSlice({
     },
     updateSelectedStudent: (state, action: StudentPayloadAction) => {
       state.selectedStudent = action.payload;
+    },
+    updateSelectedTag: (state, action: TagPayloadAction) => {
+      state.selectedTags = action.payload;
     },
   },
   extraReducers: {
@@ -393,6 +402,79 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    [retrieveAllTags.pending.toString()]: (state) => {
+      state.tagList = [];
+      state.count = 0;
+      state.pageLoader = true;
+    },
+    [retrieveAllTags.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.tagList = [];
+        state.count = 0;
+        state.pageLoader = false;
+        return;
+      }
+      state.tagList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
+      state.pageLoader = false;
+    },
+    [retrieveAllTags.rejected.toString()]: (state) => {
+      state.studentList = [];
+      state.count = 0;
+      state.pageLoader = false;
+    },
+
+    [createNewTags.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewTags.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tagList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.tagList[index] = action.payload.data;
+      } else {
+        state.count += 1;
+        state.tagList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedTags = {
+        learning_outcome: '',
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewTags.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteTags.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteTags.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.tagList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.count -= 1;
+        state.tagList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteTags.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
   },
 });
 export const {
@@ -401,5 +483,6 @@ export const {
   updateSelectedAdmin,
   updateSelectedTutor,
   updateSelectedStudent,
+  updateSelectedTag,
 } = HomePageSlice.actions;
 export const SuperAdminHomePageReducer = HomePageSlice.reducer;

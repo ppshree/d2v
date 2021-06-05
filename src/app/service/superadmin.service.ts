@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   getAllContentManagers as getAllContentManagersAddedBySuperAdmin,
-  getFilteredContentManagers as getFilteredContentManagersAddedBySuperAdmin,
   addNewContentManager as addNewContentManagerAddedBySuperAdmin,
   updateContentManager as updateContentManagerAddedBySuperAdmin,
   deleteContentManager as deleteContentManagerAddedBySuperAdmin,
   getAllAdmin as getAllAdminAddedBySuperAdmin,
-  getFilteredAdmin as getFilteredAdminAddedBySuperAdmin,
   addNewAdmin as addNewAdminAddedBySuperAdmin,
   updateAdmin as updateAdminAddedBySuperAdmin,
   deleteAdmin as deleteAdminAddedBySuperAdmin,
@@ -16,14 +14,17 @@ import {
   updateStudent as updateStudentAddedBySuperAdmin,
   deleteStudent as deleteStudentAddedBySuperAdmin,
   getAllTutor as getAllTutorAddedBySuperAdmin,
-  getFilteredTutor as getFilteredTutorAddedBySuperAdmin,
   addNewTutor as addNewTutorAddedBySuperAdmin,
   updateTutor as updateTutorAddedBySuperAdmin,
   deleteTutor as deleteTutorAddedBySuperAdmin,
+  getAllTags as getAllTagsAddedBySuperAdmin,
+  addNewTags as addNewTagsAddedBySuperAdmin,
+  updateTags as updateTagsAddedBySuperAdmin,
+  deleteTags as deleteTagsAddedBySuperAdmin,
 } from '../api/superadmin.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor } from '../entity/model';
-import { IFilterUserObj } from '../entity/constant';
+import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags } from '../entity/model';
+import { IFilterObj } from '../entity/constant';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
 export interface IGetAll {
@@ -35,12 +36,8 @@ export interface IGetAll {
 
 export const retrieveAllContentManagers = createAsyncThunk(
   'superadmin/retrieveAllContentManagers',
-  async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery && filterQuery !== 'none') {
-      return await getFilteredContentManagersAddedBySuperAdmin(filterType, filterQuery, limit, offset);
-    } else {
-      return await getAllContentManagersAddedBySuperAdmin(limit, offset);
-    }
+  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllContentManagersAddedBySuperAdmin({ search, role_id, status, limit, offset });
   },
 );
 
@@ -62,7 +59,7 @@ export const deleteContentManager = createAsyncThunk('superadmin/deleteContantMa
 //===========API FOR ADMIN ===========================
 export const retrieveAllAdmin = createAsyncThunk(
   'superadmin/retrieveAllAdmin',
-  async ({ search, role_id, status, limit, offset }: IFilterUserObj) => {
+  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
     return await getAllAdminAddedBySuperAdmin({ search, role_id, status, limit, offset });
   },
 );
@@ -82,12 +79,8 @@ export const deleteAdmin = createAsyncThunk('superadmin/deleteAdmin', async (obj
 //===========API FOR TUTOR ===========================
 export const retrieveAllTutor = createAsyncThunk(
   'superadmin/retrieveAllTutor',
-  async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery && filterQuery !== 'none') {
-      return await getFilteredTutorAddedBySuperAdmin(filterType, filterQuery, limit, offset);
-    } else {
-      return await getAllTutorAddedBySuperAdmin(limit, offset);
-    }
+  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllTutorAddedBySuperAdmin({ search, role_id, status, limit, offset });
   },
 );
 
@@ -106,12 +99,8 @@ export const deleteTutor = createAsyncThunk('superadmin/deleteTutor', async (obj
 //===========API FOR STUDENT ===========================
 export const retrieveAllStudent = createAsyncThunk(
   'superadmin/retrieveAllStudent',
-  async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery && filterQuery !== 'none') {
-      return await getFilteredStudentAddedBySuperAdmin(filterType, filterQuery, limit, offset);
-    } else {
-      return await getAllStudentAddedBySuperAdmin(limit, offset);
-    }
+  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllStudentAddedBySuperAdmin({ search, role_id, status, limit, offset });
   },
 );
 
@@ -125,4 +114,24 @@ export const createNewStudent = createAsyncThunk('superadmin/addOrUpdateStudent'
 
 export const deleteStudent = createAsyncThunk('superadmin/deleteStudent', async (objId: string) => {
   return await deleteStudentAddedBySuperAdmin(objId);
+});
+
+//===========API FOR TAGS ===========================
+export const retrieveAllTags = createAsyncThunk(
+  'superadmin/retrieveAllTags',
+  async ({ search, limit, offset }: IFilterObj) => {
+    return await getAllTagsAddedBySuperAdmin({ search, limit, offset });
+  },
+);
+
+export const createNewTags = createAsyncThunk('superadmin/addOrUpdateTags', async (obj: ITags) => {
+  if (obj.isEditFlag) {
+    return await updateTagsAddedBySuperAdmin(obj);
+  } else {
+    return await addNewTagsAddedBySuperAdmin(obj);
+  }
+});
+
+export const deleteTags = createAsyncThunk('superadmin/deleteTags', async (objId: string) => {
+  return await deleteTagsAddedBySuperAdmin(objId);
 });

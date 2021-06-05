@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { deleteRequest, getConfig, getRequest, patchRequest, postRequest } from '../api/http.helper';
-import { IloginUser } from '../entity/constant';
+import { IFilterObj, IloginUser, SCHOOL } from '../entity/constant';
 import { ICreateSchool } from '../entity/model';
 
 export const login = async (obj: IloginUser): Promise<any> => {
@@ -25,17 +25,13 @@ export const resetPassword = async (userType: string, resetToken: string, passwo
 };
 
 // ================== SCHOOL CRUD =============================
-export const getAllSchool = async (active: number, limit: number, offset: number): Promise<any> => {
-  return await getRequest(`/school/?is_active=${active}&limit=${limit}&offset=${offset}`, getConfig());
-};
-
-export const getFilteredSchools = async (
-  filterType: string,
-  filterQuery: string,
-  limit: number,
-  offset: number,
-): Promise<any> => {
-  return await getRequest(`/school/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`, getConfig());
+export const getAllSchool = async ({ active_school, search, limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(
+    `/school/?limit=${limit}&offset=${offset}&is_active=${
+      parseInt(active_school) === SCHOOL.NOTACTIVE ? parseInt(active_school) : SCHOOL.ACTIVE
+    }&search=${search ? search : ''}`,
+    getConfig(),
+  );
 };
 
 export const addNewSchool = async (obj: ICreateSchool): Promise<any> => {

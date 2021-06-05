@@ -153,8 +153,8 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
           >
             <option value="none">None</option>
             <option value={USER_TYPE.ADMIN}>GLOBAL ADMIN</option>
-            <option value={USER_TYPE.SCHOOLSUPERADMIN}>SCHOOLSUPERADMIN</option>
-            <option value={USER_TYPE.SCHOOLADMIN}>SCHOOLADMIN</option>
+            <option value={USER_TYPE.SCHOOLSUPERADMIN}>SCHOOL SUPERADMIN</option>
+            <option value={USER_TYPE.SCHOOLADMIN}>SCHOOL ADMIN</option>
           </select>
         </div>
         {/* School Code */}

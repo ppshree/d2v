@@ -6,6 +6,7 @@ import { UserGroupIcon } from '@heroicons/react/solid';
 import { UserGroupIcon as UserGroupOutlineIcon } from '@heroicons/react/outline';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
+import { HashtagIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 
@@ -82,6 +83,12 @@ export const SIDEBAR_PANELS = {
       name: 'Student List',
       logo: UserAddIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
+      isTopItem: true,
+    },
+    {
+      name: 'Tag List',
+      logo: HashtagIcon,
+      redirectTo: APPLICATION_URL.SUPERADMIN_TAG_LIST,
       isTopItem: true,
     },
     {
@@ -263,10 +270,11 @@ export interface IcreatePassword {
   confirmPassword: string;
 }
 
-export interface IFilterUserObj {
+export interface IFilterObj {
   limit: number;
   offset: number;
-  search: string;
-  role_id: string;
-  status: string;
+  search?: string;
+  role_id?: string;
+  status?: string | number;
+  active_school?: number | any;
 }

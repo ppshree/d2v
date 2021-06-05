@@ -3,15 +3,13 @@ import {
   login as userLogin,
   authenticate as userAuthenticate,
   getAllSchool,
-  getFilteredSchools,
   addNewSchool,
   updateSchool,
   deleteSchool,
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IloginUser, SCHOOL } from '../entity/constant';
-import { IGetAll } from './superadmin.service';
+import { IFilterObj, IloginUser } from '../entity/constant';
 import { ICreateSchool } from '../entity/model';
 
 // ==================LOGIN API=============================
@@ -28,12 +26,8 @@ export const loginUser = createAsyncThunk('user/login', async (obj: IloginUser) 
 // ======================= SCHOOL CRUD ===========================
 export const retrieveAllSchool = createAsyncThunk(
   'school/retrieveAllSchool',
-  async ({ filterType, filterQuery, limit, offset }: IGetAll) => {
-    if (filterType && filterQuery && filterQuery !== 'none') {
-      return await getFilteredSchools(filterType, filterQuery, limit, offset);
-    } else {
-      return await getAllSchool(SCHOOL.ACTIVE, limit, offset);
-    }
+  async ({ search, status, limit, offset }: IFilterObj) => {
+    return await getAllSchool({ active_school: status && status, search, limit, offset });
   },
 );
 

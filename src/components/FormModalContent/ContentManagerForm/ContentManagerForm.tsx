@@ -180,8 +180,8 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">None</option>
-            <option value={USER_TYPE.CONTENTMANAGER}>CONTENTMANAGER</option>
-            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOLCONTENTMANAGER</option>
+            <option value={USER_TYPE.CONTENTMANAGER}>CONTENT MANAGER</option>
+            <option value={USER_TYPE.SCHOOLCONTENTMANAGER}>SCHOOL CONTENTMANAGER</option>
           </select>
         </div>
       </div>
