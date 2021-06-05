@@ -1,0 +1,16 @@
+Validation handle part
+Create Password Route
+School Route Part
+common user list array
+Filter Part : {
+    "meta": {
+        limit: 0,
+        offset: 0,
+    },
+    "payload": {
+        name: [],
+        email: [],
+        phone: [],
+        status: [],
+    }
+}
