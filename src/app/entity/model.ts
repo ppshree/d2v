@@ -73,3 +73,11 @@ export interface ICreateSchool {
   created_by?: string;
   isEditFlag?: boolean;
 }
+
+export interface ITags {
+  id?: string;
+  learning_outcome: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
