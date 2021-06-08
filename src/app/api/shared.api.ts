@@ -3,7 +3,7 @@
 
 import { deleteRequest, getConfig, getRequest, patchRequest, postRequest } from '../api/http.helper';
 import { IFilterObj, IloginUser, SCHOOL } from '../entity/constant';
-import { ICreateSchool } from '../entity/model';
+import { IClass, ICreateSchool } from '../entity/model';
 
 export const login = async (obj: IloginUser): Promise<any> => {
   const encryptString: string = btoa(btoa(`${obj.email}:${obj.password}`));
@@ -25,10 +25,10 @@ export const resetPassword = async (userType: string, resetToken: string, passwo
 };
 
 // ================== SCHOOL CRUD =============================
-export const getAllSchool = async ({ active_school, search, limit, offset }: IFilterObj): Promise<any> => {
+export const getAllSchool = async ({ status, search, limit, offset }: IFilterObj): Promise<any> => {
   return await getRequest(
     `/school/?limit=${limit}&offset=${offset}&is_active=${
-      parseInt(active_school) === SCHOOL.NOTACTIVE ? SCHOOL.NOTACTIVE : SCHOOL.ACTIVE
+      status && parseInt(status.toString()) === SCHOOL.NOTACTIVE ? SCHOOL.NOTACTIVE : SCHOOL.ACTIVE
     }&search=${search ? search : ''}`,
     getConfig(),
   );
@@ -41,6 +41,23 @@ export const addNewSchool = async (obj: ICreateSchool): Promise<any> => {
 export const updateSchool = async (obj: ICreateSchool): Promise<any> => {
   return await patchRequest(`/school/${obj.id}/`, { params: obj }, getConfig());
 };
+
 export const deleteSchool = async (id: string): Promise<any> => {
   return await deleteRequest(`/school/${id}/`, getConfig());
+};
+// ===================== Class CRUD =============================
+export const getAllClass = async ({ limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(`/courses/standard/?limit=${limit}&offset=${offset}`, getConfig());
+};
+
+export const addNewClass = async (obj: IClass): Promise<any> => {
+  return await postRequest('/courses/standard/', { params: obj }, getConfig());
+};
+
+export const updateClass = async (obj: IClass): Promise<any> => {
+  return await patchRequest(`/courses/standard/${obj.id}/`, { params: obj }, getConfig());
+};
+
+export const deleteClass = async (id: string): Promise<any> => {
+  return await deleteRequest(`/courses/standard/${id}/`, getConfig());
 };

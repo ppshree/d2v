@@ -4,35 +4,35 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { ITags } from '../../../app/entity/model';
+import { IClass } from '../../../app/entity/model';
 
 interface Iprops {
-  addOrUpdateTag: (tagObj: ITags) => void;
+  addOrUpdateClass: (classObj: IClass) => void;
   handleCloseModal: () => void;
 }
 
-export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateTag }) => {
-  const { selectedTags: currentTag, formError: errorMessage, submitLoader: loader } = useSelector(
-    (state: RootState) => state.SuperAdminHomePageReducer,
+export const ClassForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateClass }) => {
+  const { selectedClass: currentClass, formError: errorMessage, submitLoader: loader } = useSelector(
+    (state: RootState) => state.SchoolHomePageReducer,
   );
 
-  const [tags, setTags] = useState<string>('');
+  const [standard_name, setStandardName] = useState<string>('');
 
   useEffect(() => {
-    if (currentTag) {
-      setTags(currentTag?.learning_outcome);
+    if (currentClass) {
+      setStandardName(currentClass?.standard_name);
     } else {
       return;
     }
-  }, [currentTag]);
+  }, [currentClass]);
 
   const handleFormSubmitAction = () => {
-    const TagFormData: ITags = {
-      id: currentTag?.id,
-      learning_outcome: tags,
-      isEditFlag: currentTag?.isEditFlag ? currentTag.isEditFlag : false,
+    const ClassFormData: IClass = {
+      id: currentClass?.id,
+      standard_name: standard_name,
+      isEditFlag: currentClass?.isEditFlag ? currentClass.isEditFlag : false,
     };
-    addOrUpdateTag(TagFormData);
+    addOrUpdateClass(ClassFormData);
   };
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
@@ -41,18 +41,18 @@ export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateTag }) 
     <form>
       {errorMessage && <AlertBar message={errorMessage} />}
       <div className="flex flex-col h-20 justify-evenly">
-        <label className="block text-gray-500 font-bold" htmlFor="tag_name">
-          Tag Name
+        <label className="block text-gray-500 font-bold" htmlFor="standard_name">
+          Class Name
         </label>
         <input
           type="text"
-          id="tag_name"
-          name="tag_name"
-          value={tags}
+          id="standard_name"
+          name="standard_name"
+          value={standard_name}
           onChange={(e) => {
-            setTags(e.target.value);
+            setStandardName(e.target.value);
           }}
-          placeholder="enter tag name"
+          placeholder="enter class name"
           className="form-input px-4 py-1 rounded-lg"
         ></input>
       </div>
@@ -64,7 +64,7 @@ export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateTag }) 
           }}
           className={`px-2 py-2 rounded-lg focus:outline-none bg-${currentPrimaryColor} w-full button`}
         >
-          {currentTag?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
+          {currentClass?.isEditFlag ? (loader ? 'Updating...' : 'Update') : loader ? 'Adding...' : 'Add'}
         </button>
         <button
           onClick={(e: React.SyntheticEvent) => {

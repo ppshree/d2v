@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { APPLICATION_URL } from '../router/applicationRoutes';
 import { ChartBarIcon } from '@heroicons/react/solid';
-import { UserIcon } from '@heroicons/react/solid';
+import { AcademicCapIcon } from '@heroicons/react/solid';
 import { UserGroupIcon } from '@heroicons/react/solid';
-import { UserGroupIcon as UserGroupOutlineIcon } from '@heroicons/react/outline';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { HashtagIcon } from '@heroicons/react/solid';
+import { LibraryIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 
@@ -69,19 +69,19 @@ export const LANGUAGES = [
 export const SIDEBAR_PANELS = {
   SUPERADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.SUPERADMIN_MASTER, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SUPERADMIN_COURSES, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.SUPERADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
-      logo: UserGroupOutlineIcon,
+      logo: UserAddIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_CONTENTMANAGER_LIST,
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -99,19 +99,19 @@ export const SIDEBAR_PANELS = {
   ],
   ADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.ADMIN_MASTER, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.ADMIN_COURSES, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.ADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
-      logo: UserGroupOutlineIcon,
+      logo: UserAddIcon,
       redirectTo: APPLICATION_URL.ADMIN_CONTENTMANAGER_LIST,
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.ADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -123,10 +123,10 @@ export const SIDEBAR_PANELS = {
   ],
   TUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -141,7 +141,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -167,7 +167,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_TUTOR_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -182,7 +182,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLADMIN_TUTOR_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -197,7 +197,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -212,7 +212,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -274,7 +274,8 @@ export interface IFilterObj {
   limit: number;
   offset: number;
   search?: string;
+  email?: string;
+  mobile_no?: string;
   role_id?: string;
   status?: string | number;
-  active_school?: number | any;
 }

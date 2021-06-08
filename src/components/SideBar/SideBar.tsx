@@ -20,7 +20,7 @@ interface Iprops {
 export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => {
   const { loggedInUser, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
   const [listOfPanels, setListOfPanels] = useState<any[]>([]);
-  const [sidebarWidth, setSidebarWidth] = useState<string>(MIN_MAX_WIDTH.MIN_SIDEBAR);
+  const [sidebarWidth, setSidebarWidth] = useState<string>(MIN_MAX_WIDTH.MAX_SIDEBAR);
 
   const dispatch = useDispatch();
 
@@ -48,6 +48,10 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
       return;
     }
   }, [loggedInUser]);
+
+  useEffect(() => {
+    window.innerWidth >= 700 ? setSidebarWidth(MIN_MAX_WIDTH.MAX_SIDEBAR) : setSidebarWidth(MIN_MAX_WIDTH.MIN_SIDEBAR);
+  }, [window.innerWidth]);
 
   const { t } = useTranslation();
 

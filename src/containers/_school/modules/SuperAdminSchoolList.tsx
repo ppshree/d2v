@@ -12,6 +12,7 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateSchool } from '../../../app/entity/model';
 import { retrieveAllSchool, createSchool, deleteSchoolById } from '../../../app/service/shared.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const SuperAdminSchoolList: FC = () => {
   const dispatch = useDispatch();
@@ -142,18 +143,20 @@ export const SuperAdminSchoolList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading... </div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <SchoolTableList
-            updateActionSchool={updateSchoolAction}
-            deleteActionSchool={deleteSchoolAction}
-            schoolList={schoolList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <SchoolTableList
+              updateActionSchool={updateSchoolAction}
+              deleteActionSchool={deleteSchoolAction}
+              schoolList={schoolList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} listLength={count} setLimit={setLimit} setOffset={setOffset} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} listLength={count} setLimit={setLimit} setOffset={setOffset} />
     </>
   );
 };

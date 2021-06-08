@@ -21,7 +21,7 @@ export const AdminList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -42,7 +42,9 @@ export const AdminList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllAdmin({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            search: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_no: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -55,6 +57,8 @@ export const AdminList: FC = () => {
       dispatch(
         retrieveAllAdmin({
           search: '',
+          email: '',
+          mobile_no: '',
           role_id: '',
           status: '',
           limit,
@@ -139,16 +143,18 @@ export const AdminList: FC = () => {
       {loader ? (
         <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            updateActionUser={updateAdminAction}
-            deleteActionUser={deleteAdminAction}
-            userList={adminList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              updateActionUser={updateAdminAction}
+              deleteActionUser={deleteAdminAction}
+              userList={adminList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

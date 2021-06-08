@@ -5,8 +5,8 @@ export interface ICreateAdmin {
   last_name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
-  school_code: string;
+  role_id: string | any;
+  school_code?: string;
   school_id?: string | any;
   created_by?: string;
   isEditFlag?: boolean;
@@ -18,7 +18,7 @@ export interface ICreateContentManager {
   last_name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -33,7 +33,7 @@ export interface ICreateTutor {
   last_name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -48,7 +48,7 @@ export interface ICreateStudent {
   last_name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -77,6 +77,13 @@ export interface ICreateSchool {
 export interface ITags {
   id?: string;
   learning_outcome: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
+export interface IClass {
+  id?: string;
+  standard_name: string;
   created_by?: string;
   isEditFlag?: boolean;
   created_at?: string;
