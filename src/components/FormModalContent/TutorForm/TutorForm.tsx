@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchool } from '../../../app/service/shared.service';
-import { ICreateTutor, ICreateSchool } from '../../../app/entity/model';
+import { retrieveAllSchool, retrieveAllClass } from '../../../app/service/shared.service';
+import { ICreateTutor, ICreateSchool, IClass } from '../../../app/entity/model';
 
 interface Iprops {
   addOrUpdateUser: (userObj: ICreateTutor) => void;
@@ -18,7 +18,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const { selectedTutor: currentTutor, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
-  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
+  const { schoolList, classList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
@@ -40,6 +40,7 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   }, [role_id]);
 
   useEffect(() => {
+    dispatch(retrieveAllClass({ limit: 0, offset: 0 }));
     if (currentTutor) {
       setFirstName(currentTutor?.first_name);
       setLastName(currentTutor?.last_name);
@@ -62,9 +63,8 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
       email: email,
       mobile_number: mobile_number,
       standard: standard,
-      role_id: role_id,
+      role_id: parseInt(role_id),
       school_id: school_id,
-      school_code: currentTutor?.school_code ? currentTutor.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentTutor?.isEditFlag ? currentTutor.isEditFlag : false,
       status: status,
     };
@@ -154,14 +154,15 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={standard}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="">None</option>
-            {['1', '2', '3'].map((standard: string) => {
-              return (
-                <option key={standard} value={standard}>
-                  {standard}
-                </option>
-              );
-            })}
+            <option value="">Choose Standard</option>
+            {classList.length > 0 &&
+              classList.map((standard: IClass) => {
+                return (
+                  <option key={standard.id} value={standard.standard_name}>
+                    {standard.standard_name}
+                  </option>
+                );
+              })}
           </select>
         </div>
         {/* User Type Lists */}
@@ -200,7 +201,9 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.TUTOR.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
+            <option value="none">
+              {role_id == USER_TYPE.TUTOR.toString() ? DEFAULT.GLOBALSCHOOL : 'Choose School'}
+            </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

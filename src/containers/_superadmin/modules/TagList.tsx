@@ -12,6 +12,7 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ITags } from '../../../app/entity/model';
 import { retrieveAllTags, createNewTags, deleteTags } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const TagList: FC = () => {
   const dispatch = useDispatch();
@@ -100,20 +101,22 @@ export const TagList: FC = () => {
       {/* Modal Part */}
       {selectedTags !== null && selectedTags?.created_by !== '' && (
         <ModalLayout title="Tag Form" modalPosition={MODAL_POSITION.DEFAULT} isOpen={true} closeModal={closeModal}>
-          <TagForm addOrUpdateUser={addOrUpdateTag} handleCloseModal={closeModal} />
+          <TagForm addOrUpdateTag={addOrUpdateTag} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
       {/* Filter Header Part */}
       <FilterHeader filterFor="Tag" setQueryName={setQueryName} />
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <TagTableList updateActionUser={updateTagAction} deleteActionUser={deleteTagAction} tagList={tagList} />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <TagTableList updateActionUser={updateTagAction} deleteActionUser={deleteTagAction} tagList={tagList} />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

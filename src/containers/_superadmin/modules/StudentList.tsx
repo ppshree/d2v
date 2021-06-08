@@ -12,6 +12,7 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateStudent } from '../../../app/entity/model';
 import { retrieveAllStudent, createNewStudent, deleteStudent } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const StudentList: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const StudentList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -137,19 +138,21 @@ export const StudentList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            refer="Student"
-            updateActionUser={updateStudentAction}
-            deleteActionUser={deleteStudentAction}
-            userList={studentList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              refer="Student"
+              updateActionUser={updateStudentAction}
+              deleteActionUser={deleteStudentAction}
+              userList={studentList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

@@ -16,6 +16,7 @@ import {
   deleteContentManager,
 } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export const ContentManagerList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -146,18 +147,20 @@ export const ContentManagerList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading... </div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            updateActionUser={updateContentManagerAction}
-            deleteActionUser={deleteContentManagerAction}
-            userList={contentManagerList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              updateActionUser={updateContentManagerAction}
+              deleteActionUser={deleteContentManagerAction}
+              userList={contentManagerList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

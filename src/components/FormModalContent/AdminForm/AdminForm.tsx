@@ -59,9 +59,8 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
       last_name: last_name,
       email: email,
       mobile_number: mobile_number,
-      role_id: role_id,
+      role_id: parseInt(role_id),
       school_id: school_id,
-      school_code: currentAdmin?.school_code ? currentAdmin.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentAdmin?.isEditFlag ? currentAdmin.isEditFlag : false,
       status: status,
     };
@@ -172,7 +171,9 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.ADMIN.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
+            <option value="none">
+              {role_id == USER_TYPE.ADMIN.toString() ? DEFAULT.GLOBALSCHOOL : 'Choose School'}
+            </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

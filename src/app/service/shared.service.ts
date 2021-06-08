@@ -6,11 +6,17 @@ import {
   addNewSchool,
   updateSchool,
   deleteSchool,
+
+  /* Class crud */
+  getAllClass,
+  addNewClass,
+  updateClass,
+  deleteClass,
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFilterObj, IloginUser } from '../entity/constant';
-import { ICreateSchool } from '../entity/model';
+import { IClass, ICreateSchool } from '../entity/model';
 
 // ==================LOGIN API=============================
 export const authenticateUser = createAsyncThunk('user/authenticate', async () => {
@@ -27,7 +33,7 @@ export const loginUser = createAsyncThunk('user/login', async (obj: IloginUser) 
 export const retrieveAllSchool = createAsyncThunk(
   'school/retrieveAllSchool',
   async ({ search, status, limit, offset }: IFilterObj) => {
-    return await getAllSchool({ active_school: status && status, search, limit, offset });
+    return await getAllSchool({ status: status && status, search, limit, offset });
   },
 );
 
@@ -41,4 +47,24 @@ export const createSchool = createAsyncThunk('school/addOrUpdateSchool', async (
 
 export const deleteSchoolById = createAsyncThunk('school/deleteSchoolById', async (objId: string) => {
   return await deleteSchool(objId);
+});
+
+//===========CRUD FOR CLASS ===========================
+export const retrieveAllClass = createAsyncThunk(
+  'superadmin/retrieveAllClass',
+  async ({ limit, offset }: IFilterObj) => {
+    return await getAllClass({ limit, offset });
+  },
+);
+
+export const createNewClass = createAsyncThunk('superadmin/addOrUpdateClass', async (obj: IClass) => {
+  if (obj.isEditFlag) {
+    return await updateClass(obj);
+  } else {
+    return await addNewClass(obj);
+  }
+});
+
+export const deleteClassByID = createAsyncThunk('superadmin/deleteClass', async (objId: string) => {
+  return await deleteClass(objId);
 });

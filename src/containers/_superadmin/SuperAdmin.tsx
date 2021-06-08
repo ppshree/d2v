@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { APPLICATION_URL } from '../../app/router/applicationRoutes';
 import { Dashboard } from './modules/Dashboard';
-import { Master } from './modules/Master';
+import { Courses } from './modules/Courses';
 import { AdminList } from './modules/AdminList';
 import { TutorList } from './modules/TutorList';
 import { ContentManagerList } from './modules/ContentManagerList';
@@ -14,12 +14,7 @@ import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const SuperAdmin: React.FC = () => {
   const { path } = useRouteMatch();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  useEffect(() => {
-    // make api calls
-  }, []);
 
   return (
     <div className="h-full flex">
@@ -27,7 +22,7 @@ export const SuperAdmin: React.FC = () => {
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SUPERADMIN_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SUPERADMIN_DASHBOARD} component={Dashboard}></Route>
-          <Route exact path={APPLICATION_URL.SUPERADMIN_MASTER} component={Master}></Route>
+          <Route exact path={APPLICATION_URL.SUPERADMIN_COURSES} component={Courses}></Route>
           <Route exact path={APPLICATION_URL.SUPERADMIN_ADMIN_LIST} component={AdminList}></Route>
           <Route exact path={APPLICATION_URL.SUPERADMIN_CONTENTMANAGER_LIST} component={ContentManagerList}></Route>
           <Route exact path={APPLICATION_URL.SUPERADMIN_TUTOR_LIST} component={TutorList}></Route>

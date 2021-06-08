@@ -10,6 +10,7 @@ const APPLICATION_URL = {
   // ========== Global USERS Routes =========
   SUPERADMIN: '/superAdmin',
   SUPERADMIN_DASHBOARD: '/superAdmin/dashboard',
+  SUPERADMIN_COURSES: '/superAdmin/courses',
   SUPERADMIN_MASTER: '/superAdmin/master',
   SUPERADMIN_ADMIN_LIST: '/superAdmin/adminList',
   SUPERADMIN_CONTENTMANAGER_LIST: '/superAdmin/contentManagerList',
@@ -18,6 +19,7 @@ const APPLICATION_URL = {
   SUPERADMIN_TAG_LIST: '/superAdmin/tagList',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
+  ADMIN_COURSES: '/admin/courses',
   ADMIN_MASTER: '/admin/master',
   ADMIN_ADMIN_LIST: '/admin/adminList',
   ADMIN_CONTENTMANAGER_LIST: '/admin/contentManagerList',

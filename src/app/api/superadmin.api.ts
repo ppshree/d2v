@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags, IClass } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
 import { IFilterObj } from '../entity/constant';
 
@@ -37,11 +37,19 @@ export const deleteContentManager = async (id: string): Promise<any> => {
 
 //=================ADMIN CRUD =======================
 
-export const getAllAdmin = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
+export const getAllAdmin = async ({
+  search,
+  email,
+  mobile_no,
+  role_id,
+  status,
+  limit,
+  offset,
+}: IFilterObj): Promise<any> => {
   return await getRequest(
-    `/user/admins/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
-      status && status
-    }`,
+    `/user/admins/?limit=${limit}&offset=${offset}&search=${search && search}&email=${email && email}&mobile_number=${
+      mobile_no && mobile_no
+    }&role_id=${role_id && role_id}&status=${status && status}`,
     getConfig(),
   );
 };
@@ -94,14 +102,6 @@ export const getAllStudent = async ({ search, role_id, status, limit, offset }: 
     }`,
     getConfig(),
   );
-};
-export const getFilteredStudent = async (
-  filterType: string,
-  filterQuery: string,
-  limit: number,
-  offset: number,
-): Promise<any> => {
-  return await getRequest(`/user/students/?${filterType}=${filterQuery}&limit=${limit}&offset=${offset}`, getConfig());
 };
 
 export const addNewStudent = async (obj: ICreateStudent): Promise<any> => {

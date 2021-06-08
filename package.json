@@ -41,13 +41,14 @@
     "start:dev": "npm-run-all -p watch:css server:dev",
     "start:stage": "npm-run-all -p watch:css server:stage",
     "start:prod": "npm-run-all -p watch:css server:prod",
-    "build:dev": "npm-run-all -p watch:css production:dev",
-    "build:stage": "npm-run-all -p watch:css production:stage",
-    "build:prod": "npm-run-all -p watch:css production:prod"
+    "build:dev": "npm-run-all -p build:css production:dev",
+    "build:stage": "npm-run-all -p build:css production:stage",
+    "build:prod": "npm-run-all -p build:css production:prod"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+
   "browserslist": {
     "production": [
       ">0.2%",

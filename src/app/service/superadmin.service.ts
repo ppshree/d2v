@@ -1,29 +1,33 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  /* Content managers crud */
   getAllContentManagers as getAllContentManagersAddedBySuperAdmin,
   addNewContentManager as addNewContentManagerAddedBySuperAdmin,
   updateContentManager as updateContentManagerAddedBySuperAdmin,
   deleteContentManager as deleteContentManagerAddedBySuperAdmin,
+  /* Admin crud */
   getAllAdmin as getAllAdminAddedBySuperAdmin,
   addNewAdmin as addNewAdminAddedBySuperAdmin,
   updateAdmin as updateAdminAddedBySuperAdmin,
   deleteAdmin as deleteAdminAddedBySuperAdmin,
+  /* Student crud */
   getAllStudent as getAllStudentAddedBySuperAdmin,
-  getFilteredStudent as getFilteredStudentAddedBySuperAdmin,
   addNewStudent as addNewStudentAddedBySuperAdmin,
   updateStudent as updateStudentAddedBySuperAdmin,
   deleteStudent as deleteStudentAddedBySuperAdmin,
+  /* Tutor crud */
   getAllTutor as getAllTutorAddedBySuperAdmin,
   addNewTutor as addNewTutorAddedBySuperAdmin,
   updateTutor as updateTutorAddedBySuperAdmin,
   deleteTutor as deleteTutorAddedBySuperAdmin,
+  /* Tags crud */
   getAllTags as getAllTagsAddedBySuperAdmin,
   addNewTags as addNewTagsAddedBySuperAdmin,
   updateTags as updateTagsAddedBySuperAdmin,
   deleteTags as deleteTagsAddedBySuperAdmin,
 } from '../api/superadmin.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags, IClass } from '../entity/model';
 import { IFilterObj } from '../entity/constant';
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
@@ -59,8 +63,8 @@ export const deleteContentManager = createAsyncThunk('superadmin/deleteContantMa
 //===========API FOR ADMIN ===========================
 export const retrieveAllAdmin = createAsyncThunk(
   'superadmin/retrieveAllAdmin',
-  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
-    return await getAllAdminAddedBySuperAdmin({ search, role_id, status, limit, offset });
+  async ({ search, email, mobile_no, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllAdminAddedBySuperAdmin({ search, email, mobile_no, role_id, status, limit, offset });
   },
 );
 
