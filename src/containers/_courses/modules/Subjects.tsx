@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../Courses.css';
 import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
-import { MODAL_POSITION } from '../../../app/entity/constant';
+import { DEFAULT, MODAL_POSITION } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { SubjectList } from '../../../components/SubjectList/SubjectList';
 import { SubjectForm } from '../../../components/FormModalContent/SubjectForm/SubjectForm';
@@ -17,7 +17,7 @@ import { useParams } from 'react-router-dom';
 export const Subjects: FC = () => {
   const dispatch = useDispatch();
 
-  const { standardID }: { standardID: string } = useParams();
+  const { standardID, standard }: { standardID: string; standard: string } = useParams();
 
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
   const { subjectList, selectedSubject, count, pageLoader: loader } = useSelector(
@@ -34,6 +34,7 @@ export const Subjects: FC = () => {
   useEffect(() => {
     dispatch(
       retrieveAllSubject({
+        standard,
         limit,
         offset,
       }),
@@ -100,7 +101,6 @@ export const Subjects: FC = () => {
         <>
           <div className="sm:my-3 xsm:my-3">
             <SubjectList
-              refer="Subject"
               updateActionSubject={updateSubjectAction}
               deleteActionSubject={deleteSubjectAction}
               subjectList={subjectList}

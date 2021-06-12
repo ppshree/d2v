@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronRightIcon } from '@heroicons/react/solid';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
+import { DEFAULT } from '../../app/entity/constant';
 interface Iprops {
   limit: number;
   offset: number;
@@ -59,7 +60,7 @@ export const FilterBottom: React.FC<Iprops> = ({ limit, offset, setLimit, setOff
           name="limit"
           className="py-1 rounded-lg"
         >
-          <option value="0">All</option>
+          <option value={DEFAULT.ALL}>All</option>
           <option value="5">5</option>
           <option value="10">10</option>
           <option value="15">15</option>

@@ -36,7 +36,7 @@ export const TagList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllTags({
-            search: queryName.toLowerCase(),
+            name: queryName.toLowerCase(),
             limit,
             offset,
           }),
@@ -46,7 +46,7 @@ export const TagList: FC = () => {
     } else {
       dispatch(
         retrieveAllTags({
-          search: '',
+          name: '',
           limit,
           offset,
         }),

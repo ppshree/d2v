@@ -40,8 +40,8 @@ export interface IGetAll {
 
 export const retrieveAllContentManagers = createAsyncThunk(
   'superadmin/retrieveAllContentManagers',
-  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
-    return await getAllContentManagersAddedBySuperAdmin({ search, role_id, status, limit, offset });
+  async ({ name, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllContentManagersAddedBySuperAdmin({ name, role_id, status, limit, offset });
   },
 );
 
@@ -63,8 +63,8 @@ export const deleteContentManager = createAsyncThunk('superadmin/deleteContantMa
 //===========API FOR ADMIN ===========================
 export const retrieveAllAdmin = createAsyncThunk(
   'superadmin/retrieveAllAdmin',
-  async ({ search, email, mobile_no, role_id, status, limit, offset }: IFilterObj) => {
-    return await getAllAdminAddedBySuperAdmin({ search, email, mobile_no, role_id, status, limit, offset });
+  async ({ name, email, mobile_number, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllAdminAddedBySuperAdmin({ name, email, mobile_number, role_id, status, limit, offset });
   },
 );
 
@@ -83,8 +83,8 @@ export const deleteAdmin = createAsyncThunk('superadmin/deleteAdmin', async (obj
 //===========API FOR TUTOR ===========================
 export const retrieveAllTutor = createAsyncThunk(
   'superadmin/retrieveAllTutor',
-  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
-    return await getAllTutorAddedBySuperAdmin({ search, role_id, status, limit, offset });
+  async ({ name, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllTutorAddedBySuperAdmin({ name, role_id, status, limit, offset });
   },
 );
 
@@ -103,8 +103,8 @@ export const deleteTutor = createAsyncThunk('superadmin/deleteTutor', async (obj
 //===========API FOR STUDENT ===========================
 export const retrieveAllStudent = createAsyncThunk(
   'superadmin/retrieveAllStudent',
-  async ({ search, role_id, status, limit, offset }: IFilterObj) => {
-    return await getAllStudentAddedBySuperAdmin({ search, role_id, status, limit, offset });
+  async ({ name, role_id, status, limit, offset }: IFilterObj) => {
+    return await getAllStudentAddedBySuperAdmin({ name, role_id, status, limit, offset });
   },
 );
 
@@ -123,8 +123,8 @@ export const deleteStudent = createAsyncThunk('superadmin/deleteStudent', async 
 //===========API FOR TAGS ===========================
 export const retrieveAllTags = createAsyncThunk(
   'superadmin/retrieveAllTags',
-  async ({ search, limit, offset }: IFilterObj) => {
-    return await getAllTagsAddedBySuperAdmin({ search, limit, offset });
+  async ({ name, limit, offset }: IFilterObj) => {
+    return await getAllTagsAddedBySuperAdmin({ name, limit, offset });
   },
 );
 

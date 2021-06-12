@@ -42,9 +42,9 @@ export const AdminList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllAdmin({
-            search: queryName.toLowerCase(),
+            name: queryName.toLowerCase(),
             email: queryEmail.toLowerCase(),
-            mobile_no: queryPhone,
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -56,9 +56,9 @@ export const AdminList: FC = () => {
     } else {
       dispatch(
         retrieveAllAdmin({
-          search: '',
+          name: '',
           email: '',
-          mobile_no: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,

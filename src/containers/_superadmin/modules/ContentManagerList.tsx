@@ -46,7 +46,9 @@ export const ContentManagerList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllContentManagers({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -58,7 +60,9 @@ export const ContentManagerList: FC = () => {
     } else {
       dispatch(
         retrieveAllContentManagers({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,

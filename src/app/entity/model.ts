@@ -108,3 +108,12 @@ export interface ITopic {
   isEditFlag?: boolean;
   created_at?: string;
 }
+export interface ISubTopic {
+  id?: string | any;
+  sub_topic_name: string;
+  topic_id?: string;
+  topic_name?: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}

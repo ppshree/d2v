@@ -21,6 +21,7 @@ interface HomePageState {
   subjectList: ISubject[];
   topicList: ITopic[];
   pageLoader: boolean;
+  topicLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
   selectedSchool: ICreateSchool | null;
@@ -35,6 +36,7 @@ const initialState: HomePageState = {
   subjectList: [],
   topicList: tempTopics,
   pageLoader: false,
+  topicLoader: false,
   submitLoader: false,
   formError: '',
   selectedSchool: null,
@@ -215,20 +217,20 @@ export const HomePageSlice = createSlice({
     /*Topic crud */
     [retrieveAllTopicBySubject.pending.toString()]: (state) => {
       state.topicList = [];
-      state.pageLoader = true;
+      state.topicLoader = true;
     },
     [retrieveAllTopicBySubject.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
         state.topicList = [];
-        state.pageLoader = false;
+        state.topicLoader = false;
         return;
       }
       state.topicList = action.payload && action.payload.data ? action.payload.data : [];
-      state.pageLoader = false;
+      state.topicLoader = false;
     },
     [retrieveAllTopicBySubject.rejected.toString()]: (state) => {
       state.topicList = [];
-      state.pageLoader = false;
+      state.topicLoader = false;
     },
 
     [createNewTopic.pending.toString()]: (state) => {

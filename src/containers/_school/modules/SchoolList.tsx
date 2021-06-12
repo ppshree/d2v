@@ -44,7 +44,9 @@ export const SchoolList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllSchool({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             status: queryStatus,
             limit,
             offset,
@@ -55,7 +57,9 @@ export const SchoolList: FC = () => {
     } else {
       dispatch(
         retrieveAllSchool({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           status: SCHOOL.ACTIVE,
           limit,
           offset,

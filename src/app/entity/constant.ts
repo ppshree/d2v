@@ -243,6 +243,7 @@ export enum DEFAULT {
   LOGINTITLE = 'LEARN FROM THE BEST AT YOUR OWN PACE',
   FORGETPASSWORD = 'FORGET PASSWORD',
   CREATEPASSWORD = 'CREATE NEW PASSWORD',
+  ALL = 100,
 }
 
 export enum USER_STATUS {
@@ -272,13 +273,17 @@ export interface IcreatePassword {
 }
 
 export interface IFilterObj {
-  limit: number;
+  limit: number | any;
   offset: number;
-  search?: string;
+  name?: string;
   email?: string;
-  mobile_no?: string;
+  mobile_number?: string;
   role_id?: string;
   status?: string | number;
+  standard?: string;
+  subject?: string;
+  topic?: string;
+  subtopic?: string;
 }
 
 export const tempTopics: ITopic[] = [

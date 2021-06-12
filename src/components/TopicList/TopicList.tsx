@@ -3,21 +3,29 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import './TopicList.css';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusCircleIcon } from '@heroicons/react/solid';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
+import { MenuAlt3Icon } from '@heroicons/react/solid';
 import { SubTopicList } from '../SubTopicList/SubTopicList';
 import { RootState } from '../../app/rootReducer';
 import { ITopic } from '../../app/entity/model';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 import { MODAL_POSITION } from '../../app/entity/constant';
-import { deleteTopicByID } from '../../app/service/shared.service';
+import { createNewTopic, deleteTopicByID } from '../../app/service/shared.service';
+import { updateFormError, updateSelectedTopic } from '../../containers/_courses/CoursesSlice';
+import { TopicForm } from '../FormModalContent/TopicForm/TopicForm';
 
-export const TopicList: React.FC = React.memo(() => {
+interface Iprops {
+  subjectId: string;
+}
+
+export const TopicList: React.FC<Iprops> = React.memo(({ subjectId }) => {
   const dispatch = useDispatch();
 
-  const { topicList } = useSelector((state: RootState) => state.CourseHomePageReducer);
+  const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
+  const { topicList, selectedTopic } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   const [topicForDelete, setTopictForDelete] = useState<string>('');
   const [isDelete, setIsDelete] = useState<boolean>(false);
@@ -25,20 +33,61 @@ export const TopicList: React.FC = React.memo(() => {
   // custom hook
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const addNewTopicList = (topic: ITopic) => {
-    console.log('step here');
+  const openModalForm = () => {
+    dispatch(
+      updateSelectedTopic({
+        subject_id: subjectId,
+        topic_name: '',
+        created_by: loggedInUser.email,
+      }),
+    );
+  };
+
+  const addOrUpdateTopic = (topicObj: ITopic) => {
+    try {
+      dispatch(updateFormError(''));
+      if (topicObj.topic_name && loggedInUser.email) {
+        dispatch(createNewTopic(topicObj));
+      } else {
+        dispatch(updateFormError('Fill All the Mandatory Fields.'));
+      }
+    } catch (err) {
+      dispatch(updateFormError(err));
+    }
+  };
+
+  const updateTopicAction = (topicObj: any) => {
+    const topicDetailsObj = { ...topicObj };
+    topicDetailsObj.isEditFlag = true;
+    dispatch(updateSelectedTopic(topicDetailsObj));
+  };
+
+  const deleteTopicDetails = (topicId: string) => {
+    setIsDelete(true);
+    setTopictForDelete(topicId);
   };
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
       dispatch(deleteTopicByID(topicForDelete));
-      closeModal();
+      closeAlertModal();
     } else {
-      closeModal();
+      closeAlertModal();
     }
   };
 
-  const closeModal = () => {
+  const closeFormModal = () => {
+    dispatch(updateFormError(''));
+    dispatch(
+      updateSelectedTopic({
+        subject_id: '',
+        topic_name: '',
+        created_by: '',
+      }),
+    );
+  };
+
+  const closeAlertModal = () => {
     setTopictForDelete('');
     setIsDelete(false);
   };
@@ -49,15 +98,23 @@ export const TopicList: React.FC = React.memo(() => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            addNewTopicList({
-              topic_name: 'Integration',
-              subject_id: '123',
-            });
+            openModalForm();
           }}
           className="ml-auto text-lg flex justify-start items-start"
         >
-          <PlusIcon className="w-7 mr-1" /> Topic{' '}
+          <PlusCircleIcon className="w-7 mr-1 text-gray-700" /> Topic{' '}
         </button>
+        {/* Modal Part */}
+        {selectedTopic !== null && selectedTopic?.subject_id !== '' && (
+          <ModalLayout
+            title="Topic Form"
+            modalPosition={MODAL_POSITION.DEFAULT}
+            isOpen={true}
+            closeModal={closeFormModal}
+          >
+            <TopicForm addOrUpdateTopic={addOrUpdateTopic} handleCloseModal={closeFormModal} />
+          </ModalLayout>
+        )}
         <ul className="list-inside flex flex-col justify-evenly flex-wrap">
           {topicList.map((topic: ITopic) => {
             return (
@@ -66,7 +123,9 @@ export const TopicList: React.FC = React.memo(() => {
                   <div className="tabs">
                     <input style={{ display: 'none' }} type="checkbox" id={`check${topic.id}`} />
                     <label className="tab-label py-2" htmlFor={`check${topic.id}`}>
-                      <div className={`w-4 h-4 rounded-full bg-${currentSecondaryColor} mr-4`}></div>
+                      <div className={`w-7 h-7 flex justify-center items-center rounded-full bg-text_dark mr-4`}>
+                        <MenuAlt3Icon className={`text-text_white w-6`} />
+                      </div>
                       <div>
                         <p className={`custom-cursor focus:outline-none w-48 py-1 bg-transparent`}>
                           {topic.topic_name}
@@ -76,6 +135,7 @@ export const TopicList: React.FC = React.memo(() => {
                         <button
                           onClick={(e: React.SyntheticEvent) => {
                             e.stopPropagation();
+                            updateTopicAction(topic);
                           }}
                           className="focus:outline-none"
                         >
@@ -84,6 +144,7 @@ export const TopicList: React.FC = React.memo(() => {
                         <button
                           onClick={(e: React.SyntheticEvent) => {
                             e.stopPropagation();
+                            deleteTopicDetails(topic.id);
                           }}
                           className="focus:outline-none"
                         >
@@ -99,10 +160,21 @@ export const TopicList: React.FC = React.memo(() => {
               </>
             );
           })}
+          {topicList.length === 0 && (
+            <ul className="animate-pulse flex flex-col justify-evenly space-y-4">
+              {[1, 2, 3].map((n: number) => {
+                return (
+                  <li className="text-lg" key={n}>
+                    <div className={`h-4 bg-gray-300 rounded w-1/2`}></div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </ul>
       </div>
       {/* Confirm alert */}
-      <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
+      <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeAlertModal} isOpen={isDelete}>
         <ConfirmAlert confirmResponse={alertResponse} />
       </ModalLayout>
     </>

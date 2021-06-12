@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import './SubTopicList.css';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusCircleIcon } from '@heroicons/react/solid';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
+import { MenuAlt3Icon } from '@heroicons/react/solid';
 
 export const SubTopicList: React.FC = () => {
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
@@ -18,13 +19,15 @@ export const SubTopicList: React.FC = () => {
           }}
           className="ml-auto text-lg flex justify-start items-start"
         >
-          <PlusIcon className="w-7 mr-1" /> Sub Topic{' '}
+          <PlusCircleIcon className="w-7 mr-1 text-gray-700" /> Sub Topic{' '}
         </button>
         <ul className="flex flex-col">
           {contentList.map((n: number) => {
             return (
               <li className="text-lg flex justify-start items-center mb-2" key={n}>
-                <div className={`w-4 h-4 rounded-full bg-${currentSecondaryColor} mr-4`}></div>
+                <div className={`w-7 h-7 flex justify-center items-center rounded-full bg-text_dark mr-4`}>
+                  <MenuAlt3Icon className={`text-text_white w-6`} />
+                </div>
                 <div className="custom-cursor">
                   <input
                     disabled={true}
@@ -35,7 +38,7 @@ export const SubTopicList: React.FC = () => {
                     className={`focus:outline-none py-1 bg-transparent`}
                   ></input>
                 </div>
-                <div className="flex justify-evenly items-center ml-32 mr-auto space-x-4">
+                <div style={{ marginLeft: '8.5rem' }} className="flex justify-evenly items-center mr-auto space-x-4">
                   <>
                     <button
                       onClick={(e: React.SyntheticEvent) => {

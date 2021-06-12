@@ -42,7 +42,9 @@ export const StudentList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllStudent({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -54,7 +56,9 @@ export const StudentList: FC = () => {
     } else {
       dispatch(
         retrieveAllStudent({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags, IClass } from '../entity/model';
+import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
 import { IFilterObj } from '../entity/constant';
 
@@ -15,13 +15,24 @@ export const forgotKey = async (email: string): Promise<any> => {
 
 // ================== CONTENT MANAGER CRUD =================
 
-export const getAllContentManagers = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
-  return await getRequest(
-    `/user/contentManager/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${
-      role_id && role_id
-    }&status=${status && status}`,
-    getConfig(),
-  );
+export const getAllContentManagers = async ({
+  name,
+  email,
+  mobile_number,
+  role_id,
+  status,
+  limit,
+  offset,
+}: IFilterObj): Promise<any> => {
+  const filter = JSON.stringify({
+    email: email ? email : '',
+    mobile_number: mobile_number ? mobile_number : '',
+    role_id,
+    name,
+    status: status,
+  });
+  const meta = JSON.stringify({ limit, offset });
+  return await getRequest(`/user/contentManager/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
 export const addNewContentManager = async (obj: ICreateContentManager): Promise<any> => {
@@ -38,23 +49,22 @@ export const deleteContentManager = async (id: string): Promise<any> => {
 //=================ADMIN CRUD =======================
 
 export const getAllAdmin = async ({
-  search,
+  name,
   email,
-  mobile_no,
+  mobile_number,
   role_id,
   status,
   limit,
   offset,
 }: IFilterObj): Promise<any> => {
-  console.log(search, email);
   const filter = JSON.stringify({
-    email: email,
-    mobile_number: mobile_no,
-    role_id: role_id,
-    name: search,
+    email,
+    mobile_number,
+    role_id,
+    name,
     status: status,
   });
-  const meta = JSON.stringify({ limit: limit, offset: offset });
+  const meta = JSON.stringify({ limit, offset });
   return await getRequest(`/user/admins/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -71,23 +81,22 @@ export const deleteAdmin = async (id: string): Promise<any> => {
 
 //================ TUTOR CRUD =================================================
 export const getAllTutor = async ({
-  search,
+  name,
   email,
-  mobile_no,
+  mobile_number,
   role_id,
   status,
   limit,
   offset,
 }: IFilterObj): Promise<any> => {
-  console.log(search, email);
   const filter = JSON.stringify({
-    email: email,
-    mobile_number: mobile_no,
-    role_id: role_id,
-    name: search,
+    email,
+    mobile_number,
+    role_id,
+    name,
     status: status,
   });
-  const meta = JSON.stringify({ limit: limit, offset: offset });
+  const meta = JSON.stringify({ limit, offset });
   return await getRequest(`/user/tutors/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -113,23 +122,22 @@ export const deleteTutor = async (id: string): Promise<any> => {
 
 //================ STUDENT CRUD =================================================
 export const getAllStudent = async ({
-  search,
+  name,
   email,
-  mobile_no,
+  mobile_number,
   role_id,
   status,
   limit,
   offset,
 }: IFilterObj): Promise<any> => {
-  console.log(search, email);
   const filter = JSON.stringify({
-    email: email,
-    mobile_number: mobile_no,
-    role_id: role_id,
-    name: search,
+    email,
+    mobile_number,
+    role_id,
+    name,
     status: status,
   });
-  const meta = JSON.stringify({ limit: limit, offset: offset });
+  const meta = JSON.stringify({ limit, offset });
   return await getRequest(`/user/students/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -146,11 +154,12 @@ export const deleteStudent = async (id: string): Promise<any> => {
 
 //=================TAGS CRUD=============================================
 
-export const getAllTags = async ({ search, limit, offset }: IFilterObj): Promise<any> => {
-  return await getRequest(
-    `/courses/learning-outcome/?limit=${limit}&offset=${offset}&search=${search && search}`,
-    getConfig(),
-  );
+export const getAllTags = async ({ name, limit, offset }: IFilterObj): Promise<any> => {
+  const filter = JSON.stringify({
+    learning_outcome: name,
+  });
+  const meta = JSON.stringify({ limit, offset });
+  return await getRequest(`/courses/learning-outcome/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
 export const addNewTags = async (obj: ITags): Promise<any> => {

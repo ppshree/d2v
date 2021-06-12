@@ -90,12 +90,8 @@ body {
 
 .tab-label-subject::after {
   content: '❯';
-  width: 1em;
-  height: 1em;
-  text-align: center;
   transition: all 0.35s;
-  margin-left: 1.5rem;
-  align-self: flex-start;
+  margin-left: 1rem;
 }
 
 .tab-content {
