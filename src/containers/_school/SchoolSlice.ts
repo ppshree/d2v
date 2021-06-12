@@ -1,39 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IClass, ICreateSchool } from '../../app/entity/model';
+import { ICreateSchool } from '../../app/entity/model';
 import {
+  /* school crud */
   retrieveAllSchool,
   createSchool,
   deleteSchoolById,
-  retrieveAllClass,
-  createNewClass,
-  deleteClassByID,
 } from '../../app/service/shared.service';
 interface HomePageState {
   schoolList: ICreateSchool[];
-  classList: IClass[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
   selectedSchool: ICreateSchool | null;
-  selectedClass: IClass | null;
   count: number;
 }
 
 const initialState: HomePageState = {
   schoolList: [],
-  classList: [],
   pageLoader: false,
   submitLoader: false,
   formError: '',
   selectedSchool: null,
-  selectedClass: null,
   count: 0,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
 type SchoolPayloadAction = PayloadAction<ICreateSchool | null>;
-type ClassPayloadAction = PayloadAction<IClass | null>;
 
 export const HomePageSlice = createSlice({
   name: 'SchoolHomePageReducer',
@@ -45,11 +38,9 @@ export const HomePageSlice = createSlice({
     updateSelectedSchool: (state, action: SchoolPayloadAction) => {
       state.selectedSchool = action.payload;
     },
-    updateSelectedClass: (state, action: ClassPayloadAction) => {
-      state.selectedClass = action.payload;
-    },
   },
   extraReducers: {
+    /* School CRUD */
     [retrieveAllSchool.pending.toString()]: (state) => {
       state.schoolList = [];
       state.count = 0;
@@ -131,81 +122,7 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
-    /*Class crud */
-    [retrieveAllClass.pending.toString()]: (state) => {
-      state.classList = [];
-      state.count = 0;
-      state.pageLoader = true;
-    },
-    [retrieveAllClass.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
-        state.classList = [];
-        state.count = 0;
-        state.pageLoader = false;
-        return;
-      }
-      state.classList = action.payload && action.payload.data ? action.payload.data : [];
-      state.count = action.payload ? action.payload.count : 0;
-      state.pageLoader = false;
-    },
-    [retrieveAllClass.rejected.toString()]: (state) => {
-      state.classList = [];
-      state.count = 0;
-      state.pageLoader = false;
-    },
-
-    [createNewClass.pending.toString()]: (state) => {
-      state.submitLoader = true;
-    },
-    [createNewClass.fulfilled.toString()]: (state, action: any) => {
-      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
-        state.submitLoader = false;
-        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
-        return;
-      }
-      const index = state.classList.findIndex((x) => x.id == action.payload.data.id);
-
-      if (index != -1) {
-        state.classList[index] = action.payload.data;
-      } else {
-        state.count += 1;
-        state.classList.push(action.payload.data);
-      }
-      state.formError = '';
-      state.selectedClass = {
-        standard_name: '',
-        created_by: '',
-      };
-      state.submitLoader = false;
-    },
-    [createNewClass.rejected.toString()]: (state, action: any) => {
-      state.submitLoader = false;
-      state.formError = action.payload.error ? action.payload.error : 'Network Error';
-    },
-
-    [deleteClassByID.pending.toString()]: (state) => {
-      state.submitLoader = true;
-    },
-    [deleteClassByID.fulfilled.toString()]: (state, action: any) => {
-      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
-        state.submitLoader = false;
-        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
-        return;
-      }
-      const index = state.classList.findIndex((x) => x.id == action.payload.id);
-
-      if (index != -1) {
-        state.count -= 1;
-        state.classList.splice(index, 1);
-      }
-      state.formError = '';
-      state.submitLoader = false;
-    },
-    [deleteClassByID.rejected.toString()]: (state, action: any) => {
-      state.submitLoader = false;
-      state.formError = action.payload.error ? action.payload.error : 'Network Error';
-    },
   },
 });
-export const { updateFormError, updateSelectedSchool, updateSelectedClass } = HomePageSlice.actions;
+export const { updateFormError, updateSelectedSchool } = HomePageSlice.actions;
 export const SchoolHomePageReducer = HomePageSlice.reducer;

@@ -9,6 +9,7 @@ import { HashtagIcon } from '@heroicons/react/solid';
 import { LibraryIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
+import { ITopic } from './model';
 
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',
@@ -69,7 +70,7 @@ export const LANGUAGES = [
 export const SIDEBAR_PANELS = {
   SUPERADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SUPERADMIN_COURSES, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.SUPERADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
@@ -78,7 +79,7 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_LIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -99,7 +100,7 @@ export const SIDEBAR_PANELS = {
   ],
   ADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.ADMIN_COURSES, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.ADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
@@ -108,7 +109,7 @@ export const SIDEBAR_PANELS = {
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_LIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -123,7 +124,7 @@ export const SIDEBAR_PANELS = {
   ],
   TUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -138,7 +139,7 @@ export const SIDEBAR_PANELS = {
   ],
   CONTENTMANAGER: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -194,7 +195,7 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLTUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -209,7 +210,7 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLCONTENTMANAGER: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
       logo: AcademicCapIcon,
@@ -279,3 +280,27 @@ export interface IFilterObj {
   role_id?: string;
   status?: string | number;
 }
+
+export const tempTopics: ITopic[] = [
+  {
+    id: '438505555820210608203636647677',
+    topic_name: 'Geometry',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+  {
+    id: '438505555820210608203636647687',
+    topic_name: 'Algebra',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+  {
+    id: '438505555820210608203636647689',
+    topic_name: 'Derivative',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+];

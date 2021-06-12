@@ -3,7 +3,7 @@
 
 import { deleteRequest, getConfig, getRequest, patchRequest, postRequest } from '../api/http.helper';
 import { IFilterObj, IloginUser, SCHOOL } from '../entity/constant';
-import { IClass, ICreateSchool } from '../entity/model';
+import { IClass, ICreateSchool, ISubject } from '../entity/model';
 
 export const login = async (obj: IloginUser): Promise<any> => {
   const encryptString: string = btoa(btoa(`${obj.email}:${obj.password}`));
@@ -60,4 +60,36 @@ export const updateClass = async (obj: IClass): Promise<any> => {
 
 export const deleteClass = async (id: string): Promise<any> => {
   return await deleteRequest(`/courses/standard/${id}/`, getConfig());
+};
+// ===================== SUBJECT CRUD =============================
+export const getAllSubject = async ({ limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(`/courses/subject/?limit=${limit}&offset=${offset}`, getConfig());
+};
+
+export const addNewSubject = async (obj: ISubject): Promise<any> => {
+  return await postRequest('/courses/subject/', { params: obj }, getConfig());
+};
+
+export const updateSubject = async (obj: ISubject): Promise<any> => {
+  return await patchRequest(`/courses/subject/${obj.id}/`, { params: obj }, getConfig());
+};
+
+export const deleteSubject = async (id: string): Promise<any> => {
+  return await deleteRequest(`/courses/subject/${id}/`, getConfig());
+};
+// ===================== Topic CRUD =============================
+export const getAllTopicBySubject = async ({ limit, offset }: IFilterObj): Promise<any> => {
+  return await getRequest(`/courses/topic/?limit=${limit}&offset=${offset}`, getConfig());
+};
+
+export const addNewTopic = async (obj: ISubject): Promise<any> => {
+  return await postRequest('/courses/topic/', { params: obj }, getConfig());
+};
+
+export const updateTopic = async (obj: ISubject): Promise<any> => {
+  return await patchRequest(`/courses/topic/${obj.id}/`, { params: obj }, getConfig());
+};
+
+export const deleteTopic = async (id: string): Promise<any> => {
+  return await deleteRequest(`/courses/topic/${id}/`, getConfig());
 };

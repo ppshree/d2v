@@ -18,7 +18,8 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const { selectedTutor: currentTutor, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
-  const { schoolList, classList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
+  const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
+  const { classList } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 

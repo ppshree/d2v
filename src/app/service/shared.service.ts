@@ -1,7 +1,11 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  /* authenticate */
   login as userLogin,
   authenticate as userAuthenticate,
+
+  /* School CRUD */
   getAllSchool,
   addNewSchool,
   updateSchool,
@@ -12,11 +16,23 @@ import {
   addNewClass,
   updateClass,
   deleteClass,
+
+  /* Subject CRUD */
+  getAllSubject,
+  addNewSubject,
+  updateSubject,
+  deleteSubject,
+
+  /* Topic CRUD */
+  getAllTopicBySubject,
+  addNewTopic,
+  updateTopic,
+  deleteTopic,
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFilterObj, IloginUser } from '../entity/constant';
-import { IClass, ICreateSchool } from '../entity/model';
+import { IClass, ICreateSchool, ISubject } from '../entity/model';
 
 // ==================LOGIN API=============================
 export const authenticateUser = createAsyncThunk('user/authenticate', async () => {
@@ -49,15 +65,12 @@ export const deleteSchoolById = createAsyncThunk('school/deleteSchoolById', asyn
   return await deleteSchool(objId);
 });
 
-//===========CRUD FOR CLASS ===========================
-export const retrieveAllClass = createAsyncThunk(
-  'superadmin/retrieveAllClass',
-  async ({ limit, offset }: IFilterObj) => {
-    return await getAllClass({ limit, offset });
-  },
-);
+//=========== CRUD FOR CLASS ===========================
+export const retrieveAllClass = createAsyncThunk('class/retrieveAllClass', async ({ limit, offset }: IFilterObj) => {
+  return await getAllClass({ limit, offset });
+});
 
-export const createNewClass = createAsyncThunk('superadmin/addOrUpdateClass', async (obj: IClass) => {
+export const createNewClass = createAsyncThunk('class/addOrUpdateClass', async (obj: IClass) => {
   if (obj.isEditFlag) {
     return await updateClass(obj);
   } else {
@@ -65,6 +78,46 @@ export const createNewClass = createAsyncThunk('superadmin/addOrUpdateClass', as
   }
 });
 
-export const deleteClassByID = createAsyncThunk('superadmin/deleteClass', async (objId: string) => {
+export const deleteClassByID = createAsyncThunk('class/deleteClass', async (objId: string) => {
   return await deleteClass(objId);
+});
+
+//=========== CRUD FOR SUBJECT ===========================
+export const retrieveAllSubject = createAsyncThunk(
+  'subject/retrieveAllSubject',
+  async ({ limit, offset }: IFilterObj) => {
+    return await getAllSubject({ limit, offset });
+  },
+);
+
+export const createNewSubject = createAsyncThunk('subject/addOrUpdateSubject', async (obj: ISubject) => {
+  if (obj.isEditFlag) {
+    return await updateSubject(obj);
+  } else {
+    return await addNewSubject(obj);
+  }
+});
+
+export const deleteSubjectByID = createAsyncThunk('subject/deleteSubject', async (objId: string) => {
+  return await deleteSubject(objId);
+});
+
+//=========== CRUD FOR Topic ===========================
+export const retrieveAllTopicBySubject = createAsyncThunk(
+  'topic/retrieveAllTopicBySubject',
+  async ({ limit, offset }: IFilterObj) => {
+    return await getAllTopicBySubject({ limit, offset });
+  },
+);
+
+export const createNewTopic = createAsyncThunk('topic/addOrUpdateTopic', async (obj: ISubject) => {
+  if (obj.isEditFlag) {
+    return await updateTopic(obj);
+  } else {
+    return await addNewTopic(obj);
+  }
+});
+
+export const deleteTopicByID = createAsyncThunk('topic/deleteTopic', async (objId: string) => {
+  return await deleteTopic(objId);
 });
