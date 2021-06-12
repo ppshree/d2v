@@ -46,12 +46,16 @@ export const getAllAdmin = async ({
   limit,
   offset,
 }: IFilterObj): Promise<any> => {
-  return await getRequest(
-    `/user/admins/?limit=${limit}&offset=${offset}&search=${search && search}&email=${email && email}&mobile_number=${
-      mobile_no && mobile_no
-    }&role_id=${role_id && role_id}&status=${status && status}`,
-    getConfig(),
-  );
+  console.log(search, email);
+  const filter = JSON.stringify({
+    email: email,
+    mobile_number: mobile_no,
+    role_id: role_id,
+    name: search,
+    status: status,
+  });
+  const meta = JSON.stringify({ limit: limit, offset: offset });
+  return await getRequest(`/user/admins/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
 export const addNewAdmin = async (obj: ICreateAdmin): Promise<any> => {
@@ -66,14 +70,27 @@ export const deleteAdmin = async (id: string): Promise<any> => {
 };
 
 //================ TUTOR CRUD =================================================
-export const getAllTutor = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
-  return await getRequest(
-    `/user/tutors/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
-      status && status
-    }`,
-    getConfig(),
-  );
+export const getAllTutor = async ({
+  search,
+  email,
+  mobile_no,
+  role_id,
+  status,
+  limit,
+  offset,
+}: IFilterObj): Promise<any> => {
+  console.log(search, email);
+  const filter = JSON.stringify({
+    email: email,
+    mobile_number: mobile_no,
+    role_id: role_id,
+    name: search,
+    status: status,
+  });
+  const meta = JSON.stringify({ limit: limit, offset: offset });
+  return await getRequest(`/user/tutors/?filters=${filter}&meta=${meta}`, getConfig());
 };
+
 export const getFilteredTutor = async (
   filterType: string,
   filterQuery: string,
@@ -95,13 +112,25 @@ export const deleteTutor = async (id: string): Promise<any> => {
 };
 
 //================ STUDENT CRUD =================================================
-export const getAllStudent = async ({ search, role_id, status, limit, offset }: IFilterObj): Promise<any> => {
-  return await getRequest(
-    `/user/students/?limit=${limit}&offset=${offset}&search=${search && search}&role_id=${role_id && role_id}&status=${
-      status && status
-    }`,
-    getConfig(),
-  );
+export const getAllStudent = async ({
+  search,
+  email,
+  mobile_no,
+  role_id,
+  status,
+  limit,
+  offset,
+}: IFilterObj): Promise<any> => {
+  console.log(search, email);
+  const filter = JSON.stringify({
+    email: email,
+    mobile_number: mobile_no,
+    role_id: role_id,
+    name: search,
+    status: status,
+  });
+  const meta = JSON.stringify({ limit: limit, offset: offset });
+  return await getRequest(`/user/students/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
 export const addNewStudent = async (obj: ICreateStudent): Promise<any> => {
