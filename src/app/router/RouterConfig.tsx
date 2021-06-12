@@ -9,6 +9,9 @@ import { PasswordSetupPage } from '../../containers/PasswordSetupPage/PasswordSe
 
 // =========== School Routes ==================
 import { School } from '../../containers/_school/School';
+
+// =========== Course Routes ==================
+import { Courses } from '../../containers/_courses/Courses';
 // =========== Global USER Components ===========
 import { SuperAdmin } from '../../containers/_superadmin/SuperAdmin';
 import { Admin } from '../../containers/_admin/Admin';
@@ -73,6 +76,12 @@ export const RouterConfig: React.FC = () => {
       {isAuthCompleted && (loggedInUser.role_id == USER_TYPE.SUPERADMIN || loggedInUser.role_id == USER_TYPE.ADMIN) && (
         <Route key={APPLICATION_URL.SCHOOL} path={APPLICATION_URL.SCHOOL} component={School} />
       )}
+      {isAuthCompleted &&
+        (loggedInUser.role_id == USER_TYPE.SUPERADMIN ||
+          loggedInUser.role_id == USER_TYPE.ADMIN ||
+          loggedInUser.role_id == USER_TYPE.CONTENTMANAGER) && (
+          <Route key={APPLICATION_URL.COURSE} path={APPLICATION_URL.COURSE} component={Courses} />
+        )}
       {isAuthCompleted && loggedInUser.role_id == USER_TYPE.SUPERADMIN && (
         <Route key={APPLICATION_URL.SUPERADMIN} path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />
       )}

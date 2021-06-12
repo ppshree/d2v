@@ -26,7 +26,6 @@ export const SchoolTutor: React.FC = () => {
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} component={Dashboard}></Route>
-          <Route exact path={APPLICATION_URL.SCHOOLTUTOR_COURSE} component={Course}></Route>
           <Route exact path={APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} />
         </Switch>

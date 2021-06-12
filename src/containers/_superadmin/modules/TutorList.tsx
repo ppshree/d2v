@@ -42,7 +42,9 @@ export const TutorList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllTutor({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -54,7 +56,9 @@ export const TutorList: FC = () => {
     } else {
       dispatch(
         retrieveAllTutor({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,

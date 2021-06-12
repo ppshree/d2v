@@ -13,7 +13,7 @@ interface Iprops {
 
 export const ClassForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateClass }) => {
   const { selectedClass: currentClass, formError: errorMessage, submitLoader: loader } = useSelector(
-    (state: RootState) => state.SchoolHomePageReducer,
+    (state: RootState) => state.CourseHomePageReducer,
   );
 
   const [standard_name, setStandardName] = useState<string>('');
