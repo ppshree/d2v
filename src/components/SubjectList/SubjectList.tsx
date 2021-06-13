@@ -27,10 +27,11 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
   const [subjectForDelete, setSubjectForDelete] = useState<string>('');
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const { topicList } = useSelector((state: RootState) => state.CourseHomePageReducer);
+  // const { topicList } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   useEffect(() => {
-    dispatch(retrieveAllTopicBySubject({ limit: DEFAULT.ALL, offset: 0, subject: activeSubject }));
+    activeSubject !== null &&
+      dispatch(retrieveAllTopicBySubject({ limit: DEFAULT.ALL, offset: 0, subject: activeSubject }));
   }, [activeSubject]);
 
   const editSubjectDetails = (subject: any) => {
@@ -66,7 +67,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
           subjectList.map((subject: ISubject, index: number) => {
             return (
               <div key={subject.id} className="rounded-sm flex flex-col">
-                <div className="border flex flex-col justify-between space-y-6 border-b-0 bg-gray-100 px-10 py-6">
+                <div className="border flex flex-col justify-between space-y-6 border-b-0 bg-gray-100 px-10 py-6 card-shadow">
                   <div className="flex justify-between items-center">
                     <p
                       className={`bg-${currentPrimaryColor} mr-4 flex justify-center items-center w-8 h-8 rounded-full text-text_white`}
@@ -82,7 +83,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
                         }}
                         className="focus:outline-none"
                       >
-                        <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
+                        <PencilIcon className={`text-${currentPrimaryColor} w-7`} />
                       </button>
                       <button
                         onClick={(e: React.SyntheticEvent) => {
@@ -91,7 +92,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
                         }}
                         className="focus:outline-none"
                       >
-                        <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
+                        <TrashIcon className={`text-${currentSecondaryColor} w-7`} />
                       </button>
                     </div>
                   </div>

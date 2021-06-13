@@ -36,7 +36,7 @@ export const TagList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllTags({
-            name: queryName.toLowerCase(),
+            name: queryName,
             limit,
             offset,
           }),

@@ -34,7 +34,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }

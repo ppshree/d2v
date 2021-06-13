@@ -32,7 +32,7 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }

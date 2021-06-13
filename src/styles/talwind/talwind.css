@@ -71,6 +71,7 @@ body {
 
 /* accordian tab */
 .tabs {
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -119,4 +120,12 @@ input:checked + .tab-label-subject::after {
 }
 input:checked ~ .tab-content {
   max-height: 100vh;
+}
+input:checked ~ .separator-y {
+  position: absolute;
+  min-height: 100vh !important;
+}
+
+.card-shadow {
+  box-shadow: 0px 4px 4px 0px #00000040;
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import './ContentList.css';
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusCircleIcon } from '@heroicons/react/solid';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 
@@ -10,7 +10,7 @@ export const ContentList: React.FC = () => {
   const [contentList, setContentList] = useState([1, 2, 3]);
   return (
     <>
-      <div className="list-inside flex flex-row-reverse justify-start items-start flex-wrap">
+      <div className="list-inside flex flex-col justify-start items-start">
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -18,7 +18,7 @@ export const ContentList: React.FC = () => {
           }}
           className="ml-auto text-lg flex justify-evenly items-center"
         >
-          <PlusIcon className="w-7 mr-1" /> Content{' '}
+          <PlusCircleIcon className="w-7 mr-1 text-gray-700" /> Content{' '}
         </button>
         <ul className="flex flex-col">
           {contentList.map((n: number) => {
@@ -32,10 +32,10 @@ export const ContentList: React.FC = () => {
                     type="text"
                     id="content_name"
                     name="content_name"
-                    className={`focus:outline-none py-1 bg-transparent`}
+                    className={`focus:outline-none py-1 w-auto bg-transparent`}
                   ></input>
                 </div>
-                <div className="flex justify-evenly items-center ml-32 mr-auto space-x-4">
+                <div className="flex justify-evenly items-center mr-auto space-x-4">
                   <>
                     <button
                       onClick={(e: React.SyntheticEvent) => {

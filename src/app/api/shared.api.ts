@@ -105,7 +105,7 @@ export const deleteTopic = async (id: string): Promise<any> => {
 // ===================== Sub Topic CRUD =============================
 export const getAllSubTopicByTopic = async ({ topic, limit, offset }: IFilterObj): Promise<any> => {
   const filter = JSON.stringify({
-    topic_name: topic,
+    topic_id__topic_name: topic,
   });
   const meta = JSON.stringify({ limit, offset });
   return await getRequest(`/courses/sub-topic/?filters=${filter}&meta=${meta}`, getConfig());

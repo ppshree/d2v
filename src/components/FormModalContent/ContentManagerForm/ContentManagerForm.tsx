@@ -35,7 +35,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }
