@@ -128,7 +128,9 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
                     <panel.logo onClick={handleProfileOpen} className="w-6 mx-auto cursor-pointer" />
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
-                    <p className="text-left text-base mx-auto">{t(panel.name + ' ' + loggedInUser.first_name)}</p>
+                    <p className="text-left text-base mx-auto">
+                      {t(panel.name + ' ' + loggedInUser.name.split(' ')[0])}
+                    </p>
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
                     <button
