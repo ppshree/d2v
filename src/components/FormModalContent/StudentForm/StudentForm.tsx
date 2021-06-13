@@ -23,8 +23,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const [first_name, setFirstName] = useState<string>('');
-  const [last_name, setLastName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile_number, setMobileNumber] = useState<string>('');
   const [standard, setStandard] = useState<string>('');
@@ -34,7 +33,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLSTUDENT.toString() || role_id == USER_TYPE.STUDENT.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }
@@ -43,8 +42,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
   useEffect(() => {
     dispatch(retrieveAllClass({ limit: 0, offset: 0 }));
     if (currentStudent) {
-      setFirstName(currentStudent?.first_name);
-      setLastName(currentStudent?.last_name);
+      setName(currentStudent?.name);
       setEmail(currentStudent?.email);
       setMobileNumber(currentStudent?.mobile_number);
       setStandard(currentStudent?.standard);
@@ -59,8 +57,7 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
   const handleFormSubmitAction = () => {
     const StudentFormData: ICreateStudent = {
       id: currentStudent?.id,
-      first_name: first_name,
-      last_name: last_name,
+      name: name,
       email: email,
       mobile_number: mobile_number,
       standard: standard,
@@ -75,40 +72,24 @@ export const StudentForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUse
   return (
     /* wrapper inside modal layout */
     <form>
+      <div className="flex flex-col h-20 justify-evenly">
+        <label className="block text-gray-500 font-bold" htmlFor="first_name">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          placeholder="enter full name"
+          className="form-input px-4 py-1 rounded-lg"
+        ></input>
+      </div>
       {errorMessage && <AlertBar message={errorMessage} />}
       <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="first_name">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={first_name}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            placeholder="enter first name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="last_name">
-            Last Name
-          </label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-            id="last_name"
-            name="last_name"
-            value={last_name}
-            placeholder="enter last name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="email">
             Email

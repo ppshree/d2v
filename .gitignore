@@ -13,6 +13,8 @@
 
 /saturday-meeting.txt
 
+/src/styles/output/output.css
+
 # misc
 .DS_Store
 .env.local

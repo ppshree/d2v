@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// import { tempTopics } from '../../app/entity/constant';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { tempTopics } from '../../app/entity/constant';
-import { IClass, ICreateSchool, ISubject, ITopic } from '../../app/entity/model';
+import { IClass, ICreateSchool, ISubject, ISubTopic, ITopic } from '../../app/entity/model';
 import {
   /* class crud */
   retrieveAllClass,
@@ -15,34 +15,45 @@ import {
   retrieveAllTopicBySubject,
   createNewTopic,
   deleteTopicByID,
+
+  /* sub topic crud */
+  retrieveAllSubTopicByTopic,
+  createNewSubTopic,
+  deleteSubTopicByID,
 } from '../../app/service/shared.service';
 interface HomePageState {
   classList: IClass[];
   subjectList: ISubject[];
   topicList: ITopic[];
+  subTopicList: ISubTopic[];
   pageLoader: boolean;
   topicLoader: boolean;
+  subTopicLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
   selectedSchool: ICreateSchool | null;
   selectedClass: IClass | null;
   selectedSubject: ISubject | null;
   selectedTopic: ITopic | null;
+  selectedSubTopic: ISubTopic | null;
   count: number;
 }
 
 const initialState: HomePageState = {
   classList: [],
   subjectList: [],
-  topicList: tempTopics,
+  topicList: [],
+  subTopicList: [],
   pageLoader: false,
   topicLoader: false,
+  subTopicLoader: false,
   submitLoader: false,
   formError: '',
   selectedSchool: null,
   selectedClass: null,
   selectedSubject: null,
   selectedTopic: null,
+  selectedSubTopic: null,
   count: 0,
 };
 
@@ -50,6 +61,7 @@ type LanguagePayloadAction = PayloadAction<string>;
 type ClassPayloadAction = PayloadAction<IClass | null>;
 type SubjectPayloadAction = PayloadAction<ISubject | null>;
 type TopicPayloadAction = PayloadAction<ITopic | null>;
+type SubTopicPayloadAction = PayloadAction<ISubTopic | null>;
 
 export const HomePageSlice = createSlice({
   name: 'CourseHomePageReducer',
@@ -66,6 +78,9 @@ export const HomePageSlice = createSlice({
     },
     updateSelectedTopic: (state, action: TopicPayloadAction) => {
       state.selectedTopic = action.payload;
+    },
+    updateSelectedSubTopic: (state, action: SubTopicPayloadAction) => {
+      state.selectedSubTopic = action.payload;
     },
   },
   extraReducers: {
@@ -285,6 +300,77 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    /*Sub Topic crud */
+    [retrieveAllSubTopicByTopic.pending.toString()]: (state) => {
+      state.subTopicList = [];
+      state.subTopicLoader = true;
+    },
+    [retrieveAllSubTopicByTopic.fulfilled.toString()]: (state, action: any) => {
+      if (action.payload && (action.payload.isAxiosError || action.payload.errors)) {
+        state.subTopicList = [];
+        state.subTopicLoader = false;
+        return;
+      }
+      state.subTopicList = action.payload && action.payload.data ? action.payload.data : [];
+      state.subTopicLoader = false;
+    },
+    [retrieveAllSubTopicByTopic.rejected.toString()]: (state) => {
+      state.topicList = [];
+      state.topicLoader = false;
+    },
+
+    [createNewSubTopic.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [createNewSubTopic.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.subTopicList.findIndex((x) => x.id == action.payload.data.id);
+
+      if (index != -1) {
+        state.subTopicList[index] = action.payload.data;
+      } else {
+        state.subTopicList.push(action.payload.data);
+      }
+      state.formError = '';
+      state.selectedSubTopic = {
+        topic_name: '',
+        topic_id: '',
+        sub_topic_name: '',
+        created_by: '',
+      };
+      state.submitLoader = false;
+    },
+    [createNewSubTopic.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
+
+    [deleteSubTopicByID.pending.toString()]: (state) => {
+      state.submitLoader = true;
+    },
+    [deleteSubTopicByID.fulfilled.toString()]: (state, action: any) => {
+      if (!action.payload || action.payload.isAxiosError || action.payload.errors) {
+        state.submitLoader = false;
+        state.formError = action.payload.errors.length ? action.payload.errors[0].message : 'Network Error';
+        return;
+      }
+      const index = state.subTopicList.findIndex((x) => x.id == action.payload.id);
+
+      if (index != -1) {
+        state.count -= 1;
+        state.subTopicList.splice(index, 1);
+      }
+      state.formError = '';
+      state.submitLoader = false;
+    },
+    [deleteSubTopicByID.rejected.toString()]: (state, action: any) => {
+      state.submitLoader = false;
+      state.formError = action.payload.error ? action.payload.error : 'Network Error';
+    },
   },
 });
 export const {
@@ -292,5 +378,6 @@ export const {
   updateSelectedClass,
   updateSelectedSubject,
   updateSelectedTopic,
+  updateSelectedSubTopic,
 } = HomePageSlice.actions;
 export const CourseHomePageReducer = HomePageSlice.reducer;
