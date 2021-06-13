@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ICreateAdmin {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
   role_id: string | any;
@@ -14,8 +13,7 @@ export interface ICreateAdmin {
 }
 export interface ICreateContentManager {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
   role_id: string | any;
@@ -29,8 +27,7 @@ export interface ICreateContentManager {
 
 export interface ICreateTutor {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
   role_id: string | any;
@@ -44,8 +41,7 @@ export interface ICreateTutor {
 
 export interface ICreateStudent {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
   role_id: string | any;

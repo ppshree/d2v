@@ -71,8 +71,7 @@ export const StudentList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedStudent({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -86,7 +85,7 @@ export const StudentList: FC = () => {
   const addOrUpdateStudent = (userObj: ICreateStudent) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewStudent(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -108,8 +107,7 @@ export const StudentList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedStudent({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
