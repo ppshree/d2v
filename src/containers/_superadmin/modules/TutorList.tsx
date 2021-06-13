@@ -71,8 +71,7 @@ export const TutorList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedTutor({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -86,7 +85,7 @@ export const TutorList: FC = () => {
   const addOrUpdateTutor = (userObj: ICreateTutor) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewTutor(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -108,8 +107,7 @@ export const TutorList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedTutor({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',

@@ -75,8 +75,7 @@ export const ContentManagerList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedContentManager({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -90,7 +89,7 @@ export const ContentManagerList: FC = () => {
   const addOrUpdateContentManager = (userObj: ICreateContentManager) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewContentManager(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -112,8 +111,7 @@ export const ContentManagerList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedContentManager({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',

@@ -131,8 +131,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedContentManager = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -212,8 +211,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedAdmin = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -292,8 +290,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedTutor = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -373,8 +370,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedStudent = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',

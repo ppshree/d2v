@@ -21,7 +21,7 @@ export const SchoolList: FC = () => {
     (state: RootState) => state.SchoolHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */

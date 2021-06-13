@@ -68,7 +68,7 @@ export const UserTableList: React.FC<Iprops> = ({ refer, userList, updateActionU
             userList.map((user: any) => {
               return (
                 <tr key={user.id} className="border-b-2">
-                  <td className="font-semibold">{user.first_name + ' ' + user.last_name}</td>
+                  <td className="font-semibold">{user.name}</td>
                   <td className="font-normal">{user.email}</td>
                   <td className="font-normal">{user.mobile_number}</td>
                   <td className="font-normal">{user.school_code}</td>
