@@ -3,8 +3,8 @@ import { ISubTopic } from './../entity/model';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { deleteRequest, getConfig, getRequest, patchRequest, postRequest } from '../api/http.helper';
-import { IFilterObj, IloginUser, SCHOOL } from '../entity/constant';
-import { IClass, ICreateSchool, ISubject, ITopic } from '../entity/model';
+import { SCHOOL } from '../entity/constant';
+import { IClass, ICreateSchool, ISubject, ITopic, IFilterObj, IloginUser } from '../entity/model';
 
 export const login = async (obj: IloginUser): Promise<any> => {
   const encryptString: string = btoa(btoa(`${obj.email}:${obj.password}`));

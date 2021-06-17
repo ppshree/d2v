@@ -2,10 +2,8 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { IcreatePassword } from '../../app/entity/constant';
+import { IcreatePassword } from '../../app/entity/model';
 import { RootState } from '../../app/rootReducer';
-import { LoginShowcase } from '../../components/LoginShowcase/LoginShowcase';
-import { Navbar } from '../../components/Navbar/Navbar';
 import { PasswordForm } from '../../components/PasswordForm/PasswordForm';
 import { updateLoginError } from '../LoginPage/LoginPageSlice';
 
@@ -35,21 +33,11 @@ export const PasswordSetupPage: React.FC = () => {
     }
   };
   return (
-    <div className="relative">
-      <Navbar />
-      <div className="login-background">
-        <div className="login-form">
-          <div className="ml-28">
-            <PasswordForm
-              setPassword={setPassword}
-              setConfirmPassword={setConfirmPassword}
-              confirm={handleSubmit}
-              loginIsLoading={loginIsLoading}
-            />
-          </div>
-        </div>
-        <LoginShowcase />
-      </div>
-    </div>
+    <PasswordForm
+      setPassword={setPassword}
+      setConfirmPassword={setConfirmPassword}
+      confirm={handleSubmit}
+      loginIsLoading={loginIsLoading}
+    />
   );
 };

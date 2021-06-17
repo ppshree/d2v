@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
-import { IFilterObj } from '../entity/constant';
+import { IFilterObj } from '../entity/model';
 
 // ==================APIS ROUTING TO BACKEND=============================
 

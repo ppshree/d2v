@@ -27,8 +27,8 @@ import {
   deleteTags as deleteTagsAddedBySuperAdmin,
 } from '../api/superadmin.api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags, IClass } from '../entity/model';
-import { IFilterObj } from '../entity/constant';
+import { ICreateContentManager, ICreateAdmin, ICreateStudent, ICreateTutor, ITags, IFilterObj } from '../entity/model';
+
 // ==================APIS ROUTING TO RM-BACKEND=============================
 
 export interface IGetAll {

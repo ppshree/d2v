@@ -38,8 +38,7 @@ import {
 } from '../api/shared.api';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFilterObj, IloginUser } from '../entity/constant';
-import { IClass, ICreateSchool, ISubject } from '../entity/model';
+import { IClass, ICreateSchool, ISubject, IFilterObj, IloginUser } from '../entity/model';
 
 // ==================LOGIN API=============================
 export const authenticateUser = createAsyncThunk('user/authenticate', async () => {

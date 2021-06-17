@@ -1,21 +1,25 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+// import LanguageDetector from 'i18next-browser-languagedetector';
 import XHR from 'i18next-xhr-backend';
+import translationEN from '../resources/translation-en.json';
 
 i18n
-  .use(initReactI18next)
   .use(XHR)
-  .use(LanguageDetector)
+  .use(initReactI18next)
+
+  // .use(LanguageDetector)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
-    fallbackLng: 'en',
-    debug: process?.env?.NODE_ENV !== 'production' || false,
-
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
+    resources: {
+      en: { translations: translationEN },
     },
+    lng: 'en',
+    fallbackLng: 'en',
+    ns: ['translations'],
+    defaultNS: 'translations',
+    // debug: process?.env?.NODE_ENV !== 'production' || false,
   });
 
 // eslint-disable-next-line import/no-default-export

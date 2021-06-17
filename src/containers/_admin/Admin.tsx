@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
 import { Dashboard } from './modules/Dashboard';
 import { AdminList } from './modules/AdminList';
 import { TutorList } from './modules/TutorList';
@@ -12,13 +12,7 @@ import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {
   const { path } = useRouteMatch();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-
-  useEffect(() => {
-    //make api calls
-  }, []);
 
   return (
     <div className="h-full flex">
