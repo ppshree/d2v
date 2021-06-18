@@ -1,4 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export interface IloginUser {
+  email: string;
+  password: string;
+}
+export interface IcreatePassword {
+  userId: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IFilterObj {
+  limit: number | any;
+  offset: number;
+  name?: string;
+  email?: string;
+  mobile_number?: string;
+  role_id?: string;
+  status?: string | number;
+  standard?: string;
+  subject?: string;
+  topic?: string;
+  subtopic?: string;
+}
+
 export interface ICreateAdmin {
   id?: string;
   name: string;

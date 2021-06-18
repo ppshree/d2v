@@ -18,7 +18,7 @@ interface Iprops {
 }
 
 export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => {
-  const { loggedInUser, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
+  const { loggedInUser, token, activePanel: activeMenu } = useSelector((state: RootState) => state.LoginPageReducer);
   const [listOfPanels, setListOfPanels] = useState<any[]>([]);
   const [sidebarWidth, setSidebarWidth] = useState<string>(MIN_MAX_WIDTH.MAX_SIDEBAR);
 
@@ -67,6 +67,8 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
     e.preventDefault();
     openProfileModal();
   };
+
+  console.log(token);
 
   return (
     <div
@@ -129,7 +131,7 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (
                     <p className="text-left text-base mx-auto">
-                      {t(panel.name + ' ' + loggedInUser.name.split(' ')[0])}
+                      {token && t(panel.name + ' ' + loggedInUser.name.split(' ')[0])}
                     </p>
                   )}
                   {sidebarWidth === MIN_MAX_WIDTH.MAX_SIDEBAR && (

@@ -12,13 +12,7 @@ import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {
   const { path } = useRouteMatch();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-
-  useEffect(() => {
-    //make api calls
-  }, []);
 
   return (
     <div className="h-full flex">

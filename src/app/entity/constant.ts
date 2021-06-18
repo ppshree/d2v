@@ -10,6 +10,14 @@ import { LibraryIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
 
+const getKeys = (ENUM_NAME: any) => {
+  const arr = [];
+  for (const time in ENUM_NAME) {
+    arr.push(time);
+  }
+  return arr;
+};
+
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',
   GSA_SECONDARY = 'gsa_secondary',
@@ -36,6 +44,8 @@ export enum RESPONSE {
   LOGINFAILED = 'LOGIN FAILED',
   DATANOTFOUND = 'DATA NOT FOUND',
   TOKENOTFOUND = 'TOKEM NOT FOUND',
+  WENTWRONG = 'SOMETHING WENT WRONG',
+  NETWORKERROR = 'NETWORK ERROR',
 }
 
 export enum MIN_MAX_WIDTH {
@@ -49,23 +59,11 @@ export enum MODAL_POSITION {
   DEFAULT = 'inset-0',
 }
 
-export enum USER_TYPE {
-  SUPERADMIN = 1,
-  ADMIN = 2,
-  TUTOR = 3,
-  STUDENT = 4,
-  SCHOOLSUPERADMIN = 5,
-  SCHOOLADMIN = 6,
-  SCHOOLTUTOR = 7,
-  SCHOOLSTUDENT = 8,
-  CONTENTMANAGER = 9,
-  SCHOOLCONTENTMANAGER = 10,
-}
-
 export const LANGUAGES = [
   { id: 'en', name: 'English' },
   { id: 'ger', name: 'Deutsch' },
 ];
+
 export const SIDEBAR_PANELS = {
   SUPERADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
@@ -236,6 +234,64 @@ export const ROLES: any = {
   9: 'CONTENT MANAGER',
   10: 'SCHOOL CONTENT MANAGER',
 };
+
+export const LIST_OF_ROLES = getKeys(ROLES);
+
+export enum USER_TYPE {
+  SUPERADMIN = 1,
+  ADMIN = 2,
+  TUTOR = 3,
+  STUDENT = 4,
+  SCHOOLSUPERADMIN = 5,
+  SCHOOLADMIN = 6,
+  SCHOOLTUTOR = 7,
+  SCHOOLSTUDENT = 8,
+  CONTENTMANAGER = 9,
+  SCHOOLCONTENTMANAGER = 10,
+}
+
+export const USER_DETAILS = [
+  { id: 1, name: 'SUPER ADMIN', panels: SIDEBAR_PANELS.SUPERADMIN, roleName: 'SUPERADMIN', type: USER_TYPE.SUPERADMIN },
+  { id: 2, name: 'ADMIN', panels: SIDEBAR_PANELS.ADMIN, roleName: 'ADMIN', type: USER_TYPE.SUPERADMIN },
+  { id: 3, name: 'TUTOR', panels: SIDEBAR_PANELS.TUTOR, roleName: 'TUTOR', type: USER_TYPE.SUPERADMIN },
+  { id: 4, name: 'STUDENT', panels: [], roleName: 'STUDENT', type: USER_TYPE.SUPERADMIN },
+  {
+    id: 5,
+    name: 'SCHOOL SUPER ADMIN',
+    panels: SIDEBAR_PANELS.SCHOOLSUPERADMIN,
+    roleName: 'SCHOOLSUPERADMIN',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 6,
+    name: 'SCHOOL ADMIN',
+    panels: SIDEBAR_PANELS.SCHOOLADMIN,
+    roleName: 'SCHOOLADMIN',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 7,
+    name: 'SCHOOL TUTOR',
+    panels: SIDEBAR_PANELS.SCHOOLTUTOR,
+    roleName: 'SCHOOLTUTOR',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  { id: 8, name: 'SCHOOL STUDENT', panels: [], roleName: 'SCHOOLSTUDENT', type: USER_TYPE.SUPERADMIN },
+  {
+    id: 9,
+    name: 'CONTENT MANAGER',
+    panels: SIDEBAR_PANELS.CONTENTMANAGER,
+    roleName: 'CONTENTMANAGER',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 10,
+    name: 'SCHOOL CONTENT MANAGER',
+    panels: SIDEBAR_PANELS.SCHOOLCONTENTMANAGER,
+    roleName: 'SCHOOLCONTENTMANAGER',
+    type: USER_TYPE.SUPERADMIN,
+  },
+];
 
 export enum DEFAULT {
   GLOBALSCHOOL = 'ysyw1234',

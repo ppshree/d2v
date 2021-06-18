@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SchoolTutor.css';
 import { RootState } from '../../../app/rootReducer';
-//import { updateActivePanel } from '../../LoginPage/LoginPageSlice';
 
 export const Course: FC = () => {
   const dispatch = useDispatch();
