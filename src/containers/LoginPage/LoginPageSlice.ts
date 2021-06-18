@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IloginUser } from './../../app/entity/constant';
+import { IloginUser } from './../../app/entity/model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { authenticateUser, loginUser } from '../../app/service/shared.service';
