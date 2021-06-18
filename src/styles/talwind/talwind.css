@@ -42,9 +42,12 @@
   /* Login Button */
   --login_button: #8b55fe;
 }
+html {
+  font-family: 'Open Sans', sans-serif !important;
+}
 body {
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   background: #ebedef;
 }
 
