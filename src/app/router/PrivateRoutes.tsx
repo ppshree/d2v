@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Redirect, Route, useLocation } from 'react-router-dom';
-import { APPLICATION_URL } from './ApplicationRoutes';
+import { APPLICATION_URL } from './applicationRoutes';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';
 import { RootState } from '../rootReducer';
@@ -15,11 +15,18 @@ import { SchoolSuperAdmin } from '../../containers/_schoolsuperadmin/SchoolSuper
 import { SchoolAdmin } from '../../containers/_schooladmin/SchoolAdmin';
 import { SchoolTutor } from '../../containers/_schooltutor/SchoolTutor';
 import { SchoolStudent } from '../../containers/_schoolstudent/SchoolStudent';
-import { ComingSoon } from '../../components/ComingSoon/ComingSoon';
+// import { ComingSoon } from '../../components/ComingSoon/ComingSoon';
+
+// =========== School Component ============
+import { School } from '../../containers/_school/School';
+
+// =========== Course Component ============
+import { Courses } from '../../containers/_courses/Courses';
 
 export const PrivateRoutes: React.FC = () => {
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
   const [redirectToPath, setRedirectToPath] = useState('');
+
   useEffect(() => {
     if (loggedInUser.role_id == USER_TYPE.SUPERADMIN) {
       setRedirectToPath(APPLICATION_URL.SUPERADMIN);
@@ -44,7 +51,8 @@ export const PrivateRoutes: React.FC = () => {
     } else {
       setRedirectToPath(APPLICATION_URL.LOGIN);
     }
-  }, [loggedInUser, location]);
+  }, [loggedInUser]);
+
   return (
     <Switch>
       {/* ==== GLOBAL USER ROUTES ==== */}
@@ -57,7 +65,14 @@ export const PrivateRoutes: React.FC = () => {
       <Route path={APPLICATION_URL.SCHOOLADMIN} component={SchoolAdmin} />
       <Route path={APPLICATION_URL.SCHOOLTUTOR} component={SchoolTutor} />
       <Route path={APPLICATION_URL.SCHOOLSTUDENT} component={SchoolStudent} />
-      <Route component={ComingSoon} />
+
+      {/* <Route component={ComingSoon} /> */}
+
+      {/* ==== SCHOOL ROUTES ==== */}
+      <Route path={APPLICATION_URL.SCHOOL} component={School} />
+      {/* ==== COURSE ROUTES ==== */}
+      <Route path={APPLICATION_URL.COURSE} component={Courses} />
+
       <Redirect to={redirectToPath} />
     </Switch>
   );

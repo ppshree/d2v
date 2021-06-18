@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
+import { APPLICATION_URL } from '../../app/router/applicationRoutes';
 import { Dashboard } from './modules/Dashboard';
 import { StudentList } from './modules/StudentList';
 import { RootState } from '../../app/rootReducer';

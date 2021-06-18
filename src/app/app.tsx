@@ -8,7 +8,6 @@ import { PrivateRoutes } from './router/PrivateRoutes';
 import { PublicRoutes } from './router/PublicRoutes';
 import { LIST_OF_ROLES } from './entity/constant';
 import { useTranslation } from 'react-i18next';
-import './App.css';
 import { useState } from 'react';
 
 export const App: React.FC = () => {
@@ -22,6 +21,8 @@ export const App: React.FC = () => {
     if (token) localStorage.setItem('sessionToken', token);
     if (token && loggedInUser?.role_id && LIST_OF_ROLES.includes('' + loggedInUser?.role_id)) {
       setIsUserValid(true);
+    } else {
+      setIsUserValid(false);
     }
   }, [loggedInUser, token]);
 

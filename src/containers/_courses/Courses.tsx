@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
-import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
+import { APPLICATION_URL } from '../../app/router/applicationRoutes';
 import { Classes } from './modules/Classes';
 import { Subjects } from './modules/Subjects';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
