@@ -138,29 +138,22 @@ export const ContentManagerList: FC = () => {
           <ContentManagerForm addOrUpdateUser={addOrUpdateContentManager} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader
-        filterFor="Content Manager"
-        setQueryName={setQueryName}
-        setQueryEmail={setQueryEmail}
-        setQueryPhone={setQueryPhone}
-        setQueryUserType={setQueryUserType}
-        setQueryStatus={setQueryStatus}
-      />
       {/* User Table List */}
       {loader ? (
         <Loader />
       ) : (
         <>
+          {/* Filter Header Part */}
+          <FilterHeader filterFor="Content Manager" />
           <div className="sm:my-3 xsm:my-3">
             <UserTableList
-              updateActionUser={updateContentManagerAction}
-              deleteActionUser={deleteContentManagerAction}
-              userList={contentManagerList}
+              updateAction={updateContentManagerAction}
+              deleteAction={deleteContentManagerAction}
+              itemList={contentManagerList}
             />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>

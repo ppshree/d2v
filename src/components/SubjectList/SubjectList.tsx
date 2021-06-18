@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DEFAULT, MODAL_POSITION } from '../../app/entity/constant';
+import { DEFAULT, LIMIT, MODAL_POSITION } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import './SubjectList.css';
@@ -31,7 +31,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
 
   useEffect(() => {
     activeSubject !== null &&
-      dispatch(retrieveAllTopicBySubject({ limit: DEFAULT.ALL, offset: 0, subject: activeSubject }));
+      dispatch(retrieveAllTopicBySubject({ limit: LIMIT.ALL, offset: 0, subject: activeSubject }));
   }, [activeSubject]);
 
   const editSubjectDetails = (subject: any) => {

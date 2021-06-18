@@ -138,13 +138,7 @@ export const SchoolList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      <FilterHeader
-        filterFor="School"
-        setQueryName={setQueryName}
-        setQueryEmail={setQueryEmail}
-        setQueryPhone={setQueryPhone}
-        setQueryStatus={setQueryStatus}
-      />
+      <FilterHeader filterFor="School" />
       {/* User Table List */}
       {loader ? (
         <Loader />
@@ -158,7 +152,7 @@ export const SchoolList: FC = () => {
             />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} listLength={count} setLimit={setLimit} setOffset={setOffset} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>

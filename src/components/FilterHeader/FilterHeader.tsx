@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './FilterHeader.css';
 import { SearchIcon } from '@heroicons/react/solid';
 import { MailIcon } from '@heroicons/react/solid';
@@ -10,21 +11,75 @@ import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ROLES, USER_STATUS, USER_TYPE } from '../../app/entity/constant';
 interface Iprops {
   filterFor: string;
-  setQueryName: React.Dispatch<React.SetStateAction<string>>;
-  setQueryEmail?: React.Dispatch<React.SetStateAction<string>>;
-  setQueryPhone?: React.Dispatch<React.SetStateAction<string>>;
-  setQueryUserType?: React.Dispatch<React.SetStateAction<string>>;
-  setQueryStatus?: React.Dispatch<React.SetStateAction<string | any>>;
+  filterObj?: any;
+  setFilterObj?: React.Dispatch<React.SetStateAction<any>>;
 }
-export const FilterHeader: React.FC<Iprops> = ({
-  filterFor,
-  setQueryName,
-  setQueryEmail,
-  setQueryPhone,
-  setQueryUserType,
-  setQueryStatus,
-}) => {
+export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filterObj }) => {
   const { currentSecondaryColor } = useColorUserType();
+
+  /* filter State change */
+  const [queryName, setQueryName] = useState<string>('');
+  const [queryEmail, setQueryEmail] = useState<string>('');
+  const [queryPhone, setQueryPhone] = useState<string>('');
+  const [queryUserType, setQueryUserType] = useState<string>('');
+  const [queryStatus, setQueryStatus] = useState<string>('');
+  /* filter State change*/
+
+  /* filter input ref */
+  const inputName = useRef<HTMLInputElement>(null);
+  const inputEmail = useRef<HTMLInputElement>(null);
+  const inputPhone = useRef<HTMLInputElement>(null);
+  const userType = useRef<HTMLSelectElement>(null);
+  const status = useRef<HTMLSelectElement>(null);
+  /* filter input ref */
+
+  useEffect(() => {
+    let timer: any;
+    if (document.activeElement === inputName.current && setFilterObj) {
+      timer = setTimeout(() => {
+        setFilterObj({
+          ...filterObj,
+          name: inputName.current?.value,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (document.activeElement === inputEmail.current && setFilterObj) {
+      timer = setTimeout(() => {
+        setFilterObj({
+          ...filterObj,
+          email: inputEmail.current?.value,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (document.activeElement === inputPhone.current && setFilterObj) {
+      timer = setTimeout(() => {
+        setFilterObj({
+          ...filterObj,
+          mobile_number: inputPhone.current?.value,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (document.activeElement === userType.current && setFilterObj) {
+      timer = setTimeout(() => {
+        setFilterObj({
+          ...filterObj,
+          role_id: userType.current?.value,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    } else if (document.activeElement === status.current && setFilterObj) {
+      timer = setTimeout(() => {
+        setFilterObj({
+          ...filterObj,
+          status: status.current?.value,
+        });
+      }, 500);
+      return () => clearTimeout(timer);
+    } else {
+      return;
+    }
+  }, [queryName, queryEmail, queryPhone, queryUserType, queryStatus]);
+
   return (
     <div className="flex flex-wrap justify-start items-center bg-white filter-shadow w-full sm:h-16 xsm:h-auto rounded-lg my-5 px-3 space-x-3">
       <div className="flex justify-start search-box w-auto h-12">
@@ -33,11 +88,12 @@ export const FilterHeader: React.FC<Iprops> = ({
             <SearchIcon className={`text-${currentSecondaryColor} w-6`} />
           </span>
           <input
+            ref={inputName}
             type="search"
+            name="name"
             onChange={(e) => {
               setQueryName(e.target.value);
             }}
-            name="name"
             className="py-2 w-full rounded-md pl-10 focus:outline-none"
             placeholder="Search By Name..."
             autoComplete="off"
@@ -51,10 +107,11 @@ export const FilterHeader: React.FC<Iprops> = ({
               <MailIcon className={`text-${currentSecondaryColor} w-6`} />
             </span>
             <input
-              type="search"
+              ref={inputEmail}
               onChange={(e) => {
-                setQueryEmail && setQueryEmail(e.target.value);
+                setQueryEmail(e.target.value);
               }}
+              type="search"
               name="email"
               className="py-2 w-full rounded-md pl-10 focus:outline-none"
               placeholder="Search By Email..."
@@ -70,10 +127,11 @@ export const FilterHeader: React.FC<Iprops> = ({
               <PhoneIcon className={`text-${currentSecondaryColor} w-6`} />
             </span>
             <input
-              type="search"
+              ref={inputPhone}
               onChange={(e) => {
-                setQueryPhone && setQueryPhone(e.target.value);
+                setQueryPhone(e.target.value);
               }}
+              type="search"
               name="phone"
               className="py-2 w-full rounded-md pl-10 focus:outline-none"
               placeholder="Search By Phone..."
@@ -89,8 +147,9 @@ export const FilterHeader: React.FC<Iprops> = ({
               <AcademicCapIcon className={`text-${currentSecondaryColor} w-6`} />
             </span>
             <select
+              ref={userType}
               onChange={(e) => {
-                setQueryUserType && setQueryUserType(e.target.value);
+                setQueryUserType(e.target.value);
               }}
               id="userType"
               name="userType"
@@ -140,7 +199,10 @@ export const FilterHeader: React.FC<Iprops> = ({
               <ClipboardCheckIcon className={`text-${currentSecondaryColor} w-6`} />
             </span>
             <select
-              onChange={(e) => setQueryStatus && setQueryStatus(e.target.value)}
+              ref={status}
+              onChange={(e) => {
+                setQueryStatus(e.target.value);
+              }}
               id="status"
               name="status"
               className="py-2 rounded-md w-full pl-10 focus:outline-none"

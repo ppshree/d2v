@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ICreateContentManager, ICreateAdmin, ICreateTutor, ICreateStudent, ITags } from '../entity/model';
 import { getConfig, getRequest, postRequest, patchRequest, deleteRequest } from '../api/http.helper';
-import { IFilterObj } from '../entity/constant';
+import { IFilterObj, LIMIT } from '../entity/constant';
 
 // ==================APIS ROUTING TO BACKEND=============================
 
@@ -64,7 +64,7 @@ export const getAllAdmin = async ({
     name,
     status: status,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/user/admins/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -96,7 +96,7 @@ export const getAllTutor = async ({
     name,
     status: status,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/user/tutors/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -137,7 +137,7 @@ export const getAllStudent = async ({
     name,
     status: status,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/user/students/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -158,7 +158,7 @@ export const getAllTags = async ({ name, limit, offset }: IFilterObj): Promise<a
   const filter = JSON.stringify({
     learning_outcome: name,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/courses/learning-outcome/?filters=${filter}&meta=${meta}`, getConfig());
 };
 

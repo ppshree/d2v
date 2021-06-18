@@ -11,10 +11,10 @@ import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
   tagList: any[];
-  updateActionUser: (user: any) => void;
-  deleteActionUser: (userId: string) => void;
+  updateAction: (user: any) => void;
+  deleteAction: (userId: string) => void;
 }
-export const TagTableList: React.FC<Iprops> = ({ tagList, updateActionUser, deleteActionUser }) => {
+export const TagTableList: React.FC<Iprops> = ({ tagList, updateAction, deleteAction }) => {
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [userForDelete, setUserForDelete] = useState<string>('');
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
@@ -22,7 +22,7 @@ export const TagTableList: React.FC<Iprops> = ({ tagList, updateActionUser, dele
   const editUserDetails = (user: any) => {
     const userObj = { ...user };
     userObj.isEditFlag = true;
-    updateActionUser(userObj);
+    updateAction(userObj);
   };
 
   const deleteUserDetails = (userId: string) => {
@@ -32,7 +32,7 @@ export const TagTableList: React.FC<Iprops> = ({ tagList, updateActionUser, dele
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      deleteActionUser(userForDelete);
+      deleteAction(userForDelete);
       closeModal();
     } else {
       closeModal();

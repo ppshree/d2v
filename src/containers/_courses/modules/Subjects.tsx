@@ -107,7 +107,7 @@ export const Subjects: FC = () => {
             />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>

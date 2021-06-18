@@ -129,30 +129,23 @@ export const StudentList: FC = () => {
           <StudentForm addOrUpdateUser={addOrUpdateStudent} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader
-        filterFor="Student"
-        setQueryName={setQueryName}
-        setQueryEmail={setQueryEmail}
-        setQueryPhone={setQueryPhone}
-        setQueryUserType={setQueryUserType}
-        setQueryStatus={setQueryStatus}
-      />
       {/* User Table List */}
       {loader ? (
         <Loader />
       ) : (
         <>
+          {/* Filter Header Part */}
+          <FilterHeader filterFor="Student" />
           <div className="sm:my-3 xsm:my-3">
             <UserTableList
               refer="Student"
-              updateActionUser={updateStudentAction}
-              deleteActionUser={deleteStudentAction}
-              userList={studentList}
+              updateAction={updateStudentAction}
+              deleteAction={deleteStudentAction}
+              itemList={studentList}
             />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>

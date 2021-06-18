@@ -105,16 +105,16 @@ export const TagList: FC = () => {
         </ModalLayout>
       )}
       {/* Filter Header Part */}
-      <FilterHeader filterFor="Tag" setQueryName={setQueryName} />
+      <FilterHeader filterFor="Tag" />
       {loader ? (
         <Loader />
       ) : (
         <>
           <div className="sm:my-3 xsm:my-3">
-            <TagTableList updateActionUser={updateTagAction} deleteActionUser={deleteTagAction} tagList={tagList} />
+            <TagTableList updateAction={updateTagAction} deleteAction={deleteTagAction} tagList={tagList} />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>

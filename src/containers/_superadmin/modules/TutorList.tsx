@@ -129,29 +129,18 @@ export const TutorList: FC = () => {
           <TutorForm addOrUpdateUser={addOrUpdateTutor} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader
-        filterFor="Tutor"
-        setQueryName={setQueryName}
-        setQueryEmail={setQueryEmail}
-        setQueryPhone={setQueryPhone}
-        setQueryUserType={setQueryUserType}
-        setQueryStatus={setQueryStatus}
-      />
       {/* User Table List */}
       {loader ? (
         <Loader />
       ) : (
         <>
+          {/* Filter Header Part */}
+          <FilterHeader filterFor="Tutor" />
           <div className="sm:my-3 xsm:my-3">
-            <UserTableList
-              updateActionUser={updateTutorAction}
-              deleteActionUser={deleteTutorAction}
-              userList={tutorList}
-            />
+            <UserTableList updateAction={updateTutorAction} deleteAction={deleteTutorAction} itemList={tutorList} />
           </div>
           {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+          <FilterBottom listLength={count} />
         </>
       )}
     </>
