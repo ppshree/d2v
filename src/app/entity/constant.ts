@@ -1,14 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { APPLICATION_URL } from '../router/applicationRoutes';
+import { APPLICATION_URL } from '../router/ApplicationRoutes';
 import { ChartBarIcon } from '@heroicons/react/solid';
-import { UserIcon } from '@heroicons/react/solid';
+import { AcademicCapIcon } from '@heroicons/react/solid';
 import { UserGroupIcon } from '@heroicons/react/solid';
-import { UserGroupIcon as UserGroupOutlineIcon } from '@heroicons/react/outline';
 import { UsersIcon } from '@heroicons/react/solid';
 import { UserAddIcon } from '@heroicons/react/solid';
 import { HashtagIcon } from '@heroicons/react/solid';
+import { LibraryIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
+import { ITopic } from './model';
+
+const getKeys = (ENUM_NAME: any) => {
+  const arr = [];
+  for (const time in ENUM_NAME) {
+    arr.push(time);
+  }
+  return arr;
+};
 
 export enum COLORS {
   GSA_PRIMARY = 'gsa_primary',
@@ -36,6 +45,8 @@ export enum RESPONSE {
   LOGINFAILED = 'LOGIN FAILED',
   DATANOTFOUND = 'DATA NOT FOUND',
   TOKENOTFOUND = 'TOKEM NOT FOUND',
+  WENTWRONG = 'SOMETHING WENT WRONG',
+  NETWORKERROR = 'NETWORK ERROR',
 }
 
 export enum MIN_MAX_WIDTH {
@@ -49,39 +60,27 @@ export enum MODAL_POSITION {
   DEFAULT = 'inset-0',
 }
 
-export enum USER_TYPE {
-  SUPERADMIN = 1,
-  ADMIN = 2,
-  TUTOR = 3,
-  STUDENT = 4,
-  SCHOOLSUPERADMIN = 5,
-  SCHOOLADMIN = 6,
-  SCHOOLTUTOR = 7,
-  SCHOOLSTUDENT = 8,
-  CONTENTMANAGER = 9,
-  SCHOOLCONTENTMANAGER = 10,
-}
-
 export const LANGUAGES = [
   { id: 'en', name: 'English' },
   { id: 'ger', name: 'Deutsch' },
 ];
+
 export const SIDEBAR_PANELS = {
   SUPERADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SUPERADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.SUPERADMIN_MASTER, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.SUPERADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
-      logo: UserGroupOutlineIcon,
+      logo: UserAddIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_CONTENTMANAGER_LIST,
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SUPERADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_SUPERADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -99,19 +98,19 @@ export const SIDEBAR_PANELS = {
   ],
   ADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.ADMIN_DASHBOARD, isTopItem: true },
-    { name: 'Master', logo: UserIcon, redirectTo: APPLICATION_URL.ADMIN_MASTER, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     { name: 'Admin List', logo: UserGroupIcon, redirectTo: APPLICATION_URL.ADMIN_ADMIN_LIST, isTopItem: true },
     {
       name: 'Content Manger List',
-      logo: UserGroupOutlineIcon,
+      logo: UserAddIcon,
       redirectTo: APPLICATION_URL.ADMIN_CONTENTMANAGER_LIST,
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.ADMIN_TUTOR_LIST, isTopItem: true },
-    { name: 'School List', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOL_ADMIN, isTopItem: true },
+    { name: 'School List', logo: LibraryIcon, redirectTo: APPLICATION_URL.SCHOOL_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.ADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -123,10 +122,10 @@ export const SIDEBAR_PANELS = {
   ],
   TUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -138,10 +137,10 @@ export const SIDEBAR_PANELS = {
   ],
   CONTENTMANAGER: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -167,7 +166,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_TUTOR_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -182,7 +181,7 @@ export const SIDEBAR_PANELS = {
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLADMIN_TUTOR_LIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLADMIN_STUDENT_LIST,
       isTopItem: true,
     },
@@ -194,10 +193,10 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLTUTOR: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.SCHOOLTUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -209,10 +208,10 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLCONTENTMANAGER: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.TUTOR_DASHBOARD, isTopItem: true },
-    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.TUTOR_COURSE, isTopItem: true },
+    { name: 'Course', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Student List',
-      logo: UserAddIcon,
+      logo: AcademicCapIcon,
       redirectTo: APPLICATION_URL.TUTOR_STUDENT_LIST,
       isTopItem: true,
     },
@@ -237,11 +236,70 @@ export const ROLES: any = {
   10: 'SCHOOL CONTENT MANAGER',
 };
 
+export const LIST_OF_ROLES = getKeys(ROLES);
+
+export enum USER_TYPE {
+  SUPERADMIN = 1,
+  ADMIN = 2,
+  TUTOR = 3,
+  STUDENT = 4,
+  SCHOOLSUPERADMIN = 5,
+  SCHOOLADMIN = 6,
+  SCHOOLTUTOR = 7,
+  SCHOOLSTUDENT = 8,
+  CONTENTMANAGER = 9,
+  SCHOOLCONTENTMANAGER = 10,
+}
+
+export const USER_DETAILS = [
+  { id: 1, name: 'SUPER ADMIN', panels: SIDEBAR_PANELS.SUPERADMIN, roleName: 'SUPERADMIN', type: USER_TYPE.SUPERADMIN },
+  { id: 2, name: 'ADMIN', panels: SIDEBAR_PANELS.ADMIN, roleName: 'ADMIN', type: USER_TYPE.SUPERADMIN },
+  { id: 3, name: 'TUTOR', panels: SIDEBAR_PANELS.TUTOR, roleName: 'TUTOR', type: USER_TYPE.SUPERADMIN },
+  { id: 4, name: 'STUDENT', panels: [], roleName: 'STUDENT', type: USER_TYPE.SUPERADMIN },
+  {
+    id: 5,
+    name: 'SCHOOL SUPER ADMIN',
+    panels: SIDEBAR_PANELS.SCHOOLSUPERADMIN,
+    roleName: 'SCHOOLSUPERADMIN',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 6,
+    name: 'SCHOOL ADMIN',
+    panels: SIDEBAR_PANELS.SCHOOLADMIN,
+    roleName: 'SCHOOLADMIN',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 7,
+    name: 'SCHOOL TUTOR',
+    panels: SIDEBAR_PANELS.SCHOOLTUTOR,
+    roleName: 'SCHOOLTUTOR',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  { id: 8, name: 'SCHOOL STUDENT', panels: [], roleName: 'SCHOOLSTUDENT', type: USER_TYPE.SUPERADMIN },
+  {
+    id: 9,
+    name: 'CONTENT MANAGER',
+    panels: SIDEBAR_PANELS.CONTENTMANAGER,
+    roleName: 'CONTENTMANAGER',
+    type: USER_TYPE.SUPERADMIN,
+  },
+  {
+    id: 10,
+    name: 'SCHOOL CONTENT MANAGER',
+    panels: SIDEBAR_PANELS.SCHOOLCONTENTMANAGER,
+    roleName: 'SCHOOLCONTENTMANAGER',
+    type: USER_TYPE.SUPERADMIN,
+  },
+];
+
 export enum DEFAULT {
   GLOBALSCHOOL = 'ysyw1234',
   LOGINTITLE = 'LEARN FROM THE BEST AT YOUR OWN PACE',
   FORGETPASSWORD = 'FORGET PASSWORD',
   CREATEPASSWORD = 'CREATE NEW PASSWORD',
+  ALL = 100,
 }
 
 export enum USER_STATUS {
@@ -260,21 +318,27 @@ export enum CONTENT_TYPE {
   TEXT = 1,
   FILE = 2, //TO BE ADDED LATER
 }
-export interface IloginUser {
-  email: string;
-  password: string;
-}
-export interface IcreatePassword {
-  userId: string;
-  password: string;
-  confirmPassword: string;
-}
 
-export interface IFilterObj {
-  limit: number;
-  offset: number;
-  search?: string;
-  role_id?: string;
-  status?: string | number;
-  active_school?: number | any;
-}
+export const tempTopics: ITopic[] = [
+  {
+    id: '438505555820210608203636647677',
+    topic_name: 'Geometry',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+  {
+    id: '438505555820210608203636647687',
+    topic_name: 'Algebra',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+  {
+    id: '438505555820210608203636647689',
+    topic_name: 'Derivative',
+    subject_name: 'Mathematics',
+    created_by: 'samapika@gmail.com',
+    created_at: '2021-06-08T15:06:36.647677Z',
+  },
+];

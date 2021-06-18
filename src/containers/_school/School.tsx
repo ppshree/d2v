@@ -1,8 +1,7 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
-import { SuperAdminSchoolList } from './modules/SuperAdminSchoolList';
-import { AdminSchoolList } from './modules/AdminSchoolList';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
+import { SchoolList } from './modules/SchoolList';
 import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const School: React.FC = () => {
@@ -13,8 +12,7 @@ export const School: React.FC = () => {
       <MainLayout>
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SCHOOL} />
-          <Route exact path={APPLICATION_URL.SCHOOL_SUPERADMIN} component={SuperAdminSchoolList}></Route>
-          <Route exact path={APPLICATION_URL.SCHOOL_ADMIN} component={AdminSchoolList}></Route>
+          <Route exact path={APPLICATION_URL.SCHOOL_LIST} component={SchoolList}></Route>
           <Redirect to={APPLICATION_URL.SCHOOL} />
         </Switch>
       </MainLayout>

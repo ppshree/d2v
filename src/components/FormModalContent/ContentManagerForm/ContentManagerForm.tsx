@@ -6,8 +6,8 @@ import { RootState } from '../../../app/rootReducer';
 import './ContentManager.css';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchool } from '../../../app/service/shared.service';
-import { ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
+import { retrieveAllSchool, retrieveAllClass } from '../../../app/service/shared.service';
+import { IClass, ICreateContentManager, ICreateSchool } from '../../../app/entity/model';
 
 interface Iprops {
   addOrUpdateUser: (userObj: ICreateContentManager) => void;
@@ -20,11 +20,11 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
   const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
+  const { classList } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const [first_name, setFirstName] = useState<string>('');
-  const [last_name, setLastName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile_number, setMobileNumber] = useState<string>('');
   const [standard, setStandard] = useState<string>('');
@@ -34,16 +34,16 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLCONTENTMANAGER.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }
   }, [role_id]);
 
   useEffect(() => {
+    dispatch(retrieveAllClass({ limit: 0, offset: 0 }));
     if (currentContentManager) {
-      setFirstName(currentContentManager?.first_name);
-      setLastName(currentContentManager?.last_name);
+      setName(currentContentManager?.name);
       setEmail(currentContentManager?.email);
       setMobileNumber(currentContentManager?.mobile_number);
       setStandard(currentContentManager?.standard);
@@ -58,14 +58,12 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
   const handleFormSubmitAction = () => {
     const contentManagerFormData: ICreateContentManager = {
       id: currentContentManager?.id,
-      first_name: first_name,
-      last_name: last_name,
+      name: name,
       email: email,
       mobile_number: mobile_number,
       standard: standard,
-      role_id: role_id,
+      role_id: parseInt(role_id),
       school_id: school_id,
-      school_code: currentContentManager?.school_code ? currentContentManager.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentContentManager?.isEditFlag ? currentContentManager.isEditFlag : false,
       status: status,
     };
@@ -76,39 +74,23 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
     /* wrapper inside modal layout */
     <form>
       {errorMessage && <AlertBar message={errorMessage} />}
+      <div className="flex flex-col h-20 justify-evenly">
+        <label className="block text-gray-500 font-bold" htmlFor="first_name">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          placeholder="enter first name"
+          className="form-input px-4 py-1 rounded-lg"
+        ></input>
+      </div>
       <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="first_name">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={first_name}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            placeholder="enter first name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="last_name">
-            Last Name
-          </label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-            id="last_name"
-            name="last_name"
-            value={last_name}
-            placeholder="enter last name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="email">
             Email
@@ -155,14 +137,15 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             value={standard}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="">None</option>
-            {['1', '2', '3'].map((standard: string) => {
-              return (
-                <option key={standard} value={standard}>
-                  {standard}
-                </option>
-              );
-            })}
+            <option value="">Choose Standard</option>
+            {classList.length > 0 &&
+              classList.map((standard: IClass) => {
+                return (
+                  <option key={standard.id} value={standard.standard_name}>
+                    {standard.standard_name}
+                  </option>
+                );
+              })}
           </select>
         </div>
         {/* User Type Lists */}
@@ -204,7 +187,7 @@ export const ContentManagerForm: React.FC<Iprops> = ({ handleCloseModal, addOrUp
             className="form-select px-4 py-1 rounded-lg"
           >
             <option value="none">
-              {role_id == USER_TYPE.CONTENTMANAGER.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}
+              {role_id == USER_TYPE.CONTENTMANAGER.toString() ? DEFAULT.GLOBALSCHOOL : 'Choose School'}
             </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {

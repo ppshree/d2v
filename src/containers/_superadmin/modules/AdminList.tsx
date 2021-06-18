@@ -21,7 +21,7 @@ export const AdminList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -42,7 +42,9 @@ export const AdminList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllAdmin({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -54,7 +56,9 @@ export const AdminList: FC = () => {
     } else {
       dispatch(
         retrieveAllAdmin({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,
@@ -67,8 +71,7 @@ export const AdminList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedAdmin({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -82,7 +85,7 @@ export const AdminList: FC = () => {
   const addOrUpdateAdmin = (userObj: ICreateAdmin) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewAdmin(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -104,8 +107,7 @@ export const AdminList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedAdmin({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -139,16 +141,18 @@ export const AdminList: FC = () => {
       {loader ? (
         <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            updateActionUser={updateAdminAction}
-            deleteActionUser={deleteAdminAction}
-            userList={adminList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              updateActionUser={updateAdminAction}
+              deleteActionUser={deleteAdminAction}
+              userList={adminList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

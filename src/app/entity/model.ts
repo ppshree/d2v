@@ -1,12 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export interface IloginUser {
+  email: string;
+  password: string;
+}
+export interface IcreatePassword {
+  userId: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface IFilterObj {
+  limit: number | any;
+  offset: number;
+  name?: string;
+  email?: string;
+  mobile_number?: string;
+  role_id?: string;
+  status?: string | number;
+  standard?: string;
+  subject?: string;
+  topic?: string;
+  subtopic?: string;
+}
+
 export interface ICreateAdmin {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
-  school_code: string;
+  role_id: string | any;
+  school_code?: string;
   school_id?: string | any;
   created_by?: string;
   isEditFlag?: boolean;
@@ -14,11 +37,10 @@ export interface ICreateAdmin {
 }
 export interface ICreateContentManager {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -29,11 +51,10 @@ export interface ICreateContentManager {
 
 export interface ICreateTutor {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -44,11 +65,10 @@ export interface ICreateTutor {
 
 export interface ICreateStudent {
   id?: string;
-  first_name: string;
-  last_name: string;
+  name: string;
   email: string;
   mobile_number: string;
-  role_id: string;
+  role_id: string | any;
   school_code?: string;
   standard: string;
   school_id?: string | any;
@@ -77,6 +97,42 @@ export interface ICreateSchool {
 export interface ITags {
   id?: string;
   learning_outcome: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
+export interface IClass {
+  id?: string;
+  standard_name: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
+
+export interface ISubject {
+  id?: string | any;
+  subject_name: string;
+  subject_image: string;
+  standard_id: string | any;
+  standard_name?: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
+export interface ITopic {
+  id?: string | any;
+  topic_name: string;
+  subject_id?: string;
+  subject_name?: string;
+  created_by?: string;
+  isEditFlag?: boolean;
+  created_at?: string;
+}
+export interface ISubTopic {
+  id?: string | any;
+  sub_topic_name: string;
+  topic_id?: string;
+  topic_name?: string;
   created_by?: string;
   isEditFlag?: boolean;
   created_at?: string;

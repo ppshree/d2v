@@ -12,6 +12,7 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateTutor } from '../../../app/entity/model';
 import { retrieveAllTutor, createNewTutor, deleteTutor } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const TutorList: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const TutorList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -41,7 +42,9 @@ export const TutorList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllTutor({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -53,7 +56,9 @@ export const TutorList: FC = () => {
     } else {
       dispatch(
         retrieveAllTutor({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,
@@ -66,8 +71,7 @@ export const TutorList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedTutor({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -81,7 +85,7 @@ export const TutorList: FC = () => {
   const addOrUpdateTutor = (userObj: ICreateTutor) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewTutor(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -103,8 +107,7 @@ export const TutorList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedTutor({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -137,18 +140,20 @@ export const TutorList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            updateActionUser={updateTutorAction}
-            deleteActionUser={deleteTutorAction}
-            userList={tutorList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              updateActionUser={updateTutorAction}
+              deleteActionUser={deleteTutorAction}
+              userList={tutorList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

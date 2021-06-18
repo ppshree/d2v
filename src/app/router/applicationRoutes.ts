@@ -4,13 +4,17 @@ const APPLICATION_URL = {
   RESET_PASSWORD: '/reset-password',
 
   // ========== School Routes =============
-  SCHOOL: '/schoolList',
-  SCHOOL_SUPERADMIN: '/schoolList/superAdmin',
-  SCHOOL_ADMIN: '/schoolList/admin',
+  SCHOOL: '/school',
+  SCHOOL_LIST: '/school/schoolList',
+
+  // ========== Courses Routes ============
+  COURSE: '/course',
+  COURSE_CLASSLIST: '/course/classList',
+  COURSE_SUBJECTLIST: '/course/:standard/:standardID/subjects',
+
   // ========== Global USERS Routes =========
   SUPERADMIN: '/superAdmin',
   SUPERADMIN_DASHBOARD: '/superAdmin/dashboard',
-  SUPERADMIN_MASTER: '/superAdmin/master',
   SUPERADMIN_ADMIN_LIST: '/superAdmin/adminList',
   SUPERADMIN_CONTENTMANAGER_LIST: '/superAdmin/contentManagerList',
   SUPERADMIN_TUTOR_LIST: '/superAdmin/tutorList',
@@ -18,20 +22,18 @@ const APPLICATION_URL = {
   SUPERADMIN_TAG_LIST: '/superAdmin/tagList',
   ADMIN: '/admin',
   ADMIN_DASHBOARD: '/admin/dashboard',
-  ADMIN_MASTER: '/admin/master',
   ADMIN_ADMIN_LIST: '/admin/adminList',
   ADMIN_CONTENTMANAGER_LIST: '/admin/contentManagerList',
   ADMIN_TUTOR_LIST: '/admin/tutorList',
   ADMIN_STUDENT_LIST: '/admin/studentList',
   TUTOR: '/tutor',
   TUTOR_DASHBOARD: '/tutor/dashboard',
-  TUTOR_COURSE: '/tutor/course',
   TUTOR_STUDENT_LIST: '/tutor/studentList',
   STUDENT: '/student',
   STUDENT_DASHBOARD: '/student/dashboard',
   CONTENTMANAGER: '/contentManager',
   CONTENTMANAGER_DASHBOARD: '/contentManager/dashboard',
-  CONTENTMANAGER_COURSE: '/contentManager/course',
+
   // =========== Local USER Routes ===========
   SCHOOLSUPERADMIN: '/schoolSuperAdmin',
   SCHOOLSUPERADMIN_DASHBOARD: '/schoolSuperAdmin/dashboard',
@@ -46,13 +48,11 @@ const APPLICATION_URL = {
   SCHOOLADMIN_STUDENT_LIST: '/schoolAdmin/studentList',
   SCHOOLTUTOR: '/schoolTutor',
   SCHOOLTUTOR_DASHBOARD: '/schoolTutor/dashboard',
-  SCHOOLTUTOR_COURSE: '/schoolTutor/course',
   SCHOOLTUTOR_STUDENT_LIST: '/schoolTutor/studentList',
   SCHOOLSTUDENT: '/schoolStudent',
   SCHOOLSTUDENT_DASHBOARD: '/schoolStudent/dashboard',
   SCHOOLCONTENTMANAGER: '/schoolContentManager',
   SCHOOLCONTENTMANAGER_DASHBOARD: '/schoolContentManager/dashboard',
-  SCHOOLCONTENTMANAGER_COURSE: '/schoolContentManager/course',
 };
 
 export { APPLICATION_URL };

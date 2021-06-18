@@ -12,6 +12,7 @@ import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateStudent } from '../../../app/entity/model';
 import { retrieveAllStudent, createNewStudent, deleteStudent } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const StudentList: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const StudentList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -41,7 +42,9 @@ export const StudentList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllStudent({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -53,7 +56,9 @@ export const StudentList: FC = () => {
     } else {
       dispatch(
         retrieveAllStudent({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,
@@ -66,8 +71,7 @@ export const StudentList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedStudent({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -81,7 +85,7 @@ export const StudentList: FC = () => {
   const addOrUpdateStudent = (userObj: ICreateStudent) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewStudent(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -103,8 +107,7 @@ export const StudentList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedStudent({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -137,19 +140,21 @@ export const StudentList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading...</div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            refer="Student"
-            updateActionUser={updateStudentAction}
-            deleteActionUser={deleteStudentAction}
-            userList={studentList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              refer="Student"
+              updateActionUser={updateStudentAction}
+              deleteActionUser={deleteStudentAction}
+              userList={studentList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

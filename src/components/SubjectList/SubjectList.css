@@ -1,0 +1,10 @@
+.subject-accordian {
+  background-color: inherit;
+  overflow: hidden;
+  transition: all 0.6s ease;
+}
+.subject-text {
+  font-weight: 400;
+  font-size: 14px;
+  padding: 12px;
+}

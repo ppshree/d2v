@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
 import { AlertBar } from '../../shared/AlertBar';
-import { retrieveAllSchool } from '../../../app/service/shared.service';
-import { ICreateTutor, ICreateSchool } from '../../../app/entity/model';
+import { retrieveAllSchool, retrieveAllClass } from '../../../app/service/shared.service';
+import { ICreateTutor, ICreateSchool, IClass } from '../../../app/entity/model';
 
 interface Iprops {
   addOrUpdateUser: (userObj: ICreateTutor) => void;
@@ -19,11 +19,11 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
   const { schoolList } = useSelector((state: RootState) => state.SchoolHomePageReducer);
+  const { classList } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const [first_name, setFirstName] = useState<string>('');
-  const [last_name, setLastName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile_number, setMobileNumber] = useState<string>('');
   const [standard, setStandard] = useState<string>('');
@@ -33,16 +33,16 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLTUTOR.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }
   }, [role_id]);
 
   useEffect(() => {
+    dispatch(retrieveAllClass({ limit: 0, offset: 0 }));
     if (currentTutor) {
-      setFirstName(currentTutor?.first_name);
-      setLastName(currentTutor?.last_name);
+      setName(currentTutor?.name);
       setEmail(currentTutor?.email);
       setMobileNumber(currentTutor?.mobile_number);
       setStandard(currentTutor?.standard);
@@ -57,14 +57,12 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const handleFormSubmitAction = () => {
     const TutorFormData: ICreateTutor = {
       id: currentTutor?.id,
-      first_name: first_name,
-      last_name: last_name,
+      name: name,
       email: email,
       mobile_number: mobile_number,
       standard: standard,
-      role_id: role_id,
+      role_id: parseInt(role_id),
       school_id: school_id,
-      school_code: currentTutor?.school_code ? currentTutor.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentTutor?.isEditFlag ? currentTutor.isEditFlag : false,
       status: status,
     };
@@ -74,40 +72,24 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   return (
     /* wrapper inside modal layout */
     <form>
+      <div className="flex flex-col h-20 justify-evenly">
+        <label className="block text-gray-500 font-bold" htmlFor="first_name">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          placeholder="enter full name"
+          className="form-input px-4 py-1 rounded-lg"
+        ></input>
+      </div>
       {errorMessage && <AlertBar message={errorMessage} />}
       <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="first_name">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={first_name}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            placeholder="enter first name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="last_name">
-            Last Name
-          </label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-            id="last_name"
-            name="last_name"
-            value={last_name}
-            placeholder="enter last name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="email">
             Email
@@ -154,14 +136,15 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={standard}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="">None</option>
-            {['1', '2', '3'].map((standard: string) => {
-              return (
-                <option key={standard} value={standard}>
-                  {standard}
-                </option>
-              );
-            })}
+            <option value="">Choose Standard</option>
+            {classList.length > 0 &&
+              classList.map((standard: IClass) => {
+                return (
+                  <option key={standard.id} value={standard.standard_name}>
+                    {standard.standard_name}
+                  </option>
+                );
+              })}
           </select>
         </div>
         {/* User Type Lists */}
@@ -200,7 +183,9 @@ export const TutorForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.TUTOR.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
+            <option value="none">
+              {role_id == USER_TYPE.TUTOR.toString() ? DEFAULT.GLOBALSCHOOL : 'Choose School'}
+            </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

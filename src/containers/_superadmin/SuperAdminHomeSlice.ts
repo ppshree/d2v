@@ -2,18 +2,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICreateAdmin, ICreateContentManager, ICreateTutor, ICreateStudent, ITags } from '../../app/entity/model';
 import {
+  /* content manager crud */
   retrieveAllContentManagers,
   createNewContentManager,
   deleteContentManager,
+  /* admin crud */
   retrieveAllAdmin,
   createNewAdmin,
   deleteAdmin,
+  /* tutor crud */
   retrieveAllTutor,
   createNewTutor,
   deleteTutor,
+  /* student crud */
   retrieveAllStudent,
   createNewStudent,
   deleteStudent,
+  /* tag crud */
   createNewTags,
   retrieveAllTags,
   deleteTags,
@@ -59,6 +64,7 @@ type AdminPayloadAction = PayloadAction<ICreateAdmin | null>;
 type TutorPayloadAction = PayloadAction<ICreateTutor | null>;
 type StudentPayloadAction = PayloadAction<ICreateStudent | null>;
 type TagPayloadAction = PayloadAction<ITags | null>;
+
 export const HomePageSlice = createSlice({
   name: 'SuperAdminHomePageReducer',
   initialState,
@@ -83,6 +89,7 @@ export const HomePageSlice = createSlice({
     },
   },
   extraReducers: {
+    /* Content Manager crud */
     [retrieveAllContentManagers.pending.toString()]: (state) => {
       state.contentManagerList = [];
       state.count = 0;
@@ -124,8 +131,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedContentManager = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -163,6 +169,7 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    /* Admin crud */
     [retrieveAllAdmin.pending.toString()]: (state) => {
       state.adminList = [];
       state.count = 0;
@@ -204,8 +211,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedAdmin = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -242,6 +248,7 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    /* Tutor crud */
     [retrieveAllTutor.pending.toString()]: (state) => {
       state.tutorList = [];
       state.count = 0;
@@ -283,8 +290,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedTutor = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -322,6 +328,7 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    /* Student crud */
     [retrieveAllStudent.pending.toString()]: (state) => {
       state.studentList = [];
       state.count = 0;
@@ -363,8 +370,7 @@ export const HomePageSlice = createSlice({
       }
       state.formError = '';
       state.selectedStudent = {
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -402,6 +408,7 @@ export const HomePageSlice = createSlice({
       state.submitLoader = false;
       state.formError = action.payload.error ? action.payload.error : 'Network Error';
     },
+    /*Tags crud */
     [retrieveAllTags.pending.toString()]: (state) => {
       state.tagList = [];
       state.count = 0;

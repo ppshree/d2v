@@ -22,8 +22,7 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const [first_name, setFirstName] = useState<string>('');
-  const [last_name, setLastName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [mobile_number, setMobileNumber] = useState<string>('');
   const [role_id, setRoleId] = useState<string>('');
@@ -32,7 +31,7 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) {
-      dispatch(retrieveAllSchool({ limit: 0, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }
@@ -40,8 +39,7 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   useEffect(() => {
     if (currentAdmin) {
-      setFirstName(currentAdmin?.first_name);
-      setLastName(currentAdmin?.last_name);
+      setName(currentAdmin?.name);
       setEmail(currentAdmin?.email);
       setMobileNumber(currentAdmin?.mobile_number);
       setRoleId(currentAdmin?.role_id);
@@ -55,13 +53,11 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
   const handleFormSubmitAction = () => {
     const AdminFormData: ICreateAdmin = {
       id: currentAdmin?.id,
-      first_name: first_name,
-      last_name: last_name,
+      name: name,
       email: email,
       mobile_number: mobile_number,
-      role_id: role_id,
+      role_id: parseInt(role_id),
       school_id: school_id,
-      school_code: currentAdmin?.school_code ? currentAdmin.school_code : DEFAULT.GLOBALSCHOOL,
       isEditFlag: currentAdmin?.isEditFlag ? currentAdmin.isEditFlag : false,
       status: status,
     };
@@ -72,39 +68,23 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
     /* wrapper inside modal layout */
     <form>
       {errorMessage && <AlertBar message={errorMessage} />}
+      <div className="flex flex-col h-20 justify-evenly">
+        <label className="block text-gray-500 font-bold" htmlFor="first_name">
+          First Name
+        </label>
+        <input
+          type="text"
+          id="first_name"
+          name="first_name"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          placeholder="enter first name"
+          className="form-input px-4 py-1 rounded-lg"
+        ></input>
+      </div>
       <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="first_name">
-            First Name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={first_name}
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            placeholder="enter first name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
-        <div className="flex flex-col h-20 justify-evenly">
-          <label className="block text-gray-500 font-bold" htmlFor="last_name">
-            Last Name
-          </label>
-          <input
-            type="text"
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-            id="last_name"
-            name="last_name"
-            value={last_name}
-            placeholder="enter last name"
-            className="form-input px-4 py-1 rounded-lg"
-          ></input>
-        </div>
         <div className="flex flex-col h-20 justify-evenly">
           <label className="block text-gray-500 font-bold" htmlFor="email">
             Email
@@ -172,7 +152,9 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
             value={school_id}
             className="form-select px-4 py-1 rounded-lg"
           >
-            <option value="none">{role_id == USER_TYPE.ADMIN.toString() ? DEFAULT.GLOBALSCHOOL : 'None'}</option>
+            <option value="none">
+              {role_id == USER_TYPE.ADMIN.toString() ? DEFAULT.GLOBALSCHOOL : 'Choose School'}
+            </option>
             {schoolList.length > 0 &&
               schoolList.map((school: ICreateSchool) => {
                 return (

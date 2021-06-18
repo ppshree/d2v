@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../app/service/shared.service';
 import './LoginPage.css';
 import { RootState } from '../../app/rootReducer';
-import { IloginUser } from '../../app/entity/constant';
+import { IloginUser } from '../../app/entity/model';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
 import { updateLoginError } from '../../containers/LoginPage/LoginPageSlice';
-import { LoginShowcase } from '../../components/LoginShowcase/LoginShowcase';
-import { Navbar } from '../../components/Navbar/Navbar';
 export const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const { isLoading: loginIsLoading } = useSelector((state: RootState) => state.LoginPageReducer);
@@ -30,21 +28,11 @@ export const LoginPage: FC = () => {
   };
 
   return (
-    <div className="relative">
-      <Navbar />
-      <div className="login-background">
-        <div className="login-form">
-          <div className="ml-28">
-            <LoginForm
-              setUserEmail={setUserEmail}
-              setPassword={setPassword}
-              login={handleSubmit}
-              loginIsLoading={loginIsLoading}
-            />
-          </div>
-        </div>
-        <LoginShowcase />
-      </div>
-    </div>
+    <LoginForm
+      setUserEmail={setUserEmail}
+      setPassword={setPassword}
+      login={handleSubmit}
+      loginIsLoading={loginIsLoading}
+    />
   );
 };

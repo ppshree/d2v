@@ -7,11 +7,11 @@ import { AlertBar } from '../../shared/AlertBar';
 import { ITags } from '../../../app/entity/model';
 
 interface Iprops {
-  addOrUpdateUser: (userObj: ITags) => void;
+  addOrUpdateTag: (tagObj: ITags) => void;
   handleCloseModal: () => void;
 }
 
-export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser }) => {
+export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateTag }) => {
   const { selectedTags: currentTag, formError: errorMessage, submitLoader: loader } = useSelector(
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
@@ -32,7 +32,7 @@ export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser })
       learning_outcome: tags,
       isEditFlag: currentTag?.isEditFlag ? currentTag.isEditFlag : false,
     };
-    addOrUpdateUser(TagFormData);
+    addOrUpdateTag(TagFormData);
   };
 
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
@@ -41,7 +41,7 @@ export const TagForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser })
     <form>
       {errorMessage && <AlertBar message={errorMessage} />}
       <div className="flex flex-col h-20 justify-evenly">
-        <label className="block text-gray-500 font-bold" htmlFor="first_name">
+        <label className="block text-gray-500 font-bold" htmlFor="tag_name">
           Tag Name
         </label>
         <input

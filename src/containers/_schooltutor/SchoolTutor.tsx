@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
 import { Dashboard } from './modules/Dashboard';
 import { Course } from './modules/Course';
 import { StudentList } from './modules/StudentList';
@@ -26,7 +26,6 @@ export const SchoolTutor: React.FC = () => {
         <Switch>
           <Redirect exact from={path} to={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} />
           <Route exact path={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} component={Dashboard}></Route>
-          <Route exact path={APPLICATION_URL.SCHOOLTUTOR_COURSE} component={Course}></Route>
           <Route exact path={APPLICATION_URL.SCHOOLTUTOR_STUDENT_LIST} component={StudentList}></Route>
           <Redirect to={APPLICATION_URL.SCHOOLTUTOR_DASHBOARD} />
         </Switch>

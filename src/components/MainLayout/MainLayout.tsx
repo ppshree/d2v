@@ -16,7 +16,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState<boolean>(false);
   const [modalPosition, setModalPosition] = useState<string>('');
-  const [layoutWidth, setLayoutWidth] = useState<string>(MIN_MAX_WIDTH.MIN_LAYOUT);
+  const [layoutWidth, setLayoutWidth] = useState<string>(MIN_MAX_WIDTH.MAX_LAYOUT);
 
   const handleLayoutWidth = (size: string) => {
     setLayoutWidth(size);

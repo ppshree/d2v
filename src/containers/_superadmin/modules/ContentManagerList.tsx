@@ -16,6 +16,7 @@ import {
   deleteContentManager,
 } from '../../../app/service/superadmin.service';
 import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
+import { Loader } from '../../../components/Loader/Loader';
 
 export const ContentManagerList: FC = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export const ContentManagerList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(15);
+  const [limit, setLimit] = useState<number>(10);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter State change */
@@ -45,7 +46,9 @@ export const ContentManagerList: FC = () => {
       const timer = setTimeout(() => {
         dispatch(
           retrieveAllContentManagers({
-            search: queryName.toLowerCase() || queryEmail.toLowerCase() || queryPhone,
+            name: queryName.toLowerCase(),
+            email: queryEmail.toLowerCase(),
+            mobile_number: queryPhone,
             role_id: queryUserType,
             status: queryStatus,
             limit,
@@ -57,7 +60,9 @@ export const ContentManagerList: FC = () => {
     } else {
       dispatch(
         retrieveAllContentManagers({
-          search: '',
+          name: '',
+          email: '',
+          mobile_number: '',
           role_id: '',
           status: '',
           limit,
@@ -70,8 +75,7 @@ export const ContentManagerList: FC = () => {
   const openModalForm = () => {
     dispatch(
       updateSelectedContentManager({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -85,7 +89,7 @@ export const ContentManagerList: FC = () => {
   const addOrUpdateContentManager = (userObj: ICreateContentManager) => {
     try {
       dispatch(updateFormError(''));
-      if (userObj.email && userObj.first_name && loggedInUser.email) {
+      if (userObj.email && userObj.name && loggedInUser.email) {
         dispatch(createNewContentManager(userObj));
       } else {
         dispatch(updateFormError('Fill All the Mandatory Fields.'));
@@ -107,8 +111,7 @@ export const ContentManagerList: FC = () => {
     dispatch(updateFormError(''));
     dispatch(
       updateSelectedContentManager({
-        first_name: '',
-        last_name: '',
+        name: '',
         email: '',
         mobile_number: '',
         role_id: '',
@@ -146,18 +149,20 @@ export const ContentManagerList: FC = () => {
       />
       {/* User Table List */}
       {loader ? (
-        <div>Loading... </div>
+        <Loader />
       ) : (
-        <div className="sm:my-3 xsm:my-3">
-          <UserTableList
-            updateActionUser={updateContentManagerAction}
-            deleteActionUser={deleteContentManagerAction}
-            userList={contentManagerList}
-          />
-        </div>
+        <>
+          <div className="sm:my-3 xsm:my-3">
+            <UserTableList
+              updateActionUser={updateContentManagerAction}
+              deleteActionUser={deleteContentManagerAction}
+              userList={contentManagerList}
+            />
+          </div>
+          {/* Filter Bottom Part */}
+          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
+        </>
       )}
-      {/* Filter Bottom Part */}
-      <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
     </>
   );
 };

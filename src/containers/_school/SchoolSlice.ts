@@ -1,13 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICreateSchool } from '../../app/entity/model';
-import { retrieveAllSchool, createSchool, deleteSchoolById } from '../../app/service/shared.service';
+import {
+  /* school crud */
+  retrieveAllSchool,
+  createSchool,
+  deleteSchoolById,
+} from '../../app/service/shared.service';
 interface HomePageState {
   schoolList: ICreateSchool[];
   pageLoader: boolean;
   submitLoader: boolean;
   formError: string | null;
   selectedSchool: ICreateSchool | null;
+  count: number;
 }
 
 const initialState: HomePageState = {
@@ -16,10 +22,12 @@ const initialState: HomePageState = {
   submitLoader: false,
   formError: '',
   selectedSchool: null,
+  count: 0,
 };
 
 type LanguagePayloadAction = PayloadAction<string>;
 type SchoolPayloadAction = PayloadAction<ICreateSchool | null>;
+
 export const HomePageSlice = createSlice({
   name: 'SchoolHomePageReducer',
   initialState,
@@ -32,21 +40,26 @@ export const HomePageSlice = createSlice({
     },
   },
   extraReducers: {
+    /* School CRUD */
     [retrieveAllSchool.pending.toString()]: (state) => {
       state.schoolList = [];
+      state.count = 0;
       state.pageLoader = true;
     },
     [retrieveAllSchool.fulfilled.toString()]: (state, action: any) => {
       if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
         state.schoolList = [];
+        state.count = 0;
         state.pageLoader = false;
         return;
       }
       state.schoolList = action.payload && action.payload.data ? action.payload.data : [];
+      state.count = action.payload ? action.payload.count : 0;
       state.pageLoader = false;
     },
     [retrieveAllSchool.rejected.toString()]: (state) => {
       state.schoolList = [];
+      state.count = 0;
       state.pageLoader = false;
     },
     [createSchool.pending.toString()]: (state) => {
@@ -64,6 +77,7 @@ export const HomePageSlice = createSlice({
         state.schoolList[index] = action.payload.data;
       } else {
         state.schoolList.push(action.payload.data);
+        state.count += 1;
       }
       state.formError = '';
       state.selectedSchool = {
@@ -98,6 +112,7 @@ export const HomePageSlice = createSlice({
       const index = state.schoolList.findIndex((x) => x.id == action.payload.id);
 
       if (index != -1) {
+        state.count -= 1;
         state.schoolList.splice(index, 1);
       }
       state.formError = '';
