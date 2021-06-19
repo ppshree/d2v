@@ -186,7 +186,7 @@ export const SubTopicList: React.FC<Iprops> = React.memo(({ topicId }) => {
       </div>
       {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeAlertModal} isOpen={isDelete}>
-        <ConfirmAlert confirmResponse={alertResponse} />
+        <ConfirmAlert confirmType="delete" confirmResponse={alertResponse} />
       </ModalLayout>
     </>
   );

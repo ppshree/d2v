@@ -15,7 +15,7 @@ interface Iprops {
 export const FilterBottom: React.FC<Iprops> = ({ filterObj, setFilterObj, listLength }) => {
   const { currentPrimaryColor } = useColorUserType();
 
-  const [limit, setLimit] = useState<number>(LIMIT.DEFAULT);
+  const [limit] = useState<number>(LIMIT.DEFAULT);
   const [offset, setOffset] = useState<number>(0);
 
   /* filter limit,offset ref */
@@ -74,26 +74,6 @@ export const FilterBottom: React.FC<Iprops> = ({ filterObj, setFilterObj, listLe
 
   return (
     <div className="flex justify-end item-center flex-wrap w-full space-x-3 mb-3">
-      <div className="flex justify-evenly items-center space-x-2">
-        <label className="font-bold" htmlFor="limit">
-          Rows per page:
-        </label>
-        <select
-          ref={limitRef}
-          value={limit}
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-            setLimit(parseInt(e.target.value));
-          }}
-          id="limit"
-          name="limit"
-          className="py-1 rounded-lg"
-        >
-          <option value={LIMIT.ALL}>All</option>
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="15">15</option>
-        </select>
-      </div>
       <div className="flex justify-evenly items-center space-x-2">
         <button
           ref={leftButtonRef}

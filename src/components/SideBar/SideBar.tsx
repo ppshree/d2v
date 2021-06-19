@@ -68,8 +68,6 @@ export const SideBar: FC<Iprops> = ({ handleLayoutWidth, openProfileModal }) => 
     openProfileModal();
   };
 
-  console.log(token);
-
   return (
     <div
       className={`fixed top-0 bottom-0 left-0 flex-3 ${sidebarWidth} py-10 z-10 bg-${currentPrimaryColor} text-text_white sidebar-shadow`}

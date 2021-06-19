@@ -321,26 +321,3 @@ export enum CONTENT_TYPE {
   TEXT = 1,
   FILE = 2, //TO BE ADDED LATER
 }
-export interface IloginUser {
-  email: string;
-  password: string;
-}
-export interface IcreatePassword {
-  userId: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface IFilterObj {
-  limit: number | any;
-  offset: number | any;
-  name?: string;
-  email?: string;
-  mobile_number?: string;
-  role_id?: string;
-  status?: string | number;
-  standard?: string;
-  subject?: string;
-  topic?: string;
-  subtopic?: string;
-}

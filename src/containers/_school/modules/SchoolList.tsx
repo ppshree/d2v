@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../School.css';
@@ -5,68 +7,24 @@ import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, SCHOOL } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
-import { SchoolTableList } from '../../../components/SchoolTableList/SchoolTableList';
 import { SchoolForm } from '../../../components/FormModalContent/SchoolForm/SchoolForm';
 import { updateSelectedSchool, updateFormError } from '../SchoolSlice';
-import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateSchool } from '../../../app/entity/model';
 import { retrieveAllSchool, createSchool, deleteSchoolById } from '../../../app/service/shared.service';
-import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
-import { Loader } from '../../../components/Loader/Loader';
+import { ListItems } from '../../../components/ListItems/ListItems';
 
 export const SchoolList: FC = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state: RootState) => state.LoginPageReducer);
-  const { schoolList, selectedSchool, pageLoader: loader } = useSelector(
+  const { schoolList, selectedSchool, pageLoader: loader, count } = useSelector(
     (state: RootState) => state.SchoolHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
-
-  /* filter State change */
-  const [queryName, setQueryName] = useState<string>('');
-  const [queryEmail, setQueryEmail] = useState<string>('');
-  const [queryPhone, setQueryPhone] = useState<string>('');
-  const [queryStatus, setQueryStatus] = useState<number>();
-  /* filter State change*/
-
-  /*page state change*/
-  const [count, setCount] = useState<number>(0);
+  const [filterObj, setFilterObj] = useState<any>({});
 
   useEffect(() => {
-    if (schoolList.length > count) setCount(Math.max(count, schoolList.length));
-  }, [schoolList]);
-
-  useEffect(() => {
-    // debounce effect
-    if (queryEmail || queryName || queryPhone || queryStatus) {
-      const timer = setTimeout(() => {
-        dispatch(
-          retrieveAllSchool({
-            name: queryName.toLowerCase(),
-            email: queryEmail.toLowerCase(),
-            mobile_number: queryPhone,
-            status: queryStatus,
-            limit,
-            offset,
-          }),
-        );
-      }, 500);
-      return () => clearTimeout(timer);
-    } else {
-      dispatch(
-        retrieveAllSchool({
-          name: '',
-          email: '',
-          mobile_number: '',
-          status: SCHOOL.ACTIVE,
-          limit,
-          offset,
-        }),
-      );
-    }
-  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus]);
+    dispatch(retrieveAllSchool(filterObj));
+  }, [filterObj]);
 
   const openModalForm = () => {
     dispatch(
@@ -87,15 +45,11 @@ export const SchoolList: FC = () => {
     );
   };
   const addOrUpdateSchool = (schoolObj: ICreateSchool) => {
-    try {
-      dispatch(updateFormError(''));
-      if (schoolObj.email && schoolObj.school_name && loggedInUser.email) {
-        dispatch(createSchool(schoolObj));
-      } else {
-        dispatch(updateFormError('Fill All the Mandatory Fields.'));
-      }
-    } catch (err) {
-      dispatch(updateFormError(err));
+    dispatch(updateFormError(''));
+    if (schoolObj.email && schoolObj.school_name && loggedInUser.email) {
+      dispatch(createSchool(schoolObj));
+    } else {
+      dispatch(updateFormError('Fill All the Mandatory Fields.'));
     }
   };
 
@@ -137,24 +91,19 @@ export const SchoolList: FC = () => {
           <SchoolForm addOrUpdateSchool={addOrUpdateSchool} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader filterFor="School" />
-      {/* User Table List */}
-      {loader ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="sm:my-3 xsm:my-3">
-            <SchoolTableList
-              updateActionSchool={updateSchoolAction}
-              deleteActionSchool={deleteSchoolAction}
-              schoolList={schoolList}
-            />
-          </div>
-          {/* Filter Bottom Part */}
-          <FilterBottom listLength={count} />
-        </>
-      )}
+      {/* School Table List */}
+      <ListItems
+        refer="School"
+        itemList={schoolList}
+        updateAction={updateSchoolAction}
+        deleteAction={deleteSchoolAction}
+        filterObj={filterObj}
+        setFilterObj={setFilterObj}
+      >
+        <ListItems.FilterHeader key="filterheader" />
+        <ListItems.SchoolTableList isLoading={loader} key="itemList" />
+        <ListItems.FilterBottom key="filterBottom" listLength={count} />
+      </ListItems>
     </>
   );
 };

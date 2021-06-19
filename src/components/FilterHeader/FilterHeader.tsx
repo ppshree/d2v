@@ -10,11 +10,11 @@ import { ClipboardCheckIcon } from '@heroicons/react/solid';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ROLES, USER_STATUS, USER_TYPE } from '../../app/entity/constant';
 interface Iprops {
-  filterFor: string;
+  refer: string;
   filterObj?: any;
-  setFilterObj?: React.Dispatch<React.SetStateAction<any>>;
+  setFilterObj: React.Dispatch<React.SetStateAction<any>>;
 }
-export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filterObj }) => {
+export const FilterHeader: React.FC<Iprops> = ({ refer, setFilterObj, filterObj }) => {
   const { currentSecondaryColor } = useColorUserType();
 
   /* filter State change */
@@ -35,43 +35,43 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
 
   useEffect(() => {
     let timer: any;
-    if (document.activeElement === inputName.current && setFilterObj) {
+    if (document.activeElement === inputName.current) {
       timer = setTimeout(() => {
         setFilterObj({
           ...filterObj,
-          name: inputName.current?.value,
+          name: queryName,
         });
       }, 500);
       return () => clearTimeout(timer);
-    } else if (document.activeElement === inputEmail.current && setFilterObj) {
+    } else if (document.activeElement === inputEmail.current) {
       timer = setTimeout(() => {
         setFilterObj({
           ...filterObj,
-          email: inputEmail.current?.value,
+          email: queryEmail,
         });
       }, 500);
       return () => clearTimeout(timer);
-    } else if (document.activeElement === inputPhone.current && setFilterObj) {
+    } else if (document.activeElement === inputPhone.current) {
       timer = setTimeout(() => {
         setFilterObj({
           ...filterObj,
-          mobile_number: inputPhone.current?.value,
+          mobile_number: queryPhone,
         });
       }, 500);
       return () => clearTimeout(timer);
-    } else if (document.activeElement === userType.current && setFilterObj) {
+    } else if (document.activeElement === userType.current) {
       timer = setTimeout(() => {
         setFilterObj({
           ...filterObj,
-          role_id: userType.current?.value,
+          role_id: queryUserType,
         });
       }, 500);
       return () => clearTimeout(timer);
-    } else if (document.activeElement === status.current && setFilterObj) {
+    } else if (document.activeElement === status.current) {
       timer = setTimeout(() => {
         setFilterObj({
           ...filterObj,
-          status: status.current?.value,
+          status: queryStatus,
         });
       }, 500);
       return () => clearTimeout(timer);
@@ -100,7 +100,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
           />
         </div>
       </div>
-      {filterFor !== 'Tag' && (
+      {refer !== 'Tag' && (
         <div className="flex justify-start email-box w-auto h-12">
           <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -120,7 +120,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
           </div>
         </div>
       )}
-      {filterFor !== 'Tag' && (
+      {refer !== 'Tag' && (
         <div className="flex justify-start mobile-box w-auto h-12">
           <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -140,7 +140,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
           </div>
         </div>
       )}
-      {filterFor !== 'School' && filterFor !== 'Tag' && (
+      {refer !== 'School' && refer !== 'Tag' && (
         <div className="flex-1 flex justify-start user-type-box w-auto h-12">
           <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -156,7 +156,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
               className="py-2 rounded-md w-full pl-10 focus:outline-none"
             >
               <option value="">Filter By User</option>
-              {filterFor === 'Admin' &&
+              {refer === 'Admin' &&
                 [USER_TYPE.ADMIN, USER_TYPE.SCHOOLSUPERADMIN, USER_TYPE.SCHOOLADMIN].map((userType: number) => {
                   return (
                     <option key={userType} value={userType}>
@@ -164,7 +164,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
                     </option>
                   );
                 })}
-              {filterFor === 'Tutor' &&
+              {refer === 'Tutor' &&
                 [USER_TYPE.TUTOR, USER_TYPE.SCHOOLTUTOR].map((userType: number) => {
                   return (
                     <option key={userType} value={userType}>
@@ -172,7 +172,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
                     </option>
                   );
                 })}
-              {filterFor === 'Content Manager' &&
+              {refer === 'Content Manager' &&
                 [USER_TYPE.CONTENTMANAGER, USER_TYPE.SCHOOLCONTENTMANAGER].map((userType: number) => {
                   return (
                     <option key={userType} value={userType}>
@@ -180,7 +180,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
                     </option>
                   );
                 })}
-              {filterFor === 'Student' &&
+              {refer === 'Student' &&
                 [USER_TYPE.STUDENT, USER_TYPE.SCHOOLSTUDENT].map((userType: number) => {
                   return (
                     <option key={userType} value={userType}>
@@ -192,7 +192,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
           </div>
         </div>
       )}
-      {filterFor !== 'Tag' && (
+      {refer !== 'Tag' && (
         <div className="flex-1 flex justify-start status-box w-full h-12">
           <div className="m-auto w-full rounded-md border border-text_dark relative text-gray-600 ">
             <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -208,7 +208,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
               className="py-2 rounded-md w-full pl-10 focus:outline-none"
             >
               <option value="">Filter By Status</option>
-              {filterFor !== 'School' &&
+              {refer !== 'School' &&
                 [USER_STATUS.PENDING, USER_STATUS.APPROVED, USER_STATUS.DISCARDED].map((status: string) => {
                   return (
                     <option key={status} value={status}>
@@ -216,7 +216,7 @@ export const FilterHeader: React.FC<Iprops> = ({ filterFor, setFilterObj, filter
                     </option>
                   );
                 })}
-              {filterFor === 'School' &&
+              {refer === 'School' &&
                 ['not-active', 'active'].map((status: string, idx: number) => {
                   return (
                     <option key={status} value={idx}>

@@ -4,6 +4,10 @@ import React from 'react';
 import { UserTableList } from '../UserTableList/UserTableList';
 import { FilterHeader } from '../FilterHeader/FilterHeader';
 import { FilterBottom } from '../FilterBottom/FilterBottom';
+import { TagTableList } from '../TagTableList/TagTableList';
+import { ClassList } from '../ClassList/ClassList';
+import { SchoolTableList } from '../SchoolTableList/SchoolTableList';
+import { SubjectList } from '../SubjectList/SubjectList';
 
 interface Iprops {
   refer?: string;
@@ -22,8 +26,10 @@ const ListItems: any = (props: Iprops) => {
     const defaultProps = child.props;
     switch (child.key) {
       case 'filterheader':
+      case 'filterBottom':
         return React.cloneElement(child, {
           ...defaultProps,
+          refer,
           filterObj,
           setFilterObj,
         });
@@ -35,15 +41,9 @@ const ListItems: any = (props: Iprops) => {
           deleteAction,
           ...defaultProps,
         });
-      case 'filterBottom':
-        return React.cloneElement(child, {
-          ...defaultProps,
-          filterObj,
-          setFilterObj,
-        });
       default:
         return React.cloneElement(child, {
-          ...props,
+          ...defaultProps,
         });
     }
   });
@@ -52,6 +52,10 @@ const ListItems: any = (props: Iprops) => {
 
 ListItems.FilterHeader = FilterHeader;
 ListItems.UserTableList = UserTableList;
+ListItems.TagTableList = TagTableList;
+ListItems.ClassList = ClassList;
+ListItems.SubjectList = SubjectList;
+ListItems.SchoolTableList = SchoolTableList;
 ListItems.FilterBottom = FilterBottom;
 
 export { ListItems };

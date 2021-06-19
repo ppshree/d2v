@@ -41,15 +41,11 @@ export const AdminList: FC = () => {
   };
 
   const addOrUpdateAdmin = (userObj: ICreateAdmin) => {
-    try {
-      dispatch(updateFormError(''));
-      if (userObj.email && userObj.name && loggedInUser.email) {
-        dispatch(createNewAdmin(userObj));
-      } else {
-        dispatch(updateFormError('Fill All the Mandatory Fields.'));
-      }
-    } catch (err) {
-      dispatch(updateFormError(err));
+    dispatch(updateFormError(''));
+    if (userObj.email && userObj.name && loggedInUser.email) {
+      dispatch(createNewAdmin(userObj));
+    } else {
+      dispatch(updateFormError('Fill All the Mandatory Fields.'));
     }
   };
 
@@ -95,7 +91,7 @@ export const AdminList: FC = () => {
         filterObj={filterObj}
         setFilterObj={setFilterObj}
       >
-        <ListItems.FilterHeader key="filterheader" filterFor="Admin" />
+        <ListItems.FilterHeader key="filterheader" />
         <ListItems.UserTableList isLoading={loader} key="itemList" />
         <ListItems.FilterBottom key="filterBottom" listLength={count} />
       </ListItems>

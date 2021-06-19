@@ -1,38 +1,40 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { MODAL_POSITION, ROLES } from '../../app/entity/constant';
+import { MODAL_POSITION } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import './TagTableList.css';
 import { useColorUserType } from '../../app/heplers/useColorUserType';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
+import { Loader } from '../Loader/Loader';
 
 interface Iprops {
-  tagList: any[];
-  updateAction: (user: any) => void;
-  deleteAction: (userId: string) => void;
+  itemList: any[];
+  isLoading?: boolean;
+  updateAction: (tag: any) => void;
+  deleteAction: (tagId: string) => void;
 }
-export const TagTableList: React.FC<Iprops> = ({ tagList, updateAction, deleteAction }) => {
+export const TagTableList: React.FC<Iprops> = ({ itemList, isLoading, updateAction, deleteAction }) => {
   const [isDelete, setIsDelete] = useState<boolean>(false);
-  const [userForDelete, setUserForDelete] = useState<string>('');
+  const [tagForDelete, setTagForDelete] = useState<string>('');
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
 
-  const editUserDetails = (user: any) => {
-    const userObj = { ...user };
-    userObj.isEditFlag = true;
-    updateAction(userObj);
+  const editTagDetails = (tag: any) => {
+    const tagObj = { ...tag };
+    tagObj.isEditFlag = true;
+    updateAction(tagObj);
   };
 
-  const deleteUserDetails = (userId: string) => {
+  const deleteTagDetails = (tagId: string) => {
     setIsDelete(true);
-    setUserForDelete(userId);
+    setTagForDelete(tagId);
   };
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      deleteAction(userForDelete);
+      deleteAction(tagForDelete);
       closeModal();
     } else {
       closeModal();
@@ -40,62 +42,69 @@ export const TagTableList: React.FC<Iprops> = ({ tagList, updateAction, deleteAc
   };
 
   const closeModal = () => {
-    setUserForDelete('');
+    setTagForDelete('');
     setIsDelete(false);
   };
 
   return (
-    <div className="overflow-x-auto bordered">
-      <table className="auto w-full">
-        <thead>
-          <tr className={`bg-${currentPrimaryColor} text-text_white`}>
-            <th className="font-normal">Tag Name</th>
-            <th className="font-normal">Created By</th>
-            <th className="font-normal"></th>
-            <th className="font-normal"></th>
-          </tr>
-        </thead>
-        <tbody className="bg-text_white">
-          {tagList.length > 0 &&
-            tagList.map((tag: any) => {
-              return (
-                <>
-                  <tr key={tag.id} className="border-b-2">
-                    <td className="font-semibold">{tag.learning_outcome}</td>
-                    <td className="font-normal">{tag.created_by}</td>
-                    <td>
-                      <button
-                        onClick={(e: React.SyntheticEvent) => {
-                          e.preventDefault();
-                          editUserDetails(tag);
-                        }}
-                        className="focus:outline-none"
-                      >
-                        <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        onClick={(e: React.SyntheticEvent) => {
-                          e.preventDefault();
-                          deleteUserDetails(tag.id);
-                        }}
-                        className="focus:outline-none"
-                      >
-                        <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-        </tbody>
-      </table>
-      {tagList.length == 0 && <p className="flex justify-center items-center p-8 w-full">No User Found</p>}
-      {/* Confirm alert */}
-      <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
-        <ConfirmAlert confirmResponse={alertResponse} />
-      </ModalLayout>
+    <div className="my-3">
+      <div className="overflow-x-auto bordered">
+        {isLoading && <Loader />}
+        {!isLoading && (
+          <table className="auto w-full">
+            <thead>
+              <tr className={`bg-${currentPrimaryColor} text-text_white`}>
+                <th className="font-normal">Tag Name</th>
+                <th className="font-normal">Created By</th>
+                <th className="font-normal"></th>
+                <th className="font-normal"></th>
+              </tr>
+            </thead>
+            <tbody className="bg-text_white">
+              {itemList.length > 0 &&
+                itemList.map((tag: any) => {
+                  return (
+                    <>
+                      <tr key={tag.id} className="border-b-2">
+                        <td className="font-semibold">{tag.learning_outcome}</td>
+                        <td className="font-normal">{tag.created_by}</td>
+                        <td>
+                          <button
+                            onClick={(e: React.SyntheticEvent) => {
+                              e.preventDefault();
+                              editTagDetails(tag);
+                            }}
+                            className="focus:outline-none"
+                          >
+                            <PencilIcon className={`text-${currentPrimaryColor} w-5`} />
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            onClick={(e: React.SyntheticEvent) => {
+                              e.preventDefault();
+                              deleteTagDetails(tag.id);
+                            }}
+                            className="focus:outline-none"
+                          >
+                            <TrashIcon className={`text-${currentSecondaryColor} w-5`} />
+                          </button>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+            </tbody>
+          </table>
+        )}
+        {!isLoading && itemList.length == 0 && (
+          <p className="flex justify-center items-center p-8 w-full">No Tags Found</p>
+        )}
+        {/* Confirm alert */}
+        <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
+          <ConfirmAlert confirmType="delete" confirmResponse={alertResponse} />
+        </ModalLayout>
+      </div>
     </div>
   );
 };

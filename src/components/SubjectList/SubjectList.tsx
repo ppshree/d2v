@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DEFAULT, LIMIT, MODAL_POSITION } from '../../app/entity/constant';
+import { LIMIT, MODAL_POSITION } from '../../app/entity/constant';
 import { PencilIcon } from '@heroicons/react/solid';
 import { TrashIcon } from '@heroicons/react/solid';
 import './SubjectList.css';
@@ -12,22 +12,21 @@ import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 import { ISubject } from '../../app/entity/model';
 import { TopicList } from '../TopicList/TopicList';
 import { retrieveAllTopicBySubject } from '../../app/service/shared.service';
-import { RootState } from '../../app/rootReducer';
+import { Loader } from '../Loader/Loader';
 
 interface Iprops {
-  subjectList: any[];
-  updateActionSubject: (standard: any) => void;
-  deleteActionSubject: (subjectId: string) => void;
+  itemList: any[];
+  isLoading?: boolean;
+  updateAction: (subject: any) => void;
+  deleteAction: (subjectId: string) => void;
 }
-export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject, deleteActionSubject }) => {
+export const SubjectList: React.FC<Iprops> = ({ itemList, isLoading, updateAction, deleteAction }) => {
   const dispatch = useDispatch();
 
   const [activeSubject, setActiveSubject] = useState<string | any>(null);
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [subjectForDelete, setSubjectForDelete] = useState<string>('');
   const { currentPrimaryColor, currentSecondaryColor } = useColorUserType();
-
-  // const { topicList } = useSelector((state: RootState) => state.CourseHomePageReducer);
 
   useEffect(() => {
     activeSubject !== null &&
@@ -37,7 +36,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
   const editSubjectDetails = (subject: any) => {
     const subjectObj = { ...subject };
     subjectObj.isEditFlag = true;
-    updateActionSubject(subjectObj);
+    updateAction(subjectObj);
   };
 
   const deleteSubjectDetails = (subjectId: string) => {
@@ -47,7 +46,7 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      deleteActionSubject(subjectForDelete);
+      deleteAction(subjectForDelete);
       closeModal();
     } else {
       closeModal();
@@ -61,10 +60,10 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
 
   return (
     <>
-      <div className="h-full w-full px-4 py-8 flex flex-col space-y-12">
-        {subjectList &&
-          subjectList.length > 0 &&
-          subjectList.map((subject: ISubject, index: number) => {
+      <div className="w-full px-4 py-8 flex flex-col space-y-12">
+        {isLoading && <Loader />}
+        {!isLoading &&
+          itemList.map((subject: ISubject, index: number) => {
             return (
               <div key={subject.id} className="rounded-sm flex flex-col">
                 <div className="border flex flex-col justify-between space-y-6 border-b-0 bg-gray-100 px-10 py-6 card-shadow">
@@ -134,12 +133,12 @@ export const SubjectList: React.FC<Iprops> = ({ subjectList, updateActionSubject
             );
           })}
       </div>
-      {subjectList && subjectList.length === 0 && (
+      {!isLoading && itemList.length === 0 && (
         <p className="flex justify-center items-center p-8 w-full">No Subjects Found</p>
       )}
       {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
-        <ConfirmAlert confirmResponse={alertResponse} />
+        <ConfirmAlert confirmType="delete" confirmResponse={alertResponse} />
       </ModalLayout>
     </>
   );
