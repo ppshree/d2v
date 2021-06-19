@@ -4,8 +4,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { env_variables } from '../config';
 
-const stage: any = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : 'dev';
-const BASE_API_URL: any = env_variables[stage].api_endpoint;
+const current_env: any = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : 'dev';
+const BASE_API_URL: any = env_variables[current_env].api_endpoint;
 
 export const getConfig = (encryptString?: string): any => {
   if (encryptString !== undefined) {

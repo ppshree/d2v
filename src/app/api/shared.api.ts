@@ -1,9 +1,9 @@
-import { ISubTopic } from './../entity/model';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
+import { ISubTopic } from './../entity/model';
 import { deleteRequest, getConfig, getRequest, patchRequest, postRequest } from '../api/http.helper';
-import { SCHOOL } from '../entity/constant';
+import { SCHOOL, LIMIT } from '../entity/constant';
 import { IClass, ICreateSchool, ISubject, ITopic, IFilterObj, IloginUser } from '../entity/model';
 
 export const login = async (obj: IloginUser): Promise<any> => {
@@ -31,7 +31,7 @@ export const getAllSchool = async ({ status, name, limit, offset }: IFilterObj):
     school_name: name,
     is_active: status ? status : SCHOOL.ACTIVE,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/school/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -67,7 +67,7 @@ export const getAllSubject = async ({ standard, limit, offset }: IFilterObj): Pr
   const filter = JSON.stringify({
     standard_id__standard_name: standard,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/courses/subject/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -87,7 +87,7 @@ export const getAllTopicBySubject = async ({ subject, limit, offset }: IFilterOb
   const filter = JSON.stringify({
     subject_id__subject_name: subject,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/courses/topic/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
@@ -107,7 +107,7 @@ export const getAllSubTopicByTopic = async ({ topic, limit, offset }: IFilterObj
   const filter = JSON.stringify({
     topic_id__topic_name: topic,
   });
-  const meta = JSON.stringify({ limit, offset });
+  const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
   return await getRequest(`/courses/sub-topic/?filters=${filter}&meta=${meta}`, getConfig());
 };
 

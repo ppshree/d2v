@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <g id="icon" transform="translate(-345 -62)">
-    <path id="Path_732" data-name="Path 732" d="M0,0H20V20H0Z" transform="translate(345 62)" fill="none"/>
-    <path id="Union_2" data-name="Union 2" d="M1.666,18.335V16.669H8.333v1.666Zm0-3.334A1.673,1.673,0,0,1,0,13.335V1.669A1.673,1.673,0,0,1,1.666,0L8.333.011A1.664,1.664,0,0,1,10,1.669V13.335A1.672,1.672,0,0,1,8.333,15Zm0-3.332H8.333V3.335H1.666Zm4-3.167V7.169H7V8.5ZM3,8.5V7.169H4.333V8.5Z" transform="translate(350 62.832)" fill="#073f65"/>
-  </g>
-</svg>

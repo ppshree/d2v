@@ -12,14 +12,16 @@ import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 import ClassImage from '../../asset/class/class-3.svg';
 import { updateActivePanel } from '../../containers/LoginPage/LoginPageSlice';
+import { Loader } from '../Loader/Loader';
 
 interface Iprops {
-  classList: any[];
+  itemList: any[];
+  isLoading?: boolean;
   refer?: string;
-  updateActionClass: (standard: any) => void;
-  deleteActionClass: (classId: string) => void;
+  updateAction: (standard: any) => void;
+  deleteAction: (classId: string) => void;
 }
-export const ClassList: React.FC<Iprops> = ({ refer, classList, updateActionClass, deleteActionClass }) => {
+export const ClassList: React.FC<Iprops> = ({ refer, isLoading, itemList, updateAction, deleteAction }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState<boolean>(false);
@@ -28,7 +30,7 @@ export const ClassList: React.FC<Iprops> = ({ refer, classList, updateActionClas
   const editClassDetails = (standard: any) => {
     const classObj = { ...standard };
     classObj.isEditFlag = true;
-    updateActionClass(classObj);
+    updateAction(classObj);
   };
 
   const deleteClassDetails = (classId: string) => {
@@ -38,7 +40,7 @@ export const ClassList: React.FC<Iprops> = ({ refer, classList, updateActionClas
 
   const alertResponse = (isConfirm: boolean) => {
     if (isConfirm) {
-      deleteActionClass(classForDelete);
+      deleteAction(classForDelete);
       closeModal();
     } else {
       closeModal();
@@ -57,8 +59,9 @@ export const ClassList: React.FC<Iprops> = ({ refer, classList, updateActionClas
   return (
     <>
       <div className="flex justify-center items-center flex-wrap h-full w-full px-8 py-8">
-        {classList.length > 0 &&
-          classList.map((standard: any) => {
+        {isLoading && <Loader />}
+        {!isLoading &&
+          itemList.map((standard: any) => {
             return (
               <div
                 onClick={(e: React.MouseEvent) => {
@@ -106,10 +109,12 @@ export const ClassList: React.FC<Iprops> = ({ refer, classList, updateActionClas
             );
           })}
       </div>
-      {classList.length == 0 && <p className="flex justify-center items-center p-8 w-full">No Course Found</p>}
+      {!isLoading && itemList.length == 0 && (
+        <p className="flex justify-center items-center p-8 w-full">No Class Found</p>
+      )}
       {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeModal} isOpen={isDelete}>
-        <ConfirmAlert confirmResponse={alertResponse} />
+        <ConfirmAlert confirmType="delete" confirmResponse={alertResponse} />
       </ModalLayout>
     </>
   );

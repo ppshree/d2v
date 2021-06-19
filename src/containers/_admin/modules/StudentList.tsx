@@ -1,13 +1,7 @@
 import React, { FC, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import '../Admin.css';
 
-import { RootState } from '../../../app/rootReducer';
-
 export const StudentList: FC = () => {
-  const dispatch = useDispatch();
-  const { loggedInUser: user } = useSelector((state: RootState) => state.LoginPageReducer);
-
   useEffect(() => {
     //MAKE API CALLS
   }, []);

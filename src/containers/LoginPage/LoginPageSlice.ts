@@ -16,7 +16,7 @@ interface LoginPageState {
 
 type LoginPagePayloadAction = PayloadAction<any>;
 type LanguagePayloadAction = PayloadAction<string>;
-type UserPayloadAction = PayloadAction<IloginUser | any>;
+
 const initialState: LoginPageState = {
   activePanel: '',
   isLoading: false,

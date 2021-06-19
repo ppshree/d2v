@@ -7,11 +7,9 @@ import { signOut } from '../containers/LoginPage/LoginPageSlice';
 import { PrivateRoutes } from './router/PrivateRoutes';
 import { PublicRoutes } from './router/PublicRoutes';
 import { LIST_OF_ROLES } from './entity/constant';
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
 export const App: React.FC = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isUserValid, setIsUserValid] = useState(false);
   const { loggedInUser, token, isAuthenticating } = useSelector((state: RootState) => state.LoginPageReducer);
