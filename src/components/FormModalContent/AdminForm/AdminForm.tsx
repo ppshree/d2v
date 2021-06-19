@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { USER_TYPE, USER_STATUS, DEFAULT } from '../../../app/entity/constant';
+import { USER_TYPE, USER_STATUS, DEFAULT, LIMIT } from '../../../app/entity/constant';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/rootReducer';
 import { useColorUserType } from '../../../app/heplers/useColorUserType';
@@ -31,7 +31,7 @@ export const AdminForm: React.FC<Iprops> = ({ handleCloseModal, addOrUpdateUser 
 
   useEffect(() => {
     if (role_id == USER_TYPE.SCHOOLSUPERADMIN.toString() || role_id == USER_TYPE.SCHOOLADMIN.toString()) {
-      dispatch(retrieveAllSchool({ limit: DEFAULT.ALL, offset: 0 }));
+      dispatch(retrieveAllSchool({ limit: LIMIT.ALL, offset: 0 }));
     } else {
       setSchoolId('');
     }

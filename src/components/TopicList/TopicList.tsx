@@ -12,7 +12,7 @@ import { RootState } from '../../app/rootReducer';
 import { ITopic } from '../../app/entity/model';
 import { ModalLayout } from '../shared/ModalLayout';
 import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
-import { DEFAULT, MODAL_POSITION } from '../../app/entity/constant';
+import { LIMIT, MODAL_POSITION } from '../../app/entity/constant';
 import { createNewTopic, deleteTopicByID, retrieveAllSubTopicByTopic } from '../../app/service/shared.service';
 import { updateFormError, updateSelectedTopic } from '../../containers/_courses/CoursesSlice';
 import { TopicForm } from '../FormModalContent/TopicForm/TopicForm';
@@ -34,7 +34,7 @@ export const TopicList: React.FC<Iprops> = React.memo(({ subjectId }) => {
   const [isDelete, setIsDelete] = useState<boolean>(false);
 
   useEffect(() => {
-    activeTopic !== null && dispatch(retrieveAllSubTopicByTopic({ limit: DEFAULT.ALL, offset: 0, topic: activeTopic }));
+    activeTopic !== null && dispatch(retrieveAllSubTopicByTopic({ limit: LIMIT.ALL, offset: 0, topic: activeTopic }));
   }, [activeTopic]);
 
   // custom hook
@@ -208,7 +208,7 @@ export const TopicList: React.FC<Iprops> = React.memo(({ subjectId }) => {
       </div>
       {/* Confirm alert */}
       <ModalLayout title="alert" modalPosition={MODAL_POSITION.DEFAULT} closeModal={closeAlertModal} isOpen={isDelete}>
-        <ConfirmAlert confirmResponse={alertResponse} />
+        <ConfirmAlert confirmType="delete" confirmResponse={alertResponse} />
       </ModalLayout>
     </>
   );

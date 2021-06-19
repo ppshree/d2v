@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../Courses.css';
@@ -8,10 +9,8 @@ import { ModalLayout } from '../../../components/shared/ModalLayout';
 import { updateSelectedClass, updateFormError } from '../CoursesSlice';
 import { IClass } from '../../../app/entity/model';
 import { retrieveAllClass, createNewClass, deleteClassByID } from '../../../app/service/shared.service';
-import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
-import { Loader } from '../../../components/Loader/Loader';
-import { ClassList } from '../../../components/ClassList/ClassList';
 import { ClassForm } from '../../../components/FormModalContent/ClassForm/ClassForm';
+import { ListItems } from '../../../components/ListItems/ListItems';
 
 export const Classes: FC = () => {
   const dispatch = useDispatch();
@@ -20,21 +19,11 @@ export const Classes: FC = () => {
     (state: RootState) => state.CourseHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
+  const [filterObj, setFilterObj] = useState<any>({});
 
   useEffect(() => {
-    setOffset(0);
-  }, [limit]);
-
-  useEffect(() => {
-    dispatch(
-      retrieveAllClass({
-        limit,
-        offset,
-      }),
-    );
-  }, [limit, offset]);
+    dispatch(retrieveAllClass(filterObj));
+  }, [filterObj]);
 
   const openModalForm = () => {
     dispatch(
@@ -45,15 +34,11 @@ export const Classes: FC = () => {
     );
   };
   const addOrUpdateClass = (classObj: IClass) => {
-    try {
-      dispatch(updateFormError(''));
-      if (classObj.standard_name && loggedInUser.email) {
-        dispatch(createNewClass(classObj));
-      } else {
-        dispatch(updateFormError('Fill All the Mandatory Fields.'));
-      }
-    } catch (err) {
-      dispatch(updateFormError(err));
+    dispatch(updateFormError(''));
+    if (classObj.standard_name && loggedInUser.email) {
+      dispatch(createNewClass(classObj));
+    } else {
+      dispatch(updateFormError('Fill All the Mandatory Fields.'));
     }
   };
 
@@ -86,21 +71,17 @@ export const Classes: FC = () => {
         </ModalLayout>
       )}
       {/* User Table List */}
-      {loader ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="sm:my-3 xsm:my-3">
-            <ClassList
-              updateActionClass={updateClassAction}
-              deleteActionClass={deleteClassAction}
-              classList={classList}
-            />
-          </div>
-          {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
-        </>
-      )}
+      <ListItems
+        refer="Class"
+        itemList={classList}
+        updateAction={updateClassAction}
+        deleteAction={deleteClassAction}
+        filterObj={filterObj}
+        setFilterObj={setFilterObj}
+      >
+        <ListItems.ClassList isLoading={loader} key="itemList" />
+        <ListItems.FilterBottom key="filterBottom" listLength={count} />
+      </ListItems>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Redirect, Route, useLocation } from 'react-router-dom';
+import { Switch, Redirect, Route } from 'react-router-dom';
 import { APPLICATION_URL } from './applicationRoutes';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';

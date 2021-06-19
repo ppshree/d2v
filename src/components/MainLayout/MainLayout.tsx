@@ -6,7 +6,7 @@ import { signOut } from '../../containers/LoginPage/LoginPageSlice';
 import { ModalLayout } from '../shared/ModalLayout';
 import { SideBar } from '../SideBar/SideBar';
 import './MainLayout.css';
-import { LogoutConfirmModal } from '../LogoutConfirmModal/LogoutConfirmModal';
+import { ConfirmAlert } from '../ConfirmAlert/ConfirmAlert';
 
 interface Iprops {
   children: React.ReactElement;
@@ -60,7 +60,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
         <ProfileModalContent openLogoutModal={openLogoutModal} />
       </ModalLayout>
       <ModalLayout modalPosition={MODAL_POSITION.DEFAULT} isOpen={logoutConfirmOpen} closeModal={closeLogoutModal}>
-        <LogoutConfirmModal confirmResponse={confirmResponse} />
+        <ConfirmAlert confirmType="logout" confirmResponse={confirmResponse} />
       </ModalLayout>
       <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 w-full overflow-x-hidden`}>
         <>{children}</>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-dupe-else-if */
 import React, { FC, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
@@ -5,14 +7,11 @@ import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION, USER_STATUS } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
-import { UserTableList } from '../../../components/UserTableList/UserTableList';
 import { AdminForm } from '../../../components/FormModalContent/AdminForm/AdminForm';
 import { updateSelectedAdmin, updateFormError } from '../SuperAdminHomeSlice';
-import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ICreateAdmin } from '../../../app/entity/model';
 import { retrieveAllAdmin, createNewAdmin, deleteAdmin } from '../../../app/service/superadmin.service';
-import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
-import { Loader } from '../../../components/Loader/Loader';
+import { ListItems } from '../../../components/ListItems/ListItems';
 
 export const AdminList: FC = () => {
   const dispatch = useDispatch();
@@ -21,52 +20,11 @@ export const AdminList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
-
-  /* filter State change */
-  const [queryName, setQueryName] = useState<string>('');
-  const [queryEmail, setQueryEmail] = useState<string>('');
-  const [queryPhone, setQueryPhone] = useState<string>('');
-  const [queryUserType, setQueryUserType] = useState<string>('');
-  const [queryStatus, setQueryStatus] = useState<string>('');
-  /* filter State change*/
+  const [filterObj, setFilterObj] = useState<any>({});
 
   useEffect(() => {
-    setOffset(0);
-  }, [limit]);
-
-  useEffect(() => {
-    // debounce effect
-    if (queryEmail || queryName || queryPhone || queryUserType || queryStatus) {
-      const timer = setTimeout(() => {
-        dispatch(
-          retrieveAllAdmin({
-            name: queryName.toLowerCase(),
-            email: queryEmail.toLowerCase(),
-            mobile_number: queryPhone,
-            role_id: queryUserType,
-            status: queryStatus,
-            limit,
-            offset,
-          }),
-        );
-      }, 500);
-      return () => clearTimeout(timer);
-    } else {
-      dispatch(
-        retrieveAllAdmin({
-          name: '',
-          email: '',
-          mobile_number: '',
-          role_id: '',
-          status: '',
-          limit,
-          offset,
-        }),
-      );
-    }
-  }, [limit, offset, queryName, queryEmail, queryPhone, queryStatus, queryUserType]);
+    dispatch(retrieveAllAdmin(filterObj));
+  }, [filterObj]);
 
   const openModalForm = () => {
     dispatch(
@@ -83,15 +41,11 @@ export const AdminList: FC = () => {
   };
 
   const addOrUpdateAdmin = (userObj: ICreateAdmin) => {
-    try {
-      dispatch(updateFormError(''));
-      if (userObj.email && userObj.name && loggedInUser.email) {
-        dispatch(createNewAdmin(userObj));
-      } else {
-        dispatch(updateFormError('Fill All the Mandatory Fields.'));
-      }
-    } catch (err) {
-      dispatch(updateFormError(err));
+    dispatch(updateFormError(''));
+    if (userObj.email && userObj.name && loggedInUser.email) {
+      dispatch(createNewAdmin(userObj));
+    } else {
+      dispatch(updateFormError('Fill All the Mandatory Fields.'));
     }
   };
 
@@ -128,31 +82,19 @@ export const AdminList: FC = () => {
           <AdminForm addOrUpdateUser={addOrUpdateAdmin} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader
-        filterFor="Admin"
-        setQueryName={setQueryName}
-        setQueryEmail={setQueryEmail}
-        setQueryPhone={setQueryPhone}
-        setQueryUserType={setQueryUserType}
-        setQueryStatus={setQueryStatus}
-      />
       {/* User Table List */}
-      {loader ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="sm:my-3 xsm:my-3">
-            <UserTableList
-              updateActionUser={updateAdminAction}
-              deleteActionUser={deleteAdminAction}
-              userList={adminList}
-            />
-          </div>
-          {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
-        </>
-      )}
+      <ListItems
+        refer="Admin"
+        itemList={adminList}
+        updateAction={updateAdminAction}
+        deleteAction={deleteAdminAction}
+        filterObj={filterObj}
+        setFilterObj={setFilterObj}
+      >
+        <ListItems.FilterHeader key="filterheader" />
+        <ListItems.UserTableList isLoading={loader} key="itemList" />
+        <ListItems.FilterBottom key="filterBottom" listLength={count} />
+      </ListItems>
     </>
   );
 };

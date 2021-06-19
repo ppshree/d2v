@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import '../SuperAdmin.css';
@@ -5,14 +6,11 @@ import { RootState } from '../../../app/rootReducer';
 import { Header } from '../../../components/Header/Header';
 import { MODAL_POSITION } from '../../../app/entity/constant';
 import { ModalLayout } from '../../../components/shared/ModalLayout';
-import { TagTableList } from '../../../components/TagTableList/TagTableList';
 import { TagForm } from '../../../components/FormModalContent/TagForm/TagForm';
 import { updateSelectedTag, updateFormError } from '../SuperAdminHomeSlice';
-import { FilterHeader } from '../../../components/FilterHeader/FilterHeader';
 import { ITags } from '../../../app/entity/model';
 import { retrieveAllTags, createNewTags, deleteTags } from '../../../app/service/superadmin.service';
-import { FilterBottom } from '../../../components/FilterBottom/FilterBottom';
-import { Loader } from '../../../components/Loader/Loader';
+import { ListItems } from '../../../components/ListItems/ListItems';
 
 export const TagList: FC = () => {
   const dispatch = useDispatch();
@@ -21,38 +19,11 @@ export const TagList: FC = () => {
     (state: RootState) => state.SuperAdminHomePageReducer,
   );
 
-  const [limit, setLimit] = useState<number>(10);
-  const [offset, setOffset] = useState<number>(0);
-
-  const [queryName, setQueryName] = useState<string>('');
+  const [filterObj, setFilterObj] = useState<any>({});
 
   useEffect(() => {
-    setOffset(0);
-  }, [limit]);
-
-  useEffect(() => {
-    // debounce effect
-    if (queryName) {
-      const timer = setTimeout(() => {
-        dispatch(
-          retrieveAllTags({
-            name: queryName,
-            limit,
-            offset,
-          }),
-        );
-      }, 500);
-      return () => clearTimeout(timer);
-    } else {
-      dispatch(
-        retrieveAllTags({
-          name: '',
-          limit,
-          offset,
-        }),
-      );
-    }
-  }, [limit, offset, queryName]);
+    dispatch(retrieveAllTags(filterObj));
+  }, [filterObj]);
 
   const openModalForm = () => {
     dispatch(
@@ -64,15 +35,11 @@ export const TagList: FC = () => {
   };
 
   const addOrUpdateTag = (userObj: ITags) => {
-    try {
-      dispatch(updateFormError(''));
-      if (userObj.learning_outcome && loggedInUser.email) {
-        dispatch(createNewTags(userObj));
-      } else {
-        dispatch(updateFormError('Fill All the Mandatory Fields.'));
-      }
-    } catch (err) {
-      dispatch(updateFormError(err));
+    dispatch(updateFormError(''));
+    if (userObj.learning_outcome && loggedInUser.email) {
+      dispatch(createNewTags(userObj));
+    } else {
+      dispatch(updateFormError('Fill All the Mandatory Fields.'));
     }
   };
 
@@ -104,19 +71,19 @@ export const TagList: FC = () => {
           <TagForm addOrUpdateTag={addOrUpdateTag} handleCloseModal={closeModal} />
         </ModalLayout>
       )}
-      {/* Filter Header Part */}
-      <FilterHeader filterFor="Tag" setQueryName={setQueryName} />
-      {loader ? (
-        <Loader />
-      ) : (
-        <>
-          <div className="sm:my-3 xsm:my-3">
-            <TagTableList updateActionUser={updateTagAction} deleteActionUser={deleteTagAction} tagList={tagList} />
-          </div>
-          {/* Filter Bottom Part */}
-          <FilterBottom limit={limit} offset={offset} setLimit={setLimit} setOffset={setOffset} listLength={count} />
-        </>
-      )}
+      {/* Tag Table List */}
+      <ListItems
+        refer="Tag"
+        itemList={tagList}
+        updateAction={updateTagAction}
+        deleteAction={deleteTagAction}
+        filterObj={filterObj}
+        setFilterObj={setFilterObj}
+      >
+        <ListItems.FilterHeader key="filterheader" />
+        <ListItems.TagTableList isLoading={loader} key="itemList" />
+        <ListItems.FilterBottom key="filterBottom" listLength={count} />
+      </ListItems>
     </>
   );
 };

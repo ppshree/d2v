@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { FormEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

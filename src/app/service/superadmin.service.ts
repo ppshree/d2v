@@ -48,11 +48,9 @@ export const retrieveAllContentManagers = createAsyncThunk(
 export const createNewContentManager = createAsyncThunk(
   'superadmin/addOrUpdateContentManager',
   async (obj: ICreateContentManager) => {
-    if (obj.isEditFlag) {
-      return await updateContentManagerAddedBySuperAdmin(obj);
-    } else {
-      return await addNewContentManagerAddedBySuperAdmin(obj);
-    }
+    return obj.isEditFlag
+      ? await updateContentManagerAddedBySuperAdmin(obj)
+      : await addNewContentManagerAddedBySuperAdmin(obj);
   },
 );
 
@@ -69,11 +67,7 @@ export const retrieveAllAdmin = createAsyncThunk(
 );
 
 export const createNewAdmin = createAsyncThunk('superadmin/addOrUpdateAdmin', async (obj: ICreateAdmin) => {
-  if (obj.isEditFlag) {
-    return await updateAdminAddedBySuperAdmin(obj);
-  } else {
-    return await addNewAdminAddedBySuperAdmin(obj);
-  }
+  return obj.isEditFlag ? await updateAdminAddedBySuperAdmin(obj) : await addNewAdminAddedBySuperAdmin(obj);
 });
 
 export const deleteAdmin = createAsyncThunk('superadmin/deleteAdmin', async (objId: string) => {
@@ -89,11 +83,7 @@ export const retrieveAllTutor = createAsyncThunk(
 );
 
 export const createNewTutor = createAsyncThunk('superadmin/addOrUpdateTutor', async (obj: ICreateTutor) => {
-  if (obj.isEditFlag) {
-    return await updateTutorAddedBySuperAdmin(obj);
-  } else {
-    return await addNewTutorAddedBySuperAdmin(obj);
-  }
+  return obj.isEditFlag ? await updateTutorAddedBySuperAdmin(obj) : await addNewTutorAddedBySuperAdmin(obj);
 });
 
 export const deleteTutor = createAsyncThunk('superadmin/deleteTutor', async (objId: string) => {
@@ -109,11 +99,7 @@ export const retrieveAllStudent = createAsyncThunk(
 );
 
 export const createNewStudent = createAsyncThunk('superadmin/addOrUpdateStudent', async (obj: ICreateStudent) => {
-  if (obj.isEditFlag) {
-    return await updateStudentAddedBySuperAdmin(obj);
-  } else {
-    return await addNewStudentAddedBySuperAdmin(obj);
-  }
+  return obj.isEditFlag ? await updateStudentAddedBySuperAdmin(obj) : await addNewStudentAddedBySuperAdmin(obj);
 });
 
 export const deleteStudent = createAsyncThunk('superadmin/deleteStudent', async (objId: string) => {
@@ -129,11 +115,7 @@ export const retrieveAllTags = createAsyncThunk(
 );
 
 export const createNewTags = createAsyncThunk('superadmin/addOrUpdateTags', async (obj: ITags) => {
-  if (obj.isEditFlag) {
-    return await updateTagsAddedBySuperAdmin(obj);
-  } else {
-    return await addNewTagsAddedBySuperAdmin(obj);
-  }
+  return obj.isEditFlag ? await updateTagsAddedBySuperAdmin(obj) : await addNewTagsAddedBySuperAdmin(obj);
 });
 
 export const deleteTags = createAsyncThunk('superadmin/deleteTags', async (objId: string) => {

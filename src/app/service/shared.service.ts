@@ -60,11 +60,7 @@ export const retrieveAllSchool = createAsyncThunk(
 );
 
 export const createSchool = createAsyncThunk('school/addOrUpdateSchool', async (obj: ICreateSchool) => {
-  if (obj.isEditFlag) {
-    return await updateSchool(obj);
-  } else {
-    return await addNewSchool(obj);
-  }
+  return obj.isEditFlag ? await updateSchool(obj) : await addNewSchool(obj);
 });
 
 export const deleteSchoolById = createAsyncThunk('school/deleteSchoolById', async (objId: string) => {
@@ -77,11 +73,7 @@ export const retrieveAllClass = createAsyncThunk('class/retrieveAllClass', async
 });
 
 export const createNewClass = createAsyncThunk('class/addOrUpdateClass', async (obj: IClass) => {
-  if (obj.isEditFlag) {
-    return await updateClass(obj);
-  } else {
-    return await addNewClass(obj);
-  }
+  return obj.isEditFlag ? await updateClass(obj) : await addNewClass(obj);
 });
 
 export const deleteClassByID = createAsyncThunk('class/deleteClass', async (objId: string) => {
@@ -97,11 +89,7 @@ export const retrieveAllSubject = createAsyncThunk(
 );
 
 export const createNewSubject = createAsyncThunk('subject/addOrUpdateSubject', async (obj: ISubject) => {
-  if (obj.isEditFlag) {
-    return await updateSubject(obj);
-  } else {
-    return await addNewSubject(obj);
-  }
+  return obj.isEditFlag ? await updateSubject(obj) : await addNewSubject(obj);
 });
 
 export const deleteSubjectByID = createAsyncThunk('subject/deleteSubject', async (objId: string) => {
@@ -117,11 +105,7 @@ export const retrieveAllTopicBySubject = createAsyncThunk(
 );
 
 export const createNewTopic = createAsyncThunk('topic/addOrUpdateTopic', async (obj: ITopic) => {
-  if (obj.isEditFlag) {
-    return await updateTopic(obj);
-  } else {
-    return await addNewTopic(obj);
-  }
+  return obj.isEditFlag ? await updateTopic(obj) : await addNewTopic(obj);
 });
 
 export const deleteTopicByID = createAsyncThunk('topic/deleteTopic', async (objId: string) => {
@@ -137,11 +121,7 @@ export const retrieveAllSubTopicByTopic = createAsyncThunk(
 );
 
 export const createNewSubTopic = createAsyncThunk('topic/addOrUpdateSubTopic', async (obj: ISubTopic) => {
-  if (obj.isEditFlag) {
-    return await updateSubTopic(obj);
-  } else {
-    return await addNewSubTopic(obj);
-  }
+  return obj.isEditFlag ? await updateSubTopic(obj) : await addNewSubTopic(obj);
 });
 
 export const deleteSubTopicByID = createAsyncThunk('topic/deleteSubTopic', async (objId: string) => {

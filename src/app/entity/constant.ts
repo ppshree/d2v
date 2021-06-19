@@ -9,7 +9,6 @@ import { HashtagIcon } from '@heroicons/react/solid';
 import { LibraryIcon } from '@heroicons/react/solid';
 import { BookOpenIcon } from '@heroicons/react/solid';
 import { UserCircleIcon } from '@heroicons/react/solid';
-import { ITopic } from './model';
 
 const getKeys = (ENUM_NAME: any) => {
   const arr = [];
@@ -299,7 +298,11 @@ export enum DEFAULT {
   LOGINTITLE = 'LEARN FROM THE BEST AT YOUR OWN PACE',
   FORGETPASSWORD = 'FORGET PASSWORD',
   CREATEPASSWORD = 'CREATE NEW PASSWORD',
+}
+
+export enum LIMIT {
   ALL = 100,
+  DEFAULT = 10,
 }
 
 export enum USER_STATUS {
@@ -318,27 +321,3 @@ export enum CONTENT_TYPE {
   TEXT = 1,
   FILE = 2, //TO BE ADDED LATER
 }
-
-export const tempTopics: ITopic[] = [
-  {
-    id: '438505555820210608203636647677',
-    topic_name: 'Geometry',
-    subject_name: 'Mathematics',
-    created_by: 'samapika@gmail.com',
-    created_at: '2021-06-08T15:06:36.647677Z',
-  },
-  {
-    id: '438505555820210608203636647687',
-    topic_name: 'Algebra',
-    subject_name: 'Mathematics',
-    created_by: 'samapika@gmail.com',
-    created_at: '2021-06-08T15:06:36.647677Z',
-  },
-  {
-    id: '438505555820210608203636647689',
-    topic_name: 'Derivative',
-    subject_name: 'Mathematics',
-    created_by: 'samapika@gmail.com',
-    created_at: '2021-06-08T15:06:36.647677Z',
-  },
-];
