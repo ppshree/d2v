@@ -10,9 +10,7 @@
 
 # production
 /build
-
-/saturday-meeting.txt
-
+.netlify
 /src/styles/output/output.css
 
 # misc
