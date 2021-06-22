@@ -2,7 +2,7 @@
 import React from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
 import { Dashboard } from './modules/Dashboard';
 import { AdminList } from './modules/AdminList';
 import { TutorList } from './modules/TutorList';
