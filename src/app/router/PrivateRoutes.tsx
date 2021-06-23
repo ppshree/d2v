@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { APPLICATION_URL } from './applicationRoutes';
+import { APPLICATION_URL } from './ApplicationRoutes';
 import { useSelector } from 'react-redux';
 import { USER_TYPE } from '../entity/constant';
 import { RootState } from '../rootReducer';

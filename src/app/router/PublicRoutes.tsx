@@ -1,5 +1,5 @@
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { APPLICATION_URL } from './applicationRoutes';
+import { APPLICATION_URL } from './ApplicationRoutes';
 import { LoginPage } from '../../containers/LoginPage/LoginPage';
 import { Navbar } from '../../components/Navbar/Navbar';
 import { PasswordSetupPage } from '../../containers/PasswordSetupPage/PasswordSetupPage';

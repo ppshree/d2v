@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const colors = require('tailwindcss/colors');
 
 module.exports = {
@@ -970,9 +970,4 @@ module.exports = {
     wordBreak: ['responsive'],
     zIndex: ['responsive', 'focus-within', 'focus'],
   },
-  plugins: [
-    require('@tailwindcss/forms')({
-      strategy: 'class',
-    }),
-  ],
 };

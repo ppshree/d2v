@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
 import { Dashboard } from './modules/Dashboard';
 import { AdminList as AdminListForGlobalAdmin } from '../_superadmin/modules/AdminList';
 import { TutorList as TutorListForGlobalAdmin } from '../_superadmin/modules/TutorList';
