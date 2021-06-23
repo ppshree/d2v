@@ -156,10 +156,17 @@ export const SIDEBAR_PANELS = {
       redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_DASHBOARD,
       isTopItem: true,
     },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
     {
       name: 'Admin List',
       logo: UserGroupIcon,
       redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_ADMIN_LIST,
+      isTopItem: true,
+    },
+    {
+      name: 'Content Manger List',
+      logo: UserAddIcon,
+      redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_CONTENTMANAGER_LIST,
       isTopItem: true,
     },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLSUPERADMIN_TUTOR_LIST, isTopItem: true },
@@ -177,6 +184,13 @@ export const SIDEBAR_PANELS = {
   ],
   SCHOOLADMIN: [
     { name: 'Dashboard', logo: ChartBarIcon, redirectTo: APPLICATION_URL.SCHOOLADMIN_DASHBOARD, isTopItem: true },
+    { name: 'Courses', logo: BookOpenIcon, redirectTo: APPLICATION_URL.COURSE_CLASSLIST, isTopItem: true },
+    {
+      name: 'Content Manger List',
+      logo: UserAddIcon,
+      redirectTo: APPLICATION_URL.SCHOOLADMIN_CONTENTMANAGER_LIST,
+      isTopItem: true,
+    },
     { name: 'Tutor List', logo: UsersIcon, redirectTo: APPLICATION_URL.SCHOOLADMIN_TUTOR_LIST, isTopItem: true },
     {
       name: 'Student List',

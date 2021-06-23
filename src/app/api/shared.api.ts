@@ -32,19 +32,19 @@ export const getAllSchool = async ({ status, name, limit, offset }: IFilterObj):
     is_active: status ? status : SCHOOL.ACTIVE,
   });
   const meta = JSON.stringify({ limit: limit ? limit : LIMIT.DEFAULT, offset: offset ? offset : 0 });
-  return await getRequest(`/school/?filters=${filter}&meta=${meta}`, getConfig());
+  return await getRequest(`/school/school/?filters=${filter}&meta=${meta}`, getConfig());
 };
 
 export const addNewSchool = async (obj: ICreateSchool): Promise<any> => {
-  return await postRequest('/school/', { params: obj }, getConfig());
+  return await postRequest('/school/school/', { params: obj }, getConfig());
 };
 
 export const updateSchool = async (obj: ICreateSchool): Promise<any> => {
-  return await patchRequest(`/school/${obj.id}/`, { params: obj }, getConfig());
+  return await patchRequest(`/school/school/${obj.id}/`, { params: obj }, getConfig());
 };
 
 export const deleteSchool = async (id: string): Promise<any> => {
-  return await deleteRequest(`/school/${id}/`, getConfig());
+  return await deleteRequest(`/school/school/${id}/`, getConfig());
 };
 // ===================== Class CRUD =============================
 export const getAllClass = async ({ limit, offset }: IFilterObj): Promise<any> => {

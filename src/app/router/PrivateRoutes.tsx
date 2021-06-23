@@ -8,6 +8,7 @@ import { RootState } from '../rootReducer';
 import { SuperAdmin } from '../../containers/_superadmin/SuperAdmin';
 import { Admin } from '../../containers/_admin/Admin';
 import { Tutor } from '../../containers/_tutor/Tutor';
+import { ContentManager } from '../../containers/_contentmanager/ContentManager';
 import { Student } from '../../containers/_student/Student';
 
 // =========== Local USER Components ==============
@@ -59,6 +60,7 @@ export const PrivateRoutes: React.FC = () => {
       <Route path={APPLICATION_URL.SUPERADMIN} component={SuperAdmin} />
       <Route path={APPLICATION_URL.ADMIN} component={Admin} />
       <Route path={APPLICATION_URL.TUTOR} component={Tutor} />
+      <Route path={APPLICATION_URL.CONTENTMANAGER} component={ContentManager} />
       <Route path={APPLICATION_URL.STUDENT} component={Student} />
       {/* ==== LOCAL USER ROUTES ==== */}
       <Route path={APPLICATION_URL.SCHOOLSUPERADMIN} component={SchoolSuperAdmin} />

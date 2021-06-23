@@ -26,6 +26,7 @@ const APPLICATION_URL = {
   ADMIN_CONTENTMANAGER_LIST: '/admin/contentManagerList',
   ADMIN_TUTOR_LIST: '/admin/tutorList',
   ADMIN_STUDENT_LIST: '/admin/studentList',
+  ADMIN_TAG_LIST: '/admin/tagList',
   TUTOR: '/tutor',
   TUTOR_DASHBOARD: '/tutor/dashboard',
   TUTOR_STUDENT_LIST: '/tutor/studentList',
@@ -33,6 +34,7 @@ const APPLICATION_URL = {
   STUDENT_DASHBOARD: '/student/dashboard',
   CONTENTMANAGER: '/contentManager',
   CONTENTMANAGER_DASHBOARD: '/contentManager/dashboard',
+  CONTENTMANAGER_STUDENT_LIST: '/contentManager/studentList',
 
   // =========== Local USER Routes ===========
   SCHOOLSUPERADMIN: '/schoolSuperAdmin',
