@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { APPLICATION_URL } from '../router/ApplicationRoutes';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
 import { ChartBarIcon } from '@heroicons/react/solid';
 import { AcademicCapIcon } from '@heroicons/react/solid';
 import { UserGroupIcon } from '@heroicons/react/solid';

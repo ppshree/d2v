@@ -51,6 +51,17 @@ body {
   background: #ebedef;
 }
 
+.showcase {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../asset/media/showcase.gif');
+  height: auto;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
 .hand {
   cursor: pointer;
 }

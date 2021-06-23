@@ -49,7 +49,7 @@ export const SchoolTableList: React.FC<Iprops> = ({ itemList, isLoading, updateA
   };
 
   return (
-    <div className="overflow-x-auto bordered">
+    <div className="overflow-x-auto bordered my-3">
       {isLoading && <Loader />}
       {!isLoading && (
         <table className="auto w-full">

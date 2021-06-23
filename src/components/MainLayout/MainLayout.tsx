@@ -62,7 +62,7 @@ export const MainLayout: React.FC<Iprops> = ({ children }) => {
       <ModalLayout modalPosition={MODAL_POSITION.DEFAULT} isOpen={logoutConfirmOpen} closeModal={closeLogoutModal}>
         <ConfirmAlert confirmType="logout" confirmResponse={confirmResponse} />
       </ModalLayout>
-      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 w-full overflow-x-hidden`}>
+      <div className={`flex-4 w-full ${layoutWidth} xsm:pl-20  sm:pr-8 xsm:pr-8 w-full h-full overflow-x-hidden`}>
         <>{children}</>
       </div>
     </>
