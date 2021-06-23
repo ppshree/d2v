@@ -4,65 +4,92 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { env_variables } from '../config';
 
-const stage: any = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : 'dev';
-const AWS_BASE_URL: any = env_variables[stage].aws_endpoint;
-const RM_BASE_URL: any = env_variables[stage].rm_enpoint;
-export const getConfig = (): any => {
-  const TOKEN = localStorage.getItem('sessionToken');
-  return {
-    headers: {
-      'x-access-token': TOKEN,
-    },
-  };
+const current_env: any = process.env.REACT_APP_ENV ? process.env.REACT_APP_ENV : 'dev';
+const BASE_API_URL: any = env_variables[current_env].api_endpoint;
+
+export const getConfig = (encryptString?: string): any => {
+  if (encryptString !== undefined) {
+    return {
+      headers: {
+        Authentication: 'Authenticate ' + encryptString,
+      },
+    };
+  } else {
+    const TOKEN = localStorage.getItem('sessionToken');
+    return {
+      headers: {
+        Authorization: 'Bearer ' + TOKEN,
+      },
+    };
+  }
 };
 
-//======================GET AND POST REQUESTS ARE FIRED FROM HERE==================
-export async function postRequest(url: string, param: AxiosRequestConfig, config?: any) {
-  let responseBody = {};
-  try {
-    //console.log('i am in postrequest');
-    await axios
-      .post(RM_BASE_URL + url, param.params, config)
-      .then((response) => {
-        responseBody = response.data;
-      })
-      .catch((err) => {
-        responseBody = err;
-      });
-  } catch (error) {
-    responseBody = error;
-  }
-  return responseBody;
-}
-
-export async function basePostRequest(url: string, param: AxiosRequestConfig, config?: any) {
-  let responseBody = {};
-  try {
-    //console.log('i am in postrequest');
-    await axios
-      .post(AWS_BASE_URL + url, param.params, config)
-      .then((response) => {
-        responseBody = response.data;
-      })
-      .catch((err) => {
-        responseBody = err;
-      });
-  } catch (error) {
-    responseBody = error;
-  }
-  return responseBody;
-}
-
+//======================GET, POST, PUT AND DELETE REQUESTS ARE FIRED FROM HERE=================
 export async function getRequest(url: string, config?: any) {
-  let responseBody = {};
+  let responseBody: any = {};
   try {
     await axios
-      .get(RM_BASE_URL + url, config)
+      .get(BASE_API_URL + url, config)
       .then((response) => {
         responseBody = response.data;
       })
       .catch((err) => {
-        responseBody = err;
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
+      });
+  } catch (error) {
+    responseBody = error;
+  }
+  return responseBody;
+}
+
+export async function postRequest(url: string, param: AxiosRequestConfig, config?: any) {
+  let responseBody: any = {};
+  try {
+    await axios
+      .post(BASE_API_URL + url, param.params, config)
+      .then((response) => {
+        responseBody = response.data;
+      })
+      .catch((err) => {
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
+      });
+  } catch (error) {
+    responseBody = error;
+  }
+  return responseBody;
+}
+
+export async function patchRequest(url: string, param: AxiosRequestConfig, config?: any) {
+  let responseBody: any = {};
+  try {
+    await axios
+      .patch(BASE_API_URL + url, param.params, config)
+      .then((response) => {
+        responseBody = response.data;
+      })
+      .catch((err) => {
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
+      });
+  } catch (error) {
+    responseBody = error;
+  }
+  return responseBody;
+}
+
+export async function deleteRequest(url: string, config?: any) {
+  let responseBody: any = {};
+  try {
+    await axios
+      .delete(BASE_API_URL + url, config)
+      .then((response) => {
+        responseBody = response.data;
+      })
+      .catch((err) => {
+        responseBody = err.response.data;
+        responseBody.isAxiosError = true;
       });
   } catch (error) {
     responseBody = error;

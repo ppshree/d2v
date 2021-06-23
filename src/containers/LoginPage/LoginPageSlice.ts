@@ -1,40 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IloginUser } from './../../app/entity/constant';
+import { IloginUser } from '../../app/entity/model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { authenticateUser, loginUser, forgotKey, resetPassword } from '../../app/service/shared.service';
+
+import { authenticateUser, loginUser } from '../../app/service/shared.service';
+import { RESPONSE } from '../../app/entity/constant';
 interface LoginPageState {
   isLoading: boolean;
   loginError?: string | null;
-  resetPasswordError?: string | null;
-  isAxiosError: boolean;
-  error: string | null;
-  loggedInUser: IloginUser | any; //PATCH DELETE FOR PRODUCTION
+  loggedInUser: IloginUser | any;
   defaultLanguage: string | null;
-  isLogin: boolean;
-  isAuth: string | boolean;
-  isForgotPassword: boolean;
-  isResetPassword: boolean;
   token: string | null;
   activePanel: string;
+  isAuthenticating: string | boolean;
 }
 
-type LoginPagePayloadAction = PayloadAction<LoginPageState>;
+type LoginPagePayloadAction = PayloadAction<any>;
 type LanguagePayloadAction = PayloadAction<string>;
-type FlagPayloadAction = PayloadAction<boolean>;
-type UserPayloadAction = PayloadAction<IloginUser | any>;
+
 const initialState: LoginPageState = {
   activePanel: '',
   isLoading: false,
   loginError: '',
-  isAxiosError: false,
-  error: null,
   loggedInUser: localStorage.getItem('loggedInUser') ? JSON.parse(localStorage.getItem('loggedInUser') || '{}') : {}, //<IloginUser>{},
-  defaultLanguage: localStorage.getItem('defaultLanguage') ? localStorage.getItem('defaultLanguage') : 'en',
-  isLogin: true,
-  isAuth: false,
-  isForgotPassword: false,
-  isResetPassword: false,
   token: localStorage.getItem('sessionToken') ? localStorage.getItem('sessionToken') : null,
+  defaultLanguage: localStorage.getItem('defaultLanguage') ? localStorage.getItem('defaultLanguage') : 'en',
+  isAuthenticating: true,
 };
 
 export const LoginPageSlice = createSlice({
@@ -44,26 +34,15 @@ export const LoginPageSlice = createSlice({
     updateActivePanel: (state, action: LanguagePayloadAction) => {
       state.activePanel = action.payload;
     },
-    updateDefaultLanguage: (state, action: LanguagePayloadAction) => {
-      state.defaultLanguage = action.payload;
-      localStorage.setItem('defaultLanguage', action.payload);
-    },
-    updateLoggedInUser: (state, action: UserPayloadAction) => {
-      state.loggedInUser = action.payload;
-    },
-    displayLogin: (state, action: FlagPayloadAction) => {
-      state.isLogin = action.payload;
-    },
     signOut: (state) => {
+      localStorage.clear();
+      state.activePanel = '';
       state.loggedInUser = {};
-      state.isAuth = false;
       state.token = null;
+      state.isAuthenticating = false;
     },
     updateLoginError: (state, action: LanguagePayloadAction) => {
       state.loginError = action.payload;
-    },
-    resetPasswordError: (state, action: LanguagePayloadAction) => {
-      state.resetPasswordError = action.payload;
     },
   },
   extraReducers: {
@@ -71,24 +50,18 @@ export const LoginPageSlice = createSlice({
       state.isLoading = true;
     },
     [authenticateUser.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isLoading = false;
-        state.loggedInUser = {};
-        state.isAuth = false;
-        state.token = null;
-        return;
-      }
       state.loginError = '';
-      if (action?.payload?.auth) {
-        state.loggedInUser = action.payload.user;
-        state.isAuth = action.payload.auth;
+      if (action?.payload?.data) {
+        state.loggedInUser = action.payload.data;
       } else {
         state.loggedInUser = {};
-        state.isAuth = false;
         state.token = null;
+        const { message } = (action?.payload?.errors?.length && action.payload.errors[0]) || RESPONSE.WENTWRONG;
+        state.loginError = message || RESPONSE.NETWORKERROR;
       }
       state.isLoading = false;
+      state.isAuthenticating = false;
+      return;
     },
     [authenticateUser.rejected.toString()]: (state, action: LoginPagePayloadAction) => {
       state.isLoading = false;
@@ -98,72 +71,26 @@ export const LoginPageSlice = createSlice({
       state.isLoading = true;
     },
     [loginUser.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isLoading = false;
-        return;
-      }
       state.loginError = '';
-      if (action.payload.auth && action.payload.token) {
-        state.loggedInUser = action.payload.user;
-        state.isAuth = action.payload.auth;
+      if (action?.payload?.data && action?.payload?.token) {
+        state.loggedInUser = action.payload.data;
         state.token = action.payload.token;
       } else {
-        state.loginError = action.payload.message;
+        state.loggedInUser = {};
+        state.token = null;
+        // const { status } = action?.payload || RESPONSE.FAILED;
+        const { message } = (action?.payload?.errors?.length && action.payload.errors[0]) || RESPONSE.WENTWRONG;
+        state.loginError = message || RESPONSE.NETWORKERROR;
       }
       state.isLoading = false;
+      return;
     },
     [loginUser.rejected.toString()]: (state, action: LoginPagePayloadAction) => {
       state.isLoading = false;
-      state.loginError = action.payload.error;
-    },
-
-    [forgotKey.pending.toString()]: (state) => {
-      state.isLoading = true;
-      state.isForgotPassword = false;
-    },
-    [forgotKey.fulfilled.toString()]: (state, action: any) => {
-      state.isLoading = false;
-
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.loginError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isForgotPassword = false;
-        return;
-      }
-      state.isForgotPassword = true;
-      state.loginError = action.payload.data;
-      state.isLogin = true;
-    },
-    [resetPassword.fulfilled.toString()]: (state, action: any) => {
-      if (action.payload && (action.payload.isAxiosError || action.payload.error)) {
-        state.resetPasswordError = action.payload.error ? action.payload.error : 'Network Error';
-        state.isLoading = false;
-        state.isResetPassword = false;
-        return;
-      }
-      state.isResetPassword = true;
-      state.resetPasswordError = '';
-      state.isLoading = false;
-    },
-    [resetPassword.pending.toString()]: (state) => {
-      state.isLoading = true;
-      state.isResetPassword = false;
-    },
-    [resetPassword.rejected.toString()]: (state, action: LoginPagePayloadAction) => {
-      state.isLoading = false;
-      state.resetPasswordError = action.payload.error;
-      state.isResetPassword = false;
+      state.loginError = action.payload.error || RESPONSE.WENTWRONG;
     },
   },
 });
 
-export const {
-  updateActivePanel,
-  updateDefaultLanguage,
-  updateLoggedInUser,
-  displayLogin,
-  signOut,
-  updateLoginError,
-  resetPasswordError,
-} = LoginPageSlice.actions;
+export const { updateActivePanel, signOut, updateLoginError } = LoginPageSlice.actions;
 export const LoginPageReducer = LoginPageSlice.reducer;

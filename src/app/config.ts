@@ -5,18 +5,15 @@ interface IParentObjectKeys {
 
 export const env_variables: IParentObjectKeys = {
   dev: {
-    env_name: 'development',
-    aws_endpoint: 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/Dev',
-    rm_enpoint: 'http://localhost:3030/api/v1',
+    env_name: process.env.REACT_APP_ENV,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
   prod: {
-    env_name: 'production',
-    aws_endpoint: 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/Prod',
-    rm_enpoint: 'https://rm-api.prevent.ai/api/v1',
+    env_name: process.env.REACT_APP_ENV,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
   staging: {
-    env_name: 'staging',
-    aws_endpoint: 'https://yw6ngz89zd.execute-api.eu-central-1.amazonaws.com/Dev',
-    rm_enpoint: 'https://rm-api-staging.prevent.ai/api/v1',
+    env_name: process.env.REACT_APP_ENV,
+    api_endpoint: 'https://samapikanayak03.pythonanywhere.com',
   },
 };

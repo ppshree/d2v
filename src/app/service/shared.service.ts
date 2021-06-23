@@ -1,82 +1,129 @@
+import { ISubTopic, ITopic } from './../entity/model';
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { resetPassword as resetPasswordApi } from '../api/shared.api';
-import { authenticate as adminAuthenticate, login as adminLogin, forgotKey as adminForgotKey } from '../api/admin.api';
-import { authenticate as medicAuthenticate, login as medicLogin, forgotKey as medicForgotKey } from '../api/medic.api';
 import {
-  authenticate as patientAuthenticate,
-  login as patientLogin,
-  forgotKey as patientForgotKey,
-} from '../api/patient.api';
-import { USER_TYPE, ROLES } from './../../app/entity/constant';
+  /* authenticate */
+  login as userLogin,
+  authenticate as userAuthenticate,
+
+  /* School CRUD */
+  getAllSchool,
+  addNewSchool,
+  updateSchool,
+  deleteSchool,
+
+  /* Class crud */
+  getAllClass,
+  addNewClass,
+  updateClass,
+  deleteClass,
+
+  /* Subject CRUD */
+  getAllSubject,
+  addNewSubject,
+  updateSubject,
+  deleteSubject,
+
+  /* Topic CRUD */
+  getAllTopicBySubject,
+  addNewTopic,
+  updateTopic,
+  deleteTopic,
+
+  /* Sub Topic Crud */
+  getAllSubTopicByTopic,
+  addNewSubTopic,
+  updateSubTopic,
+  deleteSubTopic,
+} from '../api/shared.api';
+
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IloginUser } from '../entity/constant';
-import { IresetKey, IrequestReadings, IResetPassword } from '../entity/model';
+import { IClass, ICreateSchool, ISubject, IFilterObj, IloginUser } from '../entity/model';
 
-export interface IlogUser {
-  user: IloginUser;
-  userType: 1 | 2 | 3 | 4;
-}
-// ==================APIS ROUTING TO RM-BACKEND=============================
-export const authenticateUser = createAsyncThunk('user/authenticate', async (obj: number) => {
-  if (obj == USER_TYPE.ADMIN) {
-    const result = await adminAuthenticate();
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.ADMIN;
-      result.user.role = ROLES.ADMIN;
-    }
-    return result;
-  } else if (obj == USER_TYPE.MEDIC) {
-    const result = await medicAuthenticate();
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.MEDIC;
-      result.user.role = ROLES.MEDIC;
-    }
-    return result;
-  } else if (obj == USER_TYPE.PATIENT) {
-    const result = await patientAuthenticate();
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.PATIENT;
-      result.user.role = ROLES.PATIENT;
-    }
-    return result;
-  }
+// ==================LOGIN API=============================
+export const authenticateUser = createAsyncThunk('user/authenticate', async () => {
+  const result = await userAuthenticate();
+  return result;
 });
 
-export const loginUser = createAsyncThunk('user/login', async (obj: IlogUser) => {
-  if (obj.userType == USER_TYPE.ADMIN) {
-    const result = await adminLogin(obj.user);
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.ADMIN;
-      result.user.role = ROLES.ADMIN;
-    }
-    return result;
-  } else if (obj.userType == USER_TYPE.MEDIC) {
-    const result = await medicLogin(obj.user);
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.MEDIC;
-      result.user.role = ROLES.MEDIC;
-    }
-    return result;
-  } else if (obj.userType == USER_TYPE.PATIENT) {
-    const result = await patientLogin(obj.user);
-    if (result.auth && result.user) {
-      result.user.user_type = USER_TYPE.PATIENT;
-      result.user.role = ROLES.PATIENT;
-    }
-    return result;
-  }
+export const loginUser = createAsyncThunk('user/login', async (obj: IloginUser) => {
+  const result = await userLogin(obj);
+  return result;
 });
 
-export const resetPassword = createAsyncThunk('user/resetPassword', async (obj: IResetPassword) => {
-  return await resetPasswordApi(obj.userType, obj.resetToken, obj.password);
+// ======================= SCHOOL CRUD ===========================
+export const retrieveAllSchool = createAsyncThunk(
+  'school/retrieveAllSchool',
+  async ({ name, status, limit, offset }: IFilterObj) => {
+    return await getAllSchool({ status: status && status, name, limit, offset });
+  },
+);
+
+export const createSchool = createAsyncThunk('school/addOrUpdateSchool', async (obj: ICreateSchool) => {
+  return obj.isEditFlag ? await updateSchool(obj) : await addNewSchool(obj);
 });
 
-export const forgotKey = createAsyncThunk('user/forgotKey', async (obj: IresetKey) => {
-  if (obj.user_type == USER_TYPE.ADMIN) {
-    return await adminForgotKey(obj.email);
-  } else if (obj.user_type == USER_TYPE.MEDIC) {
-    return await medicForgotKey(obj.email);
-  } else if (obj.user_type == USER_TYPE.PATIENT) {
-    return await patientForgotKey(obj.email);
-  }
+export const deleteSchoolById = createAsyncThunk('school/deleteSchoolById', async (objId: string) => {
+  return await deleteSchool(objId);
+});
+
+//=========== CRUD FOR CLASS ===========================
+export const retrieveAllClass = createAsyncThunk('class/retrieveAllClass', async ({ limit, offset }: IFilterObj) => {
+  return await getAllClass({ limit, offset });
+});
+
+export const createNewClass = createAsyncThunk('class/addOrUpdateClass', async (obj: IClass) => {
+  return obj.isEditFlag ? await updateClass(obj) : await addNewClass(obj);
+});
+
+export const deleteClassByID = createAsyncThunk('class/deleteClass', async (objId: string) => {
+  return await deleteClass(objId);
+});
+
+//=========== CRUD FOR SUBJECT ===========================
+export const retrieveAllSubject = createAsyncThunk(
+  'subject/retrieveAllSubject',
+  async ({ standard, limit, offset }: IFilterObj) => {
+    return await getAllSubject({ standard, limit, offset });
+  },
+);
+
+export const createNewSubject = createAsyncThunk('subject/addOrUpdateSubject', async (obj: ISubject) => {
+  return obj.isEditFlag ? await updateSubject(obj) : await addNewSubject(obj);
+});
+
+export const deleteSubjectByID = createAsyncThunk('subject/deleteSubject', async (objId: string) => {
+  return await deleteSubject(objId);
+});
+
+//=========== CRUD FOR Topic ===========================
+export const retrieveAllTopicBySubject = createAsyncThunk(
+  'topic/retrieveAllTopicBySubject',
+  async ({ subject, limit, offset }: IFilterObj) => {
+    return await getAllTopicBySubject({ subject, limit, offset });
+  },
+);
+
+export const createNewTopic = createAsyncThunk('topic/addOrUpdateTopic', async (obj: ITopic) => {
+  return obj.isEditFlag ? await updateTopic(obj) : await addNewTopic(obj);
+});
+
+export const deleteTopicByID = createAsyncThunk('topic/deleteTopic', async (objId: string) => {
+  return await deleteTopic(objId);
+});
+
+//=========== CRUD FOR Sub Topic ===========================
+export const retrieveAllSubTopicByTopic = createAsyncThunk(
+  'subtopic/retrieveAllSubTopicByTopic',
+  async ({ topic, limit, offset }: IFilterObj) => {
+    return await getAllSubTopicByTopic({ topic, limit, offset });
+  },
+);
+
+export const createNewSubTopic = createAsyncThunk('topic/addOrUpdateSubTopic', async (obj: ISubTopic) => {
+  return obj.isEditFlag ? await updateSubTopic(obj) : await addNewSubTopic(obj);
+});
+
+export const deleteSubTopicByID = createAsyncThunk('topic/deleteSubTopic', async (objId: string) => {
+  return await deleteSubTopic(objId);
 });

@@ -1,0 +1,9 @@
+.custom-cursor {
+  cursor: pointer;
+}
+.separator-y {
+  min-height: 1.5rem;
+}
+.tabs > .tab-content > div > ul > li:last-child > .tabs > .separator-y {
+  display: none;
+}

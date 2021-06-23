@@ -1,42 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Switch, Redirect, Route, useRouteMatch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { APPLICATION_URL } from '../../app/router/applicationRoutes';
-import { MedicList } from './modules/Medic';
-import { DeviceList } from './modules/Device';
-import { RootState } from '../../app/rootReducer';
-import { useStylesCommon } from '../../app/style';
-//import { contactSupport, deleteAdminProfile } from '../../app/service/admin.service';
-import { Header } from '../Header/Header';
-import { SideBar } from '../../components/SideBar/SideBar';
+import { APPLICATION_URL } from '../../app/router/ApplicationRoutes';
+import { Dashboard } from './modules/Dashboard';
+import { AdminList as AdminListForGlobalAdmin } from '../_superadmin/modules/AdminList';
+import { TutorList as TutorListForGlobalAdmin } from '../_superadmin/modules/TutorList';
+import { StudentList as StudentListForGlobalAdmin } from '../_superadmin/modules/StudentList';
+import { ContentManagerList as ContentManagerListForGlobalAdmin } from '../_superadmin/modules/ContentManagerList';
+import { TagList as TagListForGlobalAdmin } from '../_superadmin/modules/TagList';
+import { MainLayout } from '../../components/MainLayout/MainLayout';
 
 export const Admin: React.FC = () => {
   const { path } = useRouteMatch();
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
-  //const {} = useSelector((state: RootState) => state.AdminHomePageReducer);
-  const classes = useStylesCommon();
-  const [alertMessage, setAlertMessage] = useState<string>();
-  const [alertMessageType, setAlertMessageType] = useState<'success' | 'error'>();
-  const [alertMessageCloseFunction, setAlertMessageCloseFunction] = useState<VoidFunction>();
-
-  useEffect(() => {
-    //make api calls
-  }, []);
 
   return (
-    <div className={classes.root} style={{ height: '100%' }}>
-      <Header />
-      <SideBar />
-      <main className={classes.content}>
+    <div className="h-full flex">
+      <MainLayout>
         <Switch>
-          <Redirect exact from={path} to={APPLICATION_URL.ADMIN_MEDIC_LIST} />
-          <Route exact path={APPLICATION_URL.ADMIN_MEDIC_LIST} component={MedicList}></Route>
-          <Route exact path={APPLICATION_URL.ADMIN_DEVICE_LIST} component={DeviceList}></Route>
-          <Redirect to={APPLICATION_URL.ADMIN_MEDIC_LIST} />
+          <Redirect exact from={path} to={APPLICATION_URL.ADMIN_DASHBOARD} />
+          <Route exact path={APPLICATION_URL.ADMIN_DASHBOARD} component={Dashboard}></Route>
+          <Route exact path={APPLICATION_URL.ADMIN_ADMIN_LIST} component={AdminListForGlobalAdmin}></Route>
+          <Route exact path={APPLICATION_URL.ADMIN_TUTOR_LIST} component={TutorListForGlobalAdmin}></Route>
+          <Route exact path={APPLICATION_URL.ADMIN_STUDENT_LIST} component={StudentListForGlobalAdmin}></Route>
+          <Route
+            exact
+            path={APPLICATION_URL.ADMIN_CONTENTMANAGER_LIST}
+            component={ContentManagerListForGlobalAdmin}
+          ></Route>
+          <Route exact path={APPLICATION_URL.ADMIN_TAG_LIST} component={TagListForGlobalAdmin}></Route>
+          <Redirect to={APPLICATION_URL.ADMIN_DASHBOARD} />
         </Switch>
-      </main>
+      </MainLayout>
     </div>
   );
 };
